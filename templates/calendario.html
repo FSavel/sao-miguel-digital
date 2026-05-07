@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Calendário Pastoral</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-    <div class="overlay">
+<div class="overlay">
 
-        <div class="container">
+<div class="container">
 
-            <h1>📅 Calendário Pastoral</h1>
+    <!-- TÍTULO -->
 
-            {% if eventos %}
+    <h1 class="titulo-principal">
+        📅 Calendário Pastoral
+    </h1>
 
-                {% for e in eventos %}
+    <p class="frase-biblica">
+        “Para tudo há um tempo determinado.” — Eclesiastes 3:1
+    </p>
 
-                    <div class="card">
+    <!-- LISTA DE EVENTOS -->
 
-                        <h2>{{ e.data }}</h2>
+    {% for c in calendario %}
 
-                        <p>{{ e.evento }}</p>
+    <div class="card">
 
-                    </div>
+        <h2>
+            📌 {{ c.evento }}
+        </h2>
 
-                {% endfor %}
+        <p>
+            📆 {{ c.data }}
+        </p>
 
-            {% else %}
-
-                <div class="card">
-                    <p>Nenhum evento disponível.</p>
-                </div>
-
-            {% endif %}
-
-            <a href="/" class="voltar">
-                ⬅️ Voltar ao início
-            </a>
-
-        </div>
+        <p>
+            {{ c.descricao }}
+        </p>
 
     </div>
+
+    {% endfor %}
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
 
 </body>
 </html>

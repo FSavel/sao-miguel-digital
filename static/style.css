@@ -9,14 +9,14 @@ body {
     background-size: cover;
 }
 
-/* overlay escuro para legibilidade */
+/* overlay escuro para melhorar leitura */
 .overlay {
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.60);
     min-height: 100vh;
     padding: 20px;
 }
 
-/* container principal */
+/* container central */
 .container {
     max-width: 600px;
     margin: auto;
@@ -24,31 +24,34 @@ body {
 }
 
 /* =========================
-   TÍTULOS
+   TÍTULOS (BRANCO FORTE)
 ========================= */
 
-h1 {
-    color: white;
+h1, .titulo-branco {
+    color: #ffffff;
     font-size: 26px;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     margin-bottom: 20px;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
 }
 
 h2 {
-    color: #f1f1f1;
+    color: #ffffff;
+    font-size: 20px;
     margin-top: 20px;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
 }
 
 p {
-    color: #333;
+    color: #ffffff;
 }
 
 /* =========================
-   BOTÕES (UI MODERNA)
+   BOTÕES MODERNOS
 ========================= */
 
 .botao {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.90);
     color: #1a1a1a;
     padding: 14px;
     margin: 8px 0;
@@ -74,16 +77,16 @@ p {
 
 .card {
     background: rgba(255, 255, 255, 0.92);
+    color: #1a1a1a;
     padding: 15px;
     margin: 12px 0;
     border-radius: 14px;
     text-align: left;
-    color: #1a1a1a;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* =========================
-   INPUTS (LOGIN / FORMULÁRIOS)
+   INPUTS E FORMULÁRIOS
 ========================= */
 
 input, textarea {
@@ -101,7 +104,7 @@ textarea {
 }
 
 /* =========================
-   LINKS SECUNDÁRIOS
+   LINKS
 ========================= */
 
 a {
@@ -113,16 +116,13 @@ a:hover {
     text-decoration: underline;
 }
 
-/* =========================
-   BOTÃO VOLTAR
-========================= */
-
+/* botão voltar */
 .voltar {
     color: #ffffff;
     font-size: 14px;
-    display: inline-block;
+    opacity: 0.85;
     margin-top: 10px;
-    opacity: 0.8;
+    display: inline-block;
 }
 
 /* =========================
@@ -137,6 +137,10 @@ a:hover {
 
     h1 {
         font-size: 22px;
+    }
+
+    h2 {
+        font-size: 18px;
     }
 
     .botao {

@@ -9,14 +9,14 @@ body {
     background-size: cover;
 }
 
-/* overlay escuro para melhorar leitura */
+/* overlay escuro */
 .overlay {
     background: rgba(0, 0, 0, 0.60);
     min-height: 100vh;
     padding: 20px;
 }
 
-/* container central */
+/* container */
 .container {
     max-width: 600px;
     margin: auto;
@@ -24,7 +24,7 @@ body {
 }
 
 /* =========================
-   TÍTULOS (BRANCO FORTE)
+   TÍTULOS (BRANCO)
 ========================= */
 
 h1, .titulo-branco {
@@ -38,16 +38,11 @@ h1, .titulo-branco {
 h2 {
     color: #ffffff;
     font-size: 20px;
-    margin-top: 20px;
     text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
 }
 
-p {
-    color: #ffffff;
-}
-
 /* =========================
-   BOTÕES MODERNOS
+   BOTÕES
 ========================= */
 
 .botao {
@@ -76,8 +71,7 @@ p {
 ========================= */
 
 .card {
-    background: rgba(255, 255, 255, 0.92);
-    color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.95);
     padding: 15px;
     margin: 12px 0;
     border-radius: 14px;
@@ -86,7 +80,27 @@ p {
 }
 
 /* =========================
-   INPUTS E FORMULÁRIOS
+   🔥 TEXTO GLOBAL DOS CONTEÚDOS (CORREÇÃO)
+   AVISOS / LEITURAS / CÂNTICOS / ESCALAS / CALENDÁRIO
+========================= */
+
+.card,
+.card * {
+    color: #000000 !important;
+}
+
+/* títulos dentro dos cards */
+.card h3 {
+    font-weight: 700;
+}
+
+/* parágrafos dentro dos cards */
+.card p {
+    color: #000000;
+}
+
+/* =========================
+   INPUTS
 ========================= */
 
 input, textarea {
@@ -116,7 +130,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* botão voltar */
 .voltar {
     color: #ffffff;
     font-size: 14px;
@@ -126,7 +139,7 @@ a:hover {
 }
 
 /* =========================
-   RESPONSIVO (TELEMÓVEL)
+   RESPONSIVO
 ========================= */
 
 @media (max-width: 600px) {
@@ -137,10 +150,6 @@ a:hover {
 
     h1 {
         font-size: 22px;
-    }
-
-    h2 {
-        font-size: 18px;
     }
 
     .botao {

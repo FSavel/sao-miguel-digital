@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin - São Miguel Digital</title>
+    <title>Painel Admin</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
@@ -18,33 +18,27 @@
 
 <div class="container">
 
-    <!-- TÍTULO -->
-
+    <!-- HEADER -->
     <h1 class="titulo-principal">
         ⚙️ Painel Administrativo
     </h1>
 
     <p class="frase-biblica">
-        Gestão pastoral digital
+        Gestão da Paróquia São Miguel Arcanjo
     </p>
 
-    <!-- ================================================= -->
-    <!-- 📢 AVISOS -->
-    <!-- ================================================= -->
-
+    <!-- ===================== AVISOS ===================== -->
     <div class="card">
 
         <h2>📢 Avisos Semanais</h2>
 
-        <form action="/add_aviso" method="POST">
+        <form action="/add_aviso" method="POST" class="form">
 
             <input type="text" name="titulo" placeholder="Título" required>
 
             <textarea name="descricao" placeholder="Descrição" required></textarea>
 
-            <button class="botao" type="submit">
-                Adicionar Aviso
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -55,7 +49,7 @@
             <p><b>{{ a.titulo }}</b></p>
             <p>{{ a.descricao }}</p>
 
-            <a href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
+            <a class="delete" href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
 
             <hr>
 
@@ -63,28 +57,18 @@
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 📖 LEITURAS (NOVO MODELO SIMPLES) -->
-    <!-- ================================================= -->
-
+    <!-- ===================== LEITURAS ===================== -->
     <div class="card">
 
-        <h2>📖 Leituras (Liturgia)</h2>
+        <h2>📖 Leituras</h2>
 
-        <form action="/add_leitura" method="POST">
+        <form action="/add_leitura" method="POST" class="form">
 
-            <input type="text"
-                   name="tipo"
-                   placeholder="Ex: Primeira Leitura, Salmo, Evangelho..."
-                   required>
+            <input type="text" name="tipo" placeholder="Ex: Primeira Leitura" required>
 
-            <textarea name="texto"
-                      placeholder="Texto da leitura"
-                      required></textarea>
+            <textarea name="texto" placeholder="Texto da leitura" required></textarea>
 
-            <button class="botao" type="submit">
-                Adicionar Leitura
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -95,41 +79,26 @@
             <p><b>{{ l.tipo }}</b></p>
             <p>{{ l.texto }}</p>
 
-            <a href="/delete_leitura/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
 
         {% endfor %}
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 🎵 CÂNTICOS -->
-    <!-- ================================================= -->
-
+    <!-- ===================== CÂNTICOS ===================== -->
     <div class="card">
 
         <h2>🎵 Cânticos</h2>
 
-        <form action="/add_cantico" method="POST">
+        <form action="/add_cantico" method="POST" class="form">
 
-            <input type="text"
-                   name="momento"
-                   placeholder="Momento (Entrada, Comunhão...)"
-                   required>
+            <input type="text" name="momento" placeholder="Momento" required>
 
-            <input type="text"
-                   name="cantico"
-                   placeholder="Nome do cântico"
-                   required>
+            <input type="text" name="cantico" placeholder="Nome do cântico" required>
 
-            <textarea name="letra"
-                      placeholder="Letra do cântico"
-                      required></textarea>
+            <textarea name="letra" placeholder="Letra" required></textarea>
 
-            <button class="botao" type="submit">
-                Adicionar Cântico
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -137,9 +106,7 @@
 
         {% for c in canticos %}
 
-            <p><b>{{ c.momento }}</b> — {{ c.cantico }}</p>
-
-            <a href="/delete_cantico/{{ loop.index0 }}">❌ Apagar</a>
+            <p><b>{{ c.momento }}</b> - {{ c.cantico }}</p>
 
             <hr>
 
@@ -147,29 +114,18 @@
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 👦 ACÓLITOS -->
-    <!-- ================================================= -->
-
+    <!-- ===================== ACÓLITOS ===================== -->
     <div class="card">
 
         <h2>👦 Acólitos</h2>
 
-        <form action="/add_acolito" method="POST">
+        <form action="/add_acolito" method="POST" class="form">
 
-            <input type="text"
-                   name="funcao"
-                   placeholder="Função (Cruciferário, Turiferário...)"
-                   required>
+            <input type="text" name="funcao" placeholder="Função" required>
 
-            <input type="text"
-                   name="nome"
-                   placeholder="Nome"
-                   required>
+            <input type="text" name="nome" placeholder="Nome" required>
 
-            <button class="botao" type="submit">
-                Adicionar Acólito
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -177,9 +133,7 @@
 
         {% for a in acolitos %}
 
-            <p><b>{{ a.funcao }}</b> — {{ a.nome }}</p>
-
-            <a href="/delete_acolito/{{ loop.index0 }}">❌ Apagar</a>
+            <p><b>{{ a.funcao }}</b> - {{ a.nome }}</p>
 
             <hr>
 
@@ -187,29 +141,18 @@
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 📖 LEITORES (ESCALA) -->
-    <!-- ================================================= -->
-
+    <!-- ===================== LEITORES ===================== -->
     <div class="card">
 
         <h2>📖 Escala de Leitores</h2>
 
-        <form action="/add_leitor" method="POST">
+        <form action="/add_leitor" method="POST" class="form">
 
-            <input type="text"
-                   name="funcao"
-                   placeholder="Função (1ª leitura, Salmo, Evangelho...)"
-                   required>
+            <input type="text" name="funcao" placeholder="Função" required>
 
-            <input type="text"
-                   name="nome"
-                   placeholder="Nome"
-                   required>
+            <input type="text" name="nome" placeholder="Nome" required>
 
-            <button class="botao" type="submit">
-                Adicionar Leitor
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -217,9 +160,7 @@
 
         {% for l in leitores %}
 
-            <p><b>{{ l.funcao }}</b> — {{ l.nome }}</p>
-
-            <a href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
+            <p><b>{{ l.funcao }}</b> - {{ l.nome }}</p>
 
             <hr>
 
@@ -227,32 +168,20 @@
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 📅 CALENDÁRIO -->
-    <!-- ================================================= -->
-
+    <!-- ===================== CALENDÁRIO ===================== -->
     <div class="card">
 
         <h2>📅 Calendário Pastoral</h2>
 
-        <form action="/add_calendario" method="POST">
+        <form action="/add_calendario" method="POST" class="form">
 
-            <input type="text"
-                   name="evento"
-                   placeholder="Evento"
-                   required>
+            <input type="text" name="evento" placeholder="Evento" required>
 
-            <input type="date"
-                   name="data"
-                   required>
+            <input type="date" name="data" required>
 
-            <textarea name="descricao"
-                      placeholder="Descrição"
-                      required></textarea>
+            <textarea name="descricao" placeholder="Descrição" required></textarea>
 
-            <button class="botao" type="submit">
-                Adicionar Evento
-            </button>
+            <button class="botao" type="submit">Adicionar</button>
 
         </form>
 
@@ -260,11 +189,8 @@
 
         {% for c in calendario %}
 
-            <p><b>{{ c.evento }}</b> — {{ c.data }}</p>
-
+            <p><b>{{ c.evento }}</b> - {{ c.data }}</p>
             <p>{{ c.descricao }}</p>
-
-            <a href="/delete_calendario/{{ loop.index0 }}">❌ Apagar</a>
 
             <hr>
 
@@ -272,13 +198,10 @@
 
     </div>
 
-    <!-- ================================================= -->
-    <!-- 📥 PEDIDOS DE ORAÇÃO -->
-    <!-- ================================================= -->
-
+    <!-- ===================== PEDIDOS ===================== -->
     <div class="card">
 
-        <h2>📥 Pedidos de Oração</h2>
+        <h2>🙏 Pedidos de Oração</h2>
 
         <hr>
 
@@ -288,25 +211,15 @@
             <p>{{ p.categoria }}</p>
             <p>{{ p.pedido }}</p>
 
-            <a href="/delete_pedido/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
 
         {% endfor %}
 
     </div>
 
-    <!-- ================================================= -->
     <!-- BOTÕES FINAIS -->
-    <!-- ================================================= -->
-
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
-    <a href="/logout" class="botao">
-        🚪 Terminar Sessão
-    </a>
+    <a href="/" class="botao">🏠 Início</a>
+    <a href="/logout" class="botao">🚪 Sair</a>
 
 </div>
 

@@ -1,0 +1,117 @@
+/* =========================
+   SÃO MIGUEL DIGITAL
+   STYLE.CSS
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* FUNDO */
+body {
+    background-image: url("/static/igreja.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* OVERLAY ESCURO */
+.overlay {
+    background: rgba(0, 0, 0, 0.6);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTAINER PRINCIPAL */
+.container {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    color: white;
+}
+
+/* TÍTULO */
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* SUBTÍTULO */
+.subtitulo {
+    font-size: 14px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* MENU */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* BOTÕES */
+.botao {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.botao:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+/* CARDS */
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 10px 0;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* TEXTO DO CARD */
+.card h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* BOTÃO VOLTAR */
+.voltar {
+    display: inline-block;
+    margin-top: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.voltar:hover {
+    opacity: 1;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 30px;
+    font-size: 13px;
+    opacity: 0.8;
+}

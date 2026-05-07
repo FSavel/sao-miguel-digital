@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cânticos</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="overlay">
+
+        <div class="container">
+
+            <h1>🎵 Cânticos</h1>
+
+            {% if canticos %}
+
+                {% for c in canticos %}
+
+                    <div class="card">
+
+                        <h2>{{ c.momento }}</h2>
+
+                        <p><strong>Cântico:</strong> {{ c.cantico }}</p>
+
+                        <hr>
+
+                        <p><strong>Letra:</strong></p>
+                        <p>{{ c.letra }}</p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card">
+                    <p>Nenhum cântico disponível.</p>
+                </div>
+
+            {% endif %}
+
+            <a href="/" class="voltar">
+                ⬅️ Voltar ao início
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

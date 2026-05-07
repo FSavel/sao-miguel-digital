@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Pastoral</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="overlay">
+
+        <div class="container">
+
+            <h1>📅 Calendário Pastoral</h1>
+
+            {% if eventos %}
+
+                {% for e in eventos %}
+
+                    <div class="card">
+
+                        <h2>{{ e.data }}</h2>
+
+                        <p>{{ e.evento }}</p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card">
+                    <p>Nenhum evento disponível.</p>
+                </div>
+
+            {% endif %}
+
+            <a href="/" class="voltar">
+                ⬅️ Voltar ao início
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

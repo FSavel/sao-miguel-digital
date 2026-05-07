@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escalas de Serviço</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="overlay">
+
+        <div class="container">
+
+            <h1>👥 Escalas de Serviço</h1>
+
+            {% if escalas %}
+
+                {% for e in escalas %}
+
+                    <div class="card">
+
+                        <h2>{{ e.grupo }}</h2>
+
+                        <p><strong>Nome:</strong> {{ e.nome }}</p>
+
+                        <p><strong>Função:</strong> {{ e.funcao }}</p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card">
+                    <p>Nenhuma escala disponível.</p>
+                </div>
+
+            {% endif %}
+
+            <a href="/" class="voltar">
+                ⬅️ Voltar ao início
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

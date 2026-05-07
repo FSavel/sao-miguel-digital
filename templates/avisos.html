@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avisos Semanais</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="overlay">
+
+        <div class="container">
+
+            <h1>📢 Avisos Semanais</h1>
+
+            {% if avisos %}
+
+                {% for aviso in avisos %}
+
+                    <div class="card">
+
+                        <h2>{{ aviso.titulo }}</h2>
+
+                        <p>{{ aviso.descricao }}</p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card">
+                    <p>Nenhum aviso disponível.</p>
+                </div>
+
+            {% endif %}
+
+            <a href="/" class="voltar">
+                ⬅️ Voltar ao início
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

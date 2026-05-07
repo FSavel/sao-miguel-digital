@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="overlay">
+<div class="container">
+
+    <h1>🧠 Painel Admin</h1>
+
+    <a href="/logout" class="botao">🚪 Sair</a>
+
+    <hr>
+
+    <h2>➕ Criar Aviso</h2>
+
+    <form method="POST" action="/add_aviso">
+
+        <input type="text" name="titulo" placeholder="Título" required>
+        <br><br>
+
+        <textarea name="descricao" placeholder="Descrição" required></textarea>
+        <br><br>
+
+        <button class="botao" type="submit">Guardar</button>
+
+    </form>
+
+    <hr>
+
+    <h2>📢 Avisos Existentes</h2>
+
+    {% for a in avisos %}
+
+        <div class="card">
+
+            <h3>{{ a.titulo }}</h3>
+            <p>{{ a.descricao }}</p>
+
+            <a href="/delete_aviso/{{ loop.index0 }}" class="botao">
+                ❌ Apagar
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+</div>
+
+</body>
+</html>

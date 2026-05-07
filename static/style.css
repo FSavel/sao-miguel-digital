@@ -1,117 +1,146 @@
 /* =========================
-   SÃO MIGUEL DIGITAL
-   STYLE.CSS
+   BASE GERAL
 ========================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* FUNDO */
 body {
-    background-image: url("/static/igreja.jpg");
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("/static/igreja.jpg") no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
 }
 
-/* OVERLAY ESCURO */
+/* overlay escuro para legibilidade */
 .overlay {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.55);
     min-height: 100vh;
     padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* CONTAINER PRINCIPAL */
+/* container principal */
 .container {
-    width: 100%;
-    max-width: 700px;
+    max-width: 600px;
+    margin: auto;
     text-align: center;
-    color: white;
 }
 
-/* TÍTULO */
+/* =========================
+   TÍTULOS
+========================= */
+
 h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-/* SUBTÍTULO */
-.subtitulo {
-    font-size: 14px;
+    color: white;
+    font-size: 26px;
     margin-bottom: 20px;
-    opacity: 0.8;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
 }
 
-/* MENU */
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+h2 {
+    color: #f1f1f1;
     margin-top: 20px;
 }
 
-/* BOTÕES */
+p {
+    color: #333;
+}
+
+/* =========================
+   BOTÕES (UI MODERNA)
+========================= */
+
 .botao {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 15px;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.88);
+    color: #1a1a1a;
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 14px;
     text-decoration: none;
-    color: white;
     font-size: 16px;
-    transition: 0.3s;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    display: block;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
 }
 
 .botao:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.02);
+    background: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* CARDS */
+/* =========================
+   CARDS
+========================= */
+
 .card {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.92);
     padding: 15px;
-    border-radius: 12px;
-    margin: 10px 0;
+    margin: 12px 0;
+    border-radius: 14px;
     text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* TEXTO DO CARD */
-.card h2 {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
+/* =========================
+   INPUTS (LOGIN / FORMULÁRIOS)
+========================= */
 
-.card p {
+input, textarea {
+    width: 90%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 8px;
     font-size: 14px;
-    line-height: 1.5;
 }
 
-/* BOTÃO VOLTAR */
-.voltar {
-    display: inline-block;
-    margin-top: 20px;
-    color: white;
+textarea {
+    height: 80px;
+    resize: none;
+}
+
+/* =========================
+   LINKS SECUNDÁRIOS
+========================= */
+
+a {
+    color: #ffffff;
     text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   BOTÃO VOLTAR
+========================= */
+
+.voltar {
+    color: #ffffff;
     font-size: 14px;
+    display: inline-block;
+    margin-top: 10px;
     opacity: 0.8;
 }
 
-.voltar:hover {
-    opacity: 1;
-}
+/* =========================
+   RESPONSIVO (TELEMÓVEL)
+========================= */
 
-/* FOOTER */
-.footer {
-    margin-top: 30px;
-    font-size: 13px;
-    opacity: 0.8;
+@media (max-width: 600px) {
+
+    .container {
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .botao {
+        font-size: 15px;
+        padding: 12px;
+    }
 }

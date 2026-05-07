@@ -9,7 +9,7 @@ body {
     background-size: cover;
 }
 
-/* 🔥 FUNDO MAIS CLARO (menos escuro como pediste) */
+/* 🔥 FUNDO MAIS CLARO (melhor visibilidade) */
 .overlay {
     background: rgba(0, 0, 0, 0.40);
     min-height: 100vh;
@@ -24,10 +24,10 @@ body {
 }
 
 /* =========================
-   TÍTULOS (SEM SOMBRA, SÓ NEGRITO)
+   TÍTULOS (SEM SOMBRA)
 ========================= */
 
-h1, .titulo-branco {
+h1 {
     color: #ffffff;
     font-size: 26px;
     font-weight: 700;
@@ -38,15 +38,18 @@ h2 {
     color: #ffffff;
     font-size: 20px;
     font-weight: 600;
+    text-shadow: none;
 }
 
 /* =========================
-   TEXTO BRANCO (HOME / FRASES)
+   🔥 TÍTULO PRINCIPAL + FRASE BÍBLICA (FORÇA BRANCO)
 ========================= */
 
-.texto-branco {
+.titulo-principal,
+.frase-biblica {
     color: #ffffff !important;
-    font-weight: 500;
+    font-weight: 600;
+    text-shadow: none;
 }
 
 /* =========================
@@ -75,7 +78,7 @@ h2 {
 }
 
 /* =========================
-   CARDS (CONTEÚDOS)
+   CARDS (AVISOS / LEITURAS / CÂNTICOS / ESCALAS / CALENDÁRIO)
 ========================= */
 
 .card {
@@ -94,7 +97,7 @@ h2 {
 }
 
 /* =========================
-   INPUTS
+   INPUTS / FORMULÁRIOS
 ========================= */
 
 input, textarea {

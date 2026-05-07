@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pedido de Oração</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="container">
+
+    <!-- TÍTULO -->
+
+    <h1 class="titulo-principal">
+        📥 Pedido de Oração
+    </h1>
+
+    <p class="frase-biblica">
+        “Orai uns pelos outros.” — Tiago 5:16
+    </p>
+
+    <!-- FORMULÁRIO -->
+
+    <div class="card">
+
+        <form action="/enviar_oracao" method="POST">
+
+            <!-- NOME -->
+
+            <input type="text"
+                   name="nome"
+                   placeholder="Seu nome (opcional)">
+
+            <br><br>
+
+            <!-- CATEGORIA -->
+
+            <select name="categoria" required
+                    style="
+                    width:90%;
+                    padding:12px;
+                    border-radius:10px;
+                    border:none;
+                    font-size:14px;">
+
+                <option value="">
+                    Selecione a categoria
+                </option>
+
+                <option value="Saúde">
+                    Saúde
+                </option>
+
+                <option value="Família">
+                    Família
+                </option>
+
+                <option value="Trabalho">
+                    Trabalho
+                </option>
+
+                <option value="Estudos">
+                    Estudos
+                </option>
+
+                <option value="Falecido">
+                    Falecido
+                </option>
+
+                <option value="Agradecimento">
+                    Agradecimento
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <!-- PEDIDO -->
+
+            <textarea name="pedido"
+                      placeholder="Escreva aqui o seu pedido de oração..."
+                      required></textarea>
+
+            <br><br>
+
+            <!-- BOTÃO -->
+
+            <button class="botao" type="submit">
+                🙏 Enviar Pedido
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
+
+</body>
+</html>

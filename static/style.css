@@ -9,14 +9,14 @@ body {
     background-size: cover;
 }
 
-/* overlay escuro */
+/* 🔥 FUNDO MAIS CLARO (menos escuro como pediste) */
 .overlay {
-    background: rgba(0, 0, 0, 0.60);
+    background: rgba(0, 0, 0, 0.40);
     min-height: 100vh;
     padding: 20px;
 }
 
-/* container */
+/* container central */
 .container {
     max-width: 600px;
     margin: auto;
@@ -24,29 +24,37 @@ body {
 }
 
 /* =========================
-   TÍTULOS (BRANCO)
+   TÍTULOS (SEM SOMBRA, SÓ NEGRITO)
 ========================= */
 
 h1, .titulo-branco {
     color: #ffffff;
     font-size: 26px;
     font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    margin-bottom: 20px;
+    text-shadow: none;
 }
 
 h2 {
     color: #ffffff;
     font-size: 20px;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+    font-weight: 600;
 }
 
 /* =========================
-   BOTÕES
+   TEXTO BRANCO (HOME / FRASES)
+========================= */
+
+.texto-branco {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* =========================
+   BOTÕES MODERNOS
 ========================= */
 
 .botao {
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.92);
     color: #1a1a1a;
     padding: 14px;
     margin: 8px 0;
@@ -67,7 +75,7 @@ h2 {
 }
 
 /* =========================
-   CARDS
+   CARDS (CONTEÚDOS)
 ========================= */
 
 .card {
@@ -79,24 +87,10 @@ h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* =========================
-   🔥 TEXTO GLOBAL DOS CONTEÚDOS (CORREÇÃO)
-   AVISOS / LEITURAS / CÂNTICOS / ESCALAS / CALENDÁRIO
-========================= */
-
+/* 🔥 TODOS OS TEXTOS DOS CARDS EM PRETO */
 .card,
 .card * {
     color: #000000 !important;
-}
-
-/* títulos dentro dos cards */
-.card h3 {
-    font-weight: 700;
-}
-
-/* parágrafos dentro dos cards */
-.card p {
-    color: #000000;
 }
 
 /* =========================

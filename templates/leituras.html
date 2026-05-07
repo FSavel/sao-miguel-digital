@@ -30,75 +30,53 @@
         “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
     </p>
 
-    <!-- CONTEÚDO -->
+    <!-- CONTEÚDO DAS LEITURAS -->
 
     {% for l in leituras %}
 
     <div class="card">
 
-        <h2>
-            Primeira Leitura (Português)
-        </h2>
+        <!-- PRIMEIRA LEITURA -->
 
-        <p>
-            {{ l.primeira_leitura_pt }}
-        </p>
+        <h2>📖 Primeira Leitura (Português)</h2>
+        <p>{{ l.primeira_leitura_pt }}</p>
 
         <hr>
 
-        <h2>
-            Primeira Leitura (Changana/Ronga)
-        </h2>
-
-        <p>
-            {{ l.primeira_leitura_changana }}
-        </p>
+        <h2>📖 Primeira Leitura (Changana/Ronga)</h2>
+        <p>{{ l.primeira_leitura_changana }}</p>
 
         <hr>
 
-        <h2>
-            Salmo
-        </h2>
+        <!-- SALMO -->
 
-        <p>
-            {{ l.salmo }}
-        </p>
+        <h2>🎵 Salmo</h2>
+        <p>{{ l.salmo }}</p>
 
         <hr>
 
-        <h2>
-            Segunda Leitura (Português)
-        </h2>
+        <!-- SEGUNDA LEITURA -->
 
-        <p>
-            {{ l.segunda_leitura_pt }}
-        </p>
+        <h2>📖 Segunda Leitura (Português)</h2>
+        <p>{{ l.segunda_leitura_pt }}</p>
 
         <hr>
 
-        <h2>
-            Segunda Leitura (Changana/Ronga)
-        </h2>
-
-        <p>
-            {{ l.segunda_leitura_changana }}
-        </p>
+        <h2>📖 Segunda Leitura (Changana/Ronga)</h2>
+        <p>{{ l.segunda_leitura_changana }}</p>
 
         <hr>
 
-        <h2>
-            Oração dos Fiéis
-        </h2>
+        <!-- ORAÇÃO DOS FIÉIS -->
 
-        <p>
-            {{ l.oracao_fieis }}
-        </p>
+        <h2>🙏 Oração dos Fiéis</h2>
+        <p>{{ l.oracao_fieis }}</p>
 
     </div>
 
     {% endfor %}
 
-    <!-- VOLTAR -->
+    <!-- BOTÃO VOLTAR -->
 
     <a href="/" class="botao">
         🏠 Voltar ao Início
@@ -110,3 +88,42 @@
 
 </body>
 </html>
+```---
+
+# 🎯 O QUE FOI GARANTIDO
+
+## ✔ Separação correcta
+- Leituras = conteúdo litúrgico
+
+## ✔ Estrutura completa
+- Primeira leitura PT + Changana
+- Salmo
+- Segunda leitura PT + Changana
+- Oração dos fiéis
+
+## ✔ Sem mistura com escalas
+- limpo
+- litúrgico
+- pronto para uso real
+
+---
+
+# 🚀 RESULTADO FINAL
+
+Agora o sistema da :contentReference[oaicite:1]{index=1} fica:
+
+📖 leituras = Missal  
+👥 leitores = pessoas escaladas  
+⚙️ admin = gestão completa  
+
+---
+
+Se quiseres o próximo passo, posso agora:
+
+👉 corrigir o ADMIN para separar claramente “Leituras” vs “Escala de Leitores”
+
+ou
+
+👉 melhorar o visual tipo app (nível profissional igreja digital)
+
+Só diz 👍

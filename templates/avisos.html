@@ -1,49 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Avisos Semanais</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-    <div class="overlay">
+<div class="overlay">
 
-        <div class="container">
+<div class="container">
 
-            <h1>📢 Avisos Semanais</h1>
+    <!-- TÍTULO -->
 
-            {% if avisos %}
+    <h1 class="titulo-principal">
+        📢 Avisos Semanais
+    </h1>
 
-                {% for aviso in avisos %}
+    <p class="frase-biblica">
+        “Tudo tem o seu tempo.” — Eclesiastes 3:1
+    </p>
 
-                    <div class="card">
+    <!-- LISTA -->
 
-                        <h2>{{ aviso.titulo }}</h2>
+    {% for a in avisos %}
 
-                        <p>{{ aviso.descricao }}</p>
+    <div class="card">
 
-                    </div>
+        <h2>
+            {{ a.titulo }}
+        </h2>
 
-                {% endfor %}
-
-            {% else %}
-
-                <div class="card">
-                    <p>Nenhum aviso disponível.</p>
-                </div>
-
-            {% endif %}
-
-            <a href="/" class="voltar">
-                ⬅️ Voltar ao início
-            </a>
-
-        </div>
+        <p>
+            {{ a.descricao }}
+        </p>
 
     </div>
+
+    {% endfor %}
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
 
 </body>
 </html>

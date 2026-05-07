@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Escala dos Leitores</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="container">
+
+    <!-- TÍTULO -->
+
+    <h1 class="titulo-principal">
+        📖 Escala dos Leitores
+    </h1>
+
+    <p class="frase-biblica">
+        “A tua palavra é luz para os meus passos.” — Salmo 119
+    </p>
+
+    <!-- LISTA -->
+
+    {% for l in leitores %}
+
+    <div class="card">
+
+        <h2>
+            {{ l.funcao }}
+        </h2>
+
+        <p>
+            {{ l.nome }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
+
+</body>
+</html>

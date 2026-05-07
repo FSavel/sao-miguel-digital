@@ -1,49 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Leituras</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-    <div class="overlay">
+<div class="overlay">
 
-        <div class="container">
+<div class="container">
 
-            <h1>📖 Leituras</h1>
+    <!-- TÍTULO -->
 
-            {% if leituras %}
+    <h1 class="titulo-principal">
+        📖 Leituras Litúrgicas
+    </h1>
 
-                {% for leitura in leituras %}
+    <p class="frase-biblica">
+        “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
+    </p>
 
-                    <div class="card">
+    <!-- CONTEÚDO -->
 
-                        <h2>{{ leitura.tipo }}</h2>
+    {% for l in leituras %}
 
-                        <p>{{ leitura.texto }}</p>
+    <div class="card">
 
-                    </div>
+        <h2>
+            Primeira Leitura (Português)
+        </h2>
 
-                {% endfor %}
+        <p>
+            {{ l.primeira_leitura_pt }}
+        </p>
 
-            {% else %}
+        <hr>
 
-                <div class="card">
-                    <p>Nenhuma leitura disponível.</p>
-                </div>
+        <h2>
+            Primeira Leitura (Changana/Ronga)
+        </h2>
 
-            {% endif %}
+        <p>
+            {{ l.primeira_leitura_changana }}
+        </p>
 
-            <a href="/" class="voltar">
-                ⬅️ Voltar ao início
-            </a>
+        <hr>
 
-        </div>
+        <h2>
+            Salmo
+        </h2>
+
+        <p>
+            {{ l.salmo }}
+        </p>
+
+        <hr>
+
+        <h2>
+            Segunda Leitura (Português)
+        </h2>
+
+        <p>
+            {{ l.segunda_leitura_pt }}
+        </p>
+
+        <hr>
+
+        <h2>
+            Segunda Leitura (Changana/Ronga)
+        </h2>
+
+        <p>
+            {{ l.segunda_leitura_changana }}
+        </p>
+
+        <hr>
+
+        <h2>
+            Oração dos Fiéis
+        </h2>
+
+        <p>
+            {{ l.oracao_fieis }}
+        </p>
 
     </div>
+
+    {% endfor %}
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
 
 </body>
 </html>

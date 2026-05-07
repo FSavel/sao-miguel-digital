@@ -1,156 +1,155 @@
-/* =========================
-   BASE GERAL
-========================= */
-
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
+}
+
+/* =========================
+   FUNDO
+========================= */
+body {
     background: url("/static/igreja.jpg") no-repeat center center fixed;
     background-size: cover;
 }
 
-/* 🔥 FUNDO MAIS CLARO (melhor visibilidade) */
+/* overlay mais transparente */
 .overlay {
-    background: rgba(0, 0, 0, 0.40);
     min-height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
     padding: 20px;
 }
 
-/* container central */
+/* =========================
+   CONTAINER
+========================= */
 .container {
-    max-width: 600px;
+    max-width: 900px;
     margin: auto;
+}
+
+/* =========================
+   TÍTULOS
+   (SEM SOMBRA)
+========================= */
+.titulo-principal {
+    color: white;
     text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-/* =========================
-   TÍTULOS (SEM SOMBRA)
-========================= */
-
-h1 {
-    color: #ffffff;
-    font-size: 26px;
-    font-weight: 700;
-    text-shadow: none;
-}
-
-h2 {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 600;
-    text-shadow: none;
-}
-
-/* =========================
-   🔥 TÍTULO PRINCIPAL + FRASE BÍBLICA (FORÇA BRANCO)
-========================= */
-
-.titulo-principal,
 .frase-biblica {
-    color: #ffffff !important;
-    font-weight: 600;
-    text-shadow: none;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
 }
 
 /* =========================
-   BOTÕES MODERNOS
+   CARDS
 ========================= */
-
-.botao {
+.card {
     background: rgba(255, 255, 255, 0.92);
-    color: #1a1a1a;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 14px;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+/* textos dentro dos cards SEMPRE PRETOS */
+.card p,
+.card h2,
+.card h3,
+.card h4 {
+    color: black;
+}
+
+/* títulos internos sem sombra */
+.card h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+.botao {
     display: block;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: all 0.25s ease;
+    text-align: center;
+    background: #1e88e5;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .botao:hover {
-    background: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    background: #1565c0;
 }
 
-/* =========================
-   CARDS (AVISOS / LEITURAS / CÂNTICOS / ESCALAS / CALENDÁRIO)
-========================= */
-
-.card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px;
-    margin: 12px 0;
-    border-radius: 14px;
-    text-align: left;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* 🔥 TODOS OS TEXTOS DOS CARDS EM PRETO */
-.card,
-.card * {
-    color: #000000 !important;
-}
-
-/* =========================
-   INPUTS / FORMULÁRIOS
-========================= */
-
-input, textarea {
-    width: 90%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    margin-top: 8px;
-    font-size: 14px;
-}
-
-textarea {
-    height: 80px;
-    resize: none;
-}
-
-/* =========================
-   LINKS
-========================= */
-
-a {
-    color: #ffffff;
+/* delete link */
+.delete {
+    color: red;
+    font-weight: bold;
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
+/* =========================
+   LOGIN
+========================= */
+.login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
 }
 
-.voltar {
-    color: #ffffff;
-    font-size: 14px;
-    opacity: 0.85;
-    margin-top: 10px;
-    display: inline-block;
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* =========================
-   RESPONSIVO
+   ERRO LOGIN
 ========================= */
+.erro {
+    color: red;
+    margin-bottom: 10px;
+}
 
+/* =========================
+   MOBILE
+========================= */
 @media (max-width: 600px) {
 
-    .container {
-        width: 95%;
-    }
-
-    h1 {
+    .titulo-principal {
         font-size: 22px;
     }
 
-    .botao {
-        font-size: 15px;
+    .container {
+        padding: 10px;
+    }
+
+    .card {
         padding: 12px;
+    }
+
+    .botao {
+        font-size: 16px;
     }
 }

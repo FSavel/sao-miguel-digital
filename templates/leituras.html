@@ -4,13 +4,11 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Leituras</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -23,63 +21,45 @@
     <!-- TÍTULO -->
 
     <h1 class="titulo-principal">
-        📖 Leituras Litúrgicas
+        📖 Leituras
     </h1>
 
     <p class="frase-biblica">
         “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
     </p>
 
-    <!-- CONTEÚDO DAS LEITURAS -->
+    <!-- CONTEÚDO -->
 
-    {% for l in leituras %}
+    {% if leituras %}
 
-    <div class="card">
+        {% for leitura in leituras %}
 
-        <!-- PRIMEIRA LEITURA -->
+            <div class="card">
 
-        <h2>📖 Primeira Leitura (Português)</h2>
-        <p>{{ l.primeira_leitura_pt }}</p>
+                <h2>
+                    {{ leitura.tipo }}
+                </h2>
 
-        <hr>
+                <p style="white-space: pre-line;">
+                    {{ leitura.texto }}
+                </p>
 
-        <h2>📖 Primeira Leitura (Changana/Ronga)</h2>
-        <p>{{ l.primeira_leitura_changana }}</p>
+            </div>
 
-        <hr>
+        {% endfor %}
 
-        <!-- SALMO -->
+    {% else %}
 
-        <h2>🎵 Salmo</h2>
-        <p>{{ l.salmo }}</p>
+        <div class="card">
+            <p>Nenhuma leitura disponível.</p>
+        </div>
 
-        <hr>
+    {% endif %}
 
-        <!-- SEGUNDA LEITURA -->
-
-        <h2>📖 Segunda Leitura (Português)</h2>
-        <p>{{ l.segunda_leitura_pt }}</p>
-
-        <hr>
-
-        <h2>📖 Segunda Leitura (Changana/Ronga)</h2>
-        <p>{{ l.segunda_leitura_changana }}</p>
-
-        <hr>
-
-        <!-- ORAÇÃO DOS FIÉIS -->
-
-        <h2>🙏 Oração dos Fiéis</h2>
-        <p>{{ l.oracao_fieis }}</p>
-
-    </div>
-
-    {% endfor %}
-
-    <!-- BOTÃO VOLTAR -->
+    <!-- VOLTAR -->
 
     <a href="/" class="botao">
-        🏠 Voltar ao Início
+        ⬅️ Voltar ao início
     </a>
 
 </div>
@@ -88,42 +68,3 @@
 
 </body>
 </html>
-```---
-
-# 🎯 O QUE FOI GARANTIDO
-
-## ✔ Separação correcta
-- Leituras = conteúdo litúrgico
-
-## ✔ Estrutura completa
-- Primeira leitura PT + Changana
-- Salmo
-- Segunda leitura PT + Changana
-- Oração dos fiéis
-
-## ✔ Sem mistura com escalas
-- limpo
-- litúrgico
-- pronto para uso real
-
----
-
-# 🚀 RESULTADO FINAL
-
-Agora o sistema da :contentReference[oaicite:1]{index=1} fica:
-
-📖 leituras = Missal  
-👥 leitores = pessoas escaladas  
-⚙️ admin = gestão completa  
-
----
-
-Se quiseres o próximo passo, posso agora:
-
-👉 corrigir o ADMIN para separar claramente “Leituras” vs “Escala de Leitores”
-
-ou
-
-👉 melhorar o visual tipo app (nível profissional igreja digital)
-
-Só diz 👍

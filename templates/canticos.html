@@ -1,54 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Cânticos</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-    <div class="overlay">
+<div class="overlay">
 
-        <div class="container">
+<div class="container">
 
-            <h1>🎵 Cânticos</h1>
+    <!-- TÍTULO -->
 
-            {% if canticos %}
+    <h1 class="titulo-principal">
+        🎵 Cânticos Litúrgicos
+    </h1>
 
-                {% for c in canticos %}
+    <p class="frase-biblica">
+        “Cantai ao Senhor um cântico novo.” — Salmo 96:1
+    </p>
 
-                    <div class="card">
+    <!-- LISTA DE CÂNTICOS -->
 
-                        <h2>{{ c.momento }}</h2>
+    {% for c in canticos %}
 
-                        <p><strong>Cântico:</strong> {{ c.cantico }}</p>
+    <div class="card">
 
-                        <hr>
+        <h2>
+            🎼 {{ c.momento }}
+        </h2>
 
-                        <p><strong>Letra:</strong></p>
-                        <p>{{ c.letra }}</p>
+        <p>
+            <b>{{ c.cantico }}</b>
+        </p>
 
-                    </div>
+        <hr>
 
-                {% endfor %}
+        <h3>📜 Letra</h3>
 
-            {% else %}
-
-                <div class="card">
-                    <p>Nenhum cântico disponível.</p>
-                </div>
-
-            {% endif %}
-
-            <a href="/" class="voltar">
-                ⬅️ Voltar ao início
-            </a>
-
-        </div>
+        <p style="white-space: pre-line;">
+            {{ c.letra }}
+        </p>
 
     </div>
+
+    {% endfor %}
+
+    <!-- VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+</div>
+
+</div>
 
 </body>
 </html>

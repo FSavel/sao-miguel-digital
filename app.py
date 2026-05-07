@@ -6,6 +6,9 @@ app.secret_key = "saomiguel2026"
 
 EXCEL_FILE = "paroquia.xlsx"
 
+# =========================
+# LOGIN FIXO
+# =========================
 ADMIN_USER = "padre"
 ADMIN_PASS = "1234"
 
@@ -29,6 +32,14 @@ def guardar_avisos(lista):
     df = pd.DataFrame(lista)
     with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
         df.to_excel(writer, sheet_name="avisos", index=False)
+
+
+# =========================
+# HOME
+# =========================
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 # =========================
@@ -110,14 +121,6 @@ def delete_aviso(index):
 
 
 # =========================
-# PÁGINA INICIAL
-# =========================
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-# =========================
 # AVISOS PÚBLICO
 # =========================
 @app.route("/avisos")
@@ -126,5 +129,44 @@ def avisos():
     return render_template("avisos.html", avisos=dados)
 
 
+# =========================
+# LEITURAS
+# =========================
+@app.route("/leituras")
+def leituras():
+    dados = ler_sheet("leituras")
+    return render_template("leituras.html", leituras=dados)
+
+
+# =========================
+# CÂNTICOS
+# =========================
+@app.route("/canticos")
+def canticos():
+    dados = ler_sheet("canticos")
+    return render_template("canticos.html", canticos=dados)
+
+
+# =========================
+# ESCALAS
+# =========================
+@app.route("/escalas")
+def escalas():
+    dados = ler_sheet("escalas")
+    return render_template("escalas.html", escalas=dados)
+
+
+# =========================
+# CALENDÁRIO
+# =========================
+@app.route("/calendario")
+def calendario():
+    dados = ler_sheet("calendario")
+    return render_template("calendario.html", eventos=dados)
+
+
+# =========================
+# RUN
+# =========================
 if __name__ == "__main__":
     app.run(debug=True)

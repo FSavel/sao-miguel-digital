@@ -340,7 +340,7 @@ def delete_calendario(index):
 
 
 # =========================
-# PEDIDO DE ORAÇÃO
+# PEDIDOS DE ORAÇÃO
 # =========================
 @app.route("/pedido_oracao")
 def pedido_oracao():
@@ -381,36 +381,16 @@ def delete_pedido(index):
 
 
 # =========================
-# ESCALAS DE SERVIÇO (UNIFICADO)
+# ESCALAS DE SERVIÇO (CORRIGIDO)
 # =========================
 @app.route("/escalas")
 def escalas():
 
-    acolitos = ler_sheet("acolitos")
-    leitores = ler_sheet("leitores")
-
-    escalas = []
-
-    # transformar acólitos em formato comum
-    for a in acolitos:
-        for campo in ["funcao", "nome"]:
-            if campo in a and a[campo]:
-                escalas.append({
-                    "grupo": "Acólitos",
-                    "tipo": a.get("funcao", ""),
-                    "nome": a.get("nome", "")
-                })
-                break
-
-    # transformar leitores em formato comum
-    for l in leitores:
-        escalas.append({
-            "grupo": "Leitores",
-            "tipo": "Escala de Leitura",
-            "nome": f"{l.get('primeira_pt','')} / {l.get('salmo','')}"
-        })
-
-    return render_template("escalas.html", escalas=escalas)
+    return render_template(
+        "escalas.html",
+        acolitos=ler_sheet("acolitos"),
+        leitores=ler_sheet("leitores")
+    )
 
 
 # =========================

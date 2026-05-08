@@ -6,7 +6,7 @@ app.secret_key = "saomiguel2026"
 
 EXCEL_FILE = "paroquia.xlsx"
 
-ADMIN_USER = "padre"
+ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
 
 

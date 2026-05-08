@@ -92,7 +92,7 @@ def admin():
 
 
 # =========================
-# ROTAS DE VISUALIZAÇÃO (FIX 404)
+# ROTAS PÚBLICAS (EVITAR 404)
 # =========================
 @app.route("/avisos")
 def avisos():
@@ -158,7 +158,7 @@ def delete_aviso(index):
 
 
 # =========================
-# LEITURAS
+# LEITURAS (SEM ALTERAÇÃO)
 # =========================
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
@@ -225,7 +225,7 @@ def delete_cantico(index):
 
 
 # =========================
-# ACÓLITOS
+# ACÓLITOS (SIMPLIFICADO E ESTÁVEL)
 # =========================
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
@@ -258,7 +258,7 @@ def delete_acolito(index):
 
 
 # =========================
-# LEITORES
+# LEITORES (SEM ALTERAÇÃO)
 # =========================
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
@@ -329,7 +329,7 @@ def delete_calendario(index):
 
 
 # =========================
-# PEDIDOS
+# PEDIDOS DE ORAÇÃO
 # =========================
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():

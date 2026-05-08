@@ -3,14 +3,11 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>Acólitos</title>
 
-    <title>Escala dos Acólitos</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -21,74 +18,71 @@
 <div class="container">
 
     <!-- TÍTULO -->
-
     <h1 class="titulo-principal">
-        👦 Escala dos Acólitos
+        👦 Acólitos
     </h1>
 
     <p class="frase-biblica">
         “Servi ao Senhor com alegria.” — Salmo 100
     </p>
 
-    <!-- ESCALA -->
-
-    {% for a in acolitos %}
-
+    <!-- ===================== FORMULÁRIO ===================== -->
     <div class="card">
 
-        <p>
-            <b>Cruciferário:</b>
-            {{ a.cruciferario }}
-        </p>
+        <h2>➕ Adicionar Escala de Acólitos</h2>
 
-        <hr>
+        <form action="/add_acolito" method="POST">
 
-        <p>
-            <b>Turiferário:</b>
-            {{ a.turiferario }}
-        </p>
+            <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+            <input type="text" name="turiferario" placeholder="Turiferário">
+            <input type="text" name="naveteiro" placeholder="Naveteiro">
+            <input type="text" name="cerimoniario" placeholder="Cerimoniário">
+            <input type="text" name="velas" placeholder="Velas">
+            <input type="text" name="missal" placeholder="Missal">
+            <input type="text" name="campainha" placeholder="Campainha">
 
-        <hr>
+            <button class="botao" type="submit">
+                Guardar Escala
+            </button>
 
-        <p>
-            <b>Naveteiro:</b>
-            {{ a.naveteiro }}
-        </p>
-
-        <hr>
-
-        <p>
-            <b>Cerimoniário:</b>
-            {{ a.cerimoniario }}
-        </p>
-
-        <hr>
-
-        <p>
-            <b>Velas:</b>
-            {{ a.velas }}
-        </p>
-
-        <hr>
-
-        <p>
-            <b>Missal:</b>
-            {{ a.missal }}
-        </p>
-
-        <hr>
-
-        <p>
-            <b>Campainha:</b>
-            {{ a.campainha }}
-        </p>
+        </form>
 
     </div>
 
-    {% endfor %}
+    <!-- ===================== LISTA ===================== -->
+    <div class="card">
+
+        <h2>📋 Escalas Registadas</h2>
+
+        {% if acolitos %}
+
+            {% for a in acolitos %}
+
+                <p><b>Cruciferário:</b> {{ a.cruciferario }}</p>
+                <p><b>Turiferário:</b> {{ a.turiferario }}</p>
+                <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
+                <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
+                <p><b>Velas:</b> {{ a.velas }}</p>
+                <p><b>Missal:</b> {{ a.missal }}</p>
+                <p><b>Campainha:</b> {{ a.campainha }}</p>
+
+                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+                <hr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>Nenhuma escala de acólitos registada.</p>
+
+        {% endif %}
+
+    </div>
 
     <!-- VOLTAR -->
-
     <a href="/" class="botao">
         🏠 Voltar ao Início
     </a>

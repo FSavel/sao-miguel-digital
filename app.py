@@ -89,8 +89,7 @@ def admin():
         acolitos=ler_sheet("acolitos"),
         leitores=ler_sheet("leitores"),
         calendario=ler_sheet("calendario"),
-        pedidos=ler_sheet("pedidos"),
-        escalas=ler_sheet("escalas")
+        pedidos=ler_sheet("pedidos")
     )
 
 
@@ -232,8 +231,13 @@ def add_acolito():
     data = ler_sheet("acolitos")
 
     data.append({
-        "funcao": request.form["funcao"],
-        "nome": request.form["nome"]
+        "cruciferario": request.form["cruciferario"],
+        "turiferario": request.form["turiferario"],
+        "naveteiro": request.form["naveteiro"],
+        "cerimoniario": request.form["cerimoniario"],
+        "velas": request.form["velas"],
+        "missal": request.form["missal"],
+        "campainha": request.form["campainha"]
     })
 
     guardar_sheet("acolitos", data)
@@ -382,45 +386,19 @@ def delete_pedido(index):
 
 
 # =========================
-# ESCALA DE SERVIÇO (NOVA UNIFICADA)
+# ESCALAS DE SERVIÇO
 # =========================
 @app.route("/escalas")
 def escalas():
-    return render_template("escalas.html", escalas=ler_sheet("escalas"))
 
+    acolitos = ler_sheet("acolitos")
+    leitores = ler_sheet("leitores")
 
-@app.route("/add_escala", methods=["POST"])
-def add_escala():
-
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("escalas")
-
-    data.append({
-        "grupo": request.form["grupo"],
-        "tipo": request.form.get("tipo", ""),
-        "funcao": request.form.get("funcao", ""),
-        "nome": request.form.get("nome", "")
-    })
-
-    guardar_sheet("escalas", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_escala/<int:index>")
-def delete_escala(index):
-
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("escalas")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("escalas", data)
-    return redirect("/admin")
+    return render_template(
+        "escalas.html",
+        acolitos=acolitos,
+        leitores=leitores
+    )
 
 
 # =========================

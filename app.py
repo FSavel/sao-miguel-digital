@@ -23,21 +23,19 @@ def ler_sheet(nome):
 
 
 # =========================
-# GUARDAR AVISOS
+# GUARDAR SHEET
 # =========================
-def guardar_avisos(lista):
+def guardar_sheet(nome_sheet, lista):
     df = pd.DataFrame(lista)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="avisos", index=False)
 
+    with pd.ExcelWriter(
+        EXCEL_FILE,
+        engine="openpyxl",
+        mode="a",
+        if_sheet_exists="replace"
+    ) as writer:
 
-# =========================
-# GUARDAR LEITURAS
-# =========================
-def guardar_leituras(lista):
-    df = pd.DataFrame(lista)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="leituras", index=False)
+        df.to_excel(writer, sheet_name=nome_sheet, index=False)
 
 
 # =========================
@@ -45,15 +43,19 @@ def guardar_leituras(lista):
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
     erro = None
 
     if request.method == "POST":
+
         u = request.form["username"]
         p = request.form["password"]
 
         if u == ADMIN_USER and p == ADMIN_PASS:
+
             session["admin"] = True
             return redirect("/admin")
+
         else:
             erro = "Credenciais inválidas"
 
@@ -65,7 +67,9 @@ def login():
 # =========================
 @app.route("/logout")
 def logout():
+
     session.pop("admin", None)
+
     return redirect("/")
 
 
@@ -74,6 +78,7 @@ def logout():
 # =========================
 @app.route("/")
 def index():
+
     return render_template("index.html")
 
 
@@ -82,11 +87,13 @@ def index():
 # =========================
 @app.route("/admin")
 def admin():
+
     if not session.get("admin"):
         return redirect("/login")
 
     return render_template(
         "admin.html",
+
         avisos=ler_sheet("avisos"),
         leituras=ler_sheet("leituras"),
         canticos=ler_sheet("canticos"),
@@ -97,31 +104,39 @@ def admin():
     )
 
 
-# =========================
+# =====================================================
 # AVISOS
-# =========================
+# =====================================================
 @app.route("/avisos")
 def avisos():
-    return render_template("avisos.html", avisos=ler_sheet("avisos"))
+
+    return render_template(
+        "avisos.html",
+        avisos=ler_sheet("avisos")
+    )
 
 
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
+
     if not session.get("admin"):
         return redirect("/login")
 
     avisos = ler_sheet("avisos")
+
     avisos.append({
         "titulo": request.form["titulo"],
         "descricao": request.form["descricao"]
     })
 
-    guardar_avisos(avisos)
+    guardar_sheet("avisos", avisos)
+
     return redirect("/admin")
 
 
 @app.route("/delete_aviso/<int:index>")
 def delete_aviso(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -130,146 +145,213 @@ def delete_aviso(index):
     if 0 <= index < len(avisos):
         avisos.pop(index)
 
-    guardar_avisos(avisos)
+    guardar_sheet("avisos", avisos)
+
     return redirect("/admin")
 
 
-# =========================
+# =====================================================
 # LEITURAS
-# =========================
+# =====================================================
 @app.route("/leituras")
 def leituras():
-    return render_template("leituras.html", leituras=ler_sheet("leituras"))
+
+    return render_template(
+        "leituras.html",
+        leituras=ler_sheet("leituras")
+    )
 
 
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
+
     if not session.get("admin"):
         return redirect("/login")
 
     leituras = ler_sheet("leituras")
+
     leituras.append({
         "tipo": request.form["tipo"],
         "texto": request.form["texto"]
     })
 
-    guardar_leituras(leituras)
+    guardar_sheet("leituras", leituras)
+
     return redirect("/admin")
 
 
-# =========================
+# =====================================================
 # CÂNTICOS
-# =========================
+# =====================================================
 @app.route("/canticos")
 def canticos():
-    return render_template("canticos.html", canticos=ler_sheet("canticos"))
+
+    return render_template(
+        "canticos.html",
+        canticos=ler_sheet("canticos")
+    )
 
 
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
+
     if not session.get("admin"):
         return redirect("/login")
 
     canticos = ler_sheet("canticos")
+
     canticos.append({
         "momento": request.form["momento"],
         "cantico": request.form["cantico"],
         "letra": request.form["letra"]
     })
 
-    df = pd.DataFrame(canticos)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="canticos", index=False)
+    guardar_sheet("canticos", canticos)
 
     return redirect("/admin")
 
 
-# =========================
+# =====================================================
 # ACÓLITOS
-# =========================
+# =====================================================
 @app.route("/acolitos")
 def acolitos():
-    return render_template("acolitos.html", acolitos=ler_sheet("acolitos"))
+
+    return render_template(
+        "acolitos.html",
+        acolitos=ler_sheet("acolitos")
+    )
 
 
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
+
     if not session.get("admin"):
         return redirect("/login")
 
     acolitos = ler_sheet("acolitos")
+
     acolitos.append({
-        "funcao": request.form["funcao"],
-        "nome": request.form["nome"]
+
+        "cruciferario": request.form["cruciferario"],
+        "turiferario": request.form["turiferario"],
+        "naveteiro": request.form["naveteiro"],
+        "cerimoniario": request.form["cerimoniario"],
+        "velas": request.form["velas"],
+        "missal": request.form["missal"],
+        "campainha": request.form["campainha"]
+
     })
 
-    df = pd.DataFrame(acolitos)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="acolitos", index=False)
+    guardar_sheet("acolitos", acolitos)
 
     return redirect("/admin")
 
 
-# =========================
+# =====================================================
 # LEITORES
-# =========================
+# =====================================================
 @app.route("/leitores")
 def leitores():
-    return render_template("leitores.html", leitores=ler_sheet("leitores"))
+
+    return render_template(
+        "leitores.html",
+        leitores=ler_sheet("leitores")
+    )
 
 
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
+
     if not session.get("admin"):
         return redirect("/login")
 
     leitores = ler_sheet("leitores")
+
     leitores.append({
-        "funcao": request.form["funcao"],
-        "nome": request.form["nome"]
+
+        "primeira_pt": request.form["primeira_pt"],
+        "primeira_ch": request.form["primeira_ch"],
+        "salmo": request.form["salmo"],
+        "segunda_pt": request.form["segunda_pt"],
+        "segunda_ch": request.form["segunda_ch"],
+        "oracao_fieis": request.form["oracao_fieis"]
+
     })
 
-    df = pd.DataFrame(leitores)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="leitores", index=False)
+    guardar_sheet("leitores", leitores)
 
     return redirect("/admin")
 
 
-# =========================
+# =====================================================
 # CALENDÁRIO
-# =========================
+# =====================================================
 @app.route("/calendario")
 def calendario():
-    return render_template("calendario.html", calendario=ler_sheet("calendario"))
+
+    return render_template(
+        "calendario.html",
+        calendario=ler_sheet("calendario")
+    )
 
 
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
+
     if not session.get("admin"):
         return redirect("/login")
 
     calendario = ler_sheet("calendario")
+
     calendario.append({
+
         "evento": request.form["evento"],
         "data": request.form["data"],
         "descricao": request.form["descricao"]
+
     })
 
-    df = pd.DataFrame(calendario)
-    with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="replace") as writer:
-        df.to_excel(writer, sheet_name="calendario", index=False)
+    guardar_sheet("calendario", calendario)
 
     return redirect("/admin")
 
 
-# =========================
-# PEDIDO DE ORAÇÃO
-# =========================
+# =====================================================
+# PEDIDOS DE ORAÇÃO
+# =====================================================
 @app.route("/pedido_oracao")
 def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
+
+    return render_template(
+        "pedido_oracao.html",
+        pedidos=ler_sheet("pedidos")
+    )
 
 
+@app.route("/add_pedido", methods=["POST"])
+def add_pedido():
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    pedidos = ler_sheet("pedidos")
+
+    pedidos.append({
+
+        "nome": request.form["nome"],
+        "categoria": request.form["categoria"],
+        "pedido": request.form["pedido"]
+
+    })
+
+    guardar_sheet("pedidos", pedidos)
+
+    return redirect("/admin")
+
+
+# =====================================================
+# EXECUTAR
+# =====================================================
 if __name__ == "__main__":
     app.run(debug=True)

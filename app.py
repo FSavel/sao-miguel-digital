@@ -89,7 +89,8 @@ def admin():
         acolitos=ler_sheet("acolitos"),
         leitores=ler_sheet("leitores"),
         calendario=ler_sheet("calendario"),
-        pedidos=ler_sheet("pedidos")
+        pedidos=ler_sheet("pedidos"),
+        escalas=ler_sheet("escalas")
     )
 
 
@@ -107,14 +108,14 @@ def add_aviso():
     if not session.get("admin"):
         return redirect("/login")
 
-    avisos = ler_sheet("avisos")
+    data = ler_sheet("avisos")
 
-    avisos.append({
+    data.append({
         "titulo": request.form["titulo"],
         "descricao": request.form["descricao"]
     })
 
-    guardar_sheet("avisos", avisos)
+    guardar_sheet("avisos", data)
     return redirect("/admin")
 
 
@@ -124,12 +125,12 @@ def delete_aviso(index):
     if not session.get("admin"):
         return redirect("/login")
 
-    avisos = ler_sheet("avisos")
+    data = ler_sheet("avisos")
 
-    if 0 <= index < len(avisos):
-        avisos.pop(index)
+    if 0 <= index < len(data):
+        data.pop(index)
 
-    guardar_sheet("avisos", avisos)
+    guardar_sheet("avisos", data)
     return redirect("/admin")
 
 
@@ -147,14 +148,14 @@ def add_leitura():
     if not session.get("admin"):
         return redirect("/login")
 
-    leituras = ler_sheet("leituras")
+    data = ler_sheet("leituras")
 
-    leituras.append({
+    data.append({
         "tipo": request.form["tipo"],
         "texto": request.form["texto"]
     })
 
-    guardar_sheet("leituras", leituras)
+    guardar_sheet("leituras", data)
     return redirect("/admin")
 
 
@@ -377,6 +378,48 @@ def delete_pedido(index):
         data.pop(index)
 
     guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+# =========================
+# ESCALA DE SERVIÇO (NOVA UNIFICADA)
+# =========================
+@app.route("/escalas")
+def escalas():
+    return render_template("escalas.html", escalas=ler_sheet("escalas"))
+
+
+@app.route("/add_escala", methods=["POST"])
+def add_escala():
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("escalas")
+
+    data.append({
+        "grupo": request.form["grupo"],
+        "tipo": request.form.get("tipo", ""),
+        "funcao": request.form.get("funcao", ""),
+        "nome": request.form.get("nome", "")
+    })
+
+    guardar_sheet("escalas", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_escala/<int:index>")
+def delete_escala(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("escalas")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("escalas", data)
     return redirect("/admin")
 
 

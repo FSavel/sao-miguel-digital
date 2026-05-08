@@ -11,7 +11,7 @@ ADMIN_PASS = "1234"
 
 
 # =========================
-# LER SHEET
+# UTILITÁRIO GERAL
 # =========================
 def ler_sheet(nome):
     try:
@@ -22,10 +22,7 @@ def ler_sheet(nome):
         return []
 
 
-# =========================
-# GUARDAR SHEET
-# =========================
-def guardar_sheet(nome_sheet, lista):
+def guardar_sheet(nome, lista):
     df = pd.DataFrame(lista)
 
     with pd.ExcelWriter(
@@ -34,8 +31,7 @@ def guardar_sheet(nome_sheet, lista):
         mode="a",
         if_sheet_exists="replace"
     ) as writer:
-
-        df.to_excel(writer, sheet_name=nome_sheet, index=False)
+        df.to_excel(writer, sheet_name=nome, index=False)
 
 
 # =========================
@@ -47,15 +43,12 @@ def login():
     erro = None
 
     if request.method == "POST":
-
         u = request.form["username"]
         p = request.form["password"]
 
         if u == ADMIN_USER and p == ADMIN_PASS:
-
             session["admin"] = True
             return redirect("/admin")
-
         else:
             erro = "Credenciais inválidas"
 
@@ -67,9 +60,7 @@ def login():
 # =========================
 @app.route("/logout")
 def logout():
-
     session.pop("admin", None)
-
     return redirect("/")
 
 
@@ -78,7 +69,6 @@ def logout():
 # =========================
 @app.route("/")
 def index():
-
     return render_template("index.html")
 
 
@@ -93,7 +83,6 @@ def admin():
 
     return render_template(
         "admin.html",
-
         avisos=ler_sheet("avisos"),
         leituras=ler_sheet("leituras"),
         canticos=ler_sheet("canticos"),
@@ -104,16 +93,12 @@ def admin():
     )
 
 
-# =====================================================
+# =========================
 # AVISOS
-# =====================================================
+# =========================
 @app.route("/avisos")
 def avisos():
-
-    return render_template(
-        "avisos.html",
-        avisos=ler_sheet("avisos")
-    )
+    return render_template("avisos.html", avisos=ler_sheet("avisos"))
 
 
 @app.route("/add_aviso", methods=["POST"])
@@ -130,7 +115,6 @@ def add_aviso():
     })
 
     guardar_sheet("avisos", avisos)
-
     return redirect("/admin")
 
 
@@ -146,20 +130,15 @@ def delete_aviso(index):
         avisos.pop(index)
 
     guardar_sheet("avisos", avisos)
-
     return redirect("/admin")
 
 
-# =====================================================
+# =========================
 # LEITURAS
-# =====================================================
+# =========================
 @app.route("/leituras")
 def leituras():
-
-    return render_template(
-        "leituras.html",
-        leituras=ler_sheet("leituras")
-    )
+    return render_template("leituras.html", leituras=ler_sheet("leituras"))
 
 
 @app.route("/add_leitura", methods=["POST"])
@@ -176,20 +155,30 @@ def add_leitura():
     })
 
     guardar_sheet("leituras", leituras)
-
     return redirect("/admin")
 
 
-# =====================================================
+@app.route("/delete_leitura/<int:index>")
+def delete_leitura(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+# =========================
 # CÂNTICOS
-# =====================================================
+# =========================
 @app.route("/canticos")
 def canticos():
-
-    return render_template(
-        "canticos.html",
-        canticos=ler_sheet("canticos")
-    )
+    return render_template("canticos.html", canticos=ler_sheet("canticos"))
 
 
 @app.route("/add_cantico", methods=["POST"])
@@ -198,29 +187,39 @@ def add_cantico():
     if not session.get("admin"):
         return redirect("/login")
 
-    canticos = ler_sheet("canticos")
+    data = ler_sheet("canticos")
 
-    canticos.append({
+    data.append({
         "momento": request.form["momento"],
         "cantico": request.form["cantico"],
         "letra": request.form["letra"]
     })
 
-    guardar_sheet("canticos", canticos)
-
+    guardar_sheet("canticos", data)
     return redirect("/admin")
 
 
-# =====================================================
+@app.route("/delete_cantico/<int:index>")
+def delete_cantico(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+# =========================
 # ACÓLITOS
-# =====================================================
+# =========================
 @app.route("/acolitos")
 def acolitos():
-
-    return render_template(
-        "acolitos.html",
-        acolitos=ler_sheet("acolitos")
-    )
+    return render_template("acolitos.html", acolitos=ler_sheet("acolitos"))
 
 
 @app.route("/add_acolito", methods=["POST"])
@@ -229,35 +228,38 @@ def add_acolito():
     if not session.get("admin"):
         return redirect("/login")
 
-    acolitos = ler_sheet("acolitos")
+    data = ler_sheet("acolitos")
 
-    acolitos.append({
-
-        "cruciferario": request.form["cruciferario"],
-        "turiferario": request.form["turiferario"],
-        "naveteiro": request.form["naveteiro"],
-        "cerimoniario": request.form["cerimoniario"],
-        "velas": request.form["velas"],
-        "missal": request.form["missal"],
-        "campainha": request.form["campainha"]
-
+    data.append({
+        "funcao": request.form["funcao"],
+        "nome": request.form["nome"]
     })
 
-    guardar_sheet("acolitos", acolitos)
-
+    guardar_sheet("acolitos", data)
     return redirect("/admin")
 
 
-# =====================================================
+@app.route("/delete_acolito/<int:index>")
+def delete_acolito(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("acolitos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("acolitos", data)
+    return redirect("/admin")
+
+
+# =========================
 # LEITORES
-# =====================================================
+# =========================
 @app.route("/leitores")
 def leitores():
-
-    return render_template(
-        "leitores.html",
-        leitores=ler_sheet("leitores")
-    )
+    return render_template("leitores.html", leitores=ler_sheet("leitores"))
 
 
 @app.route("/add_leitor", methods=["POST"])
@@ -266,34 +268,42 @@ def add_leitor():
     if not session.get("admin"):
         return redirect("/login")
 
-    leitores = ler_sheet("leitores")
+    data = ler_sheet("leitores")
 
-    leitores.append({
-
+    data.append({
         "primeira_pt": request.form["primeira_pt"],
         "primeira_ch": request.form["primeira_ch"],
         "salmo": request.form["salmo"],
         "segunda_pt": request.form["segunda_pt"],
         "segunda_ch": request.form["segunda_ch"],
         "oracao_fieis": request.form["oracao_fieis"]
-
     })
 
-    guardar_sheet("leitores", leitores)
-
+    guardar_sheet("leitores", data)
     return redirect("/admin")
 
 
-# =====================================================
+@app.route("/delete_leitor/<int:index>")
+def delete_leitor(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("leitores")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("leitores", data)
+    return redirect("/admin")
+
+
+# =========================
 # CALENDÁRIO
-# =====================================================
+# =========================
 @app.route("/calendario")
 def calendario():
-
-    return render_template(
-        "calendario.html",
-        calendario=ler_sheet("calendario")
-    )
+    return render_template("calendario.html", calendario=ler_sheet("calendario"))
 
 
 @app.route("/add_calendario", methods=["POST"])
@@ -302,31 +312,39 @@ def add_calendario():
     if not session.get("admin"):
         return redirect("/login")
 
-    calendario = ler_sheet("calendario")
+    data = ler_sheet("calendario")
 
-    calendario.append({
-
+    data.append({
         "evento": request.form["evento"],
         "data": request.form["data"],
         "descricao": request.form["descricao"]
-
     })
 
-    guardar_sheet("calendario", calendario)
-
+    guardar_sheet("calendario", data)
     return redirect("/admin")
 
 
-# =====================================================
-# PEDIDOS DE ORAÇÃO
-# =====================================================
+@app.route("/delete_calendario/<int:index>")
+def delete_calendario(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("calendario")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("calendario", data)
+    return redirect("/admin")
+
+
+# =========================
+# PEDIDO DE ORAÇÃO
+# =========================
 @app.route("/pedido_oracao")
 def pedido_oracao():
-
-    return render_template(
-        "pedido_oracao.html",
-        pedidos=ler_sheet("pedidos")
-    )
+    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
 
 
 @app.route("/add_pedido", methods=["POST"])
@@ -335,23 +353,35 @@ def add_pedido():
     if not session.get("admin"):
         return redirect("/login")
 
-    pedidos = ler_sheet("pedidos")
+    data = ler_sheet("pedidos")
 
-    pedidos.append({
-
+    data.append({
         "nome": request.form["nome"],
         "categoria": request.form["categoria"],
         "pedido": request.form["pedido"]
-
     })
 
-    guardar_sheet("pedidos", pedidos)
-
+    guardar_sheet("pedidos", data)
     return redirect("/admin")
 
 
-# =====================================================
-# EXECUTAR
-# =====================================================
+@app.route("/delete_pedido/<int:index>")
+def delete_pedido(index):
+
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+# =========================
+# RUN
+# =========================
 if __name__ == "__main__":
     app.run(debug=True)

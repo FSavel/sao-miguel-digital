@@ -231,13 +231,8 @@ def add_acolito():
     data = ler_sheet("acolitos")
 
     data.append({
-        "cruciferario": request.form["cruciferario"],
-        "turiferario": request.form["turiferario"],
-        "naveteiro": request.form["naveteiro"],
-        "cerimoniario": request.form["cerimoniario"],
-        "velas": request.form["velas"],
-        "missal": request.form["missal"],
-        "campainha": request.form["campainha"]
+        "funcao": request.form["funcao"],
+        "nome": request.form["nome"]
     })
 
     guardar_sheet("acolitos", data)
@@ -386,7 +381,7 @@ def delete_pedido(index):
 
 
 # =========================
-# ESCALAS DE SERVIÇO
+# ESCALAS DE SERVIÇO (UNIFICADO)
 # =========================
 @app.route("/escalas")
 def escalas():
@@ -394,11 +389,28 @@ def escalas():
     acolitos = ler_sheet("acolitos")
     leitores = ler_sheet("leitores")
 
-    return render_template(
-        "escalas.html",
-        acolitos=acolitos,
-        leitores=leitores
-    )
+    escalas = []
+
+    # transformar acólitos em formato comum
+    for a in acolitos:
+        for campo in ["funcao", "nome"]:
+            if campo in a and a[campo]:
+                escalas.append({
+                    "grupo": "Acólitos",
+                    "tipo": a.get("funcao", ""),
+                    "nome": a.get("nome", "")
+                })
+                break
+
+    # transformar leitores em formato comum
+    for l in leitores:
+        escalas.append({
+            "grupo": "Leitores",
+            "tipo": "Escala de Leitura",
+            "nome": f"{l.get('primeira_pt','')} / {l.get('salmo','')}"
+        })
+
+    return render_template("escalas.html", escalas=escalas)
 
 
 # =========================

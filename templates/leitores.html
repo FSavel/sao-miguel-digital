@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Escala dos Leitores</title>
+    <title>Escala de Leitores</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
@@ -23,25 +23,57 @@
     <!-- TÍTULO -->
 
     <h1 class="titulo-principal">
-        📖 Escala dos Leitores
+        📖 Escala de Leitores
     </h1>
 
     <p class="frase-biblica">
-        “A tua palavra é luz para os meus passos.” — Salmo 119
+        “A tua palavra é lâmpada para os meus pés.” — Salmo 119
     </p>
 
-    <!-- LISTA -->
+    <!-- ESCALA -->
 
     {% for l in leitores %}
 
     <div class="card">
 
-        <h2>
-            {{ l.funcao }}
-        </h2>
+        <p>
+            <b>Primeira Leitura em Português:</b>
+            {{ l.primeira_pt }}
+        </p>
+
+        <hr>
 
         <p>
-            {{ l.nome }}
+            <b>Primeira Leitura em Changana/Ronga:</b>
+            {{ l.primeira_ch }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Salmo:</b>
+            {{ l.salmo }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Segunda Leitura em Português:</b>
+            {{ l.segunda_pt }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Segunda Leitura em Changana/Ronga:</b>
+            {{ l.segunda_ch }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Oração dos Fiéis:</b>
+            {{ l.oracao_fieis }}
         </p>
 
     </div>

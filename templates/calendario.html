@@ -21,7 +21,6 @@
 <div class="container">
 
     <!-- TÍTULO -->
-
     <h1 class="titulo-principal">
         📅 Calendário Pastoral
     </h1>
@@ -31,29 +30,37 @@
     </p>
 
     <!-- LISTA DE EVENTOS -->
+    {% if calendario %}
 
-    {% for c in calendario %}
+        {% for c in calendario %}
 
-    <div class="card">
+        <div class="card">
 
-        <h2>
-            📌 {{ c.evento }}
-        </h2>
+            <h2>
+                📌 {{ c.evento }}
+            </h2>
 
-        <p>
-            📆 {{ c.data }}
-        </p>
+            <p>
+                📆 {{ c.data }}
+            </p>
 
-        <p>
-            {{ c.descricao }}
-        </p>
+            <p>
+                {{ c.descricao }}
+            </p>
 
-    </div>
+        </div>
 
-    {% endfor %}
+        {% endfor %}
 
-    <!-- VOLTAR -->
+    {% else %}
 
+        <div class="card">
+            <p>Nenhum evento disponível no calendário.</p>
+        </div>
+
+    {% endif %}
+
+    <!-- BOTÃO -->
     <a href="/" class="botao">
         🏠 Voltar ao Início
     </a>

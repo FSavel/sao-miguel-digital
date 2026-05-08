@@ -83,22 +83,28 @@ input, textarea {
 }
 
 /* =========================
-   BOTÕES
+   BOTÕES (AJUSTADO)
 ========================= */
 .botao {
     display: block;
     text-align: center;
-    background: #1e88e5;
-    color: white;
-    padding: 10px;
+
+    background: rgba(255, 255, 255, 0.92);
+    color: black;
+
+    padding: 12px;
     margin-top: 10px;
-    border-radius: 8px;
+
+    border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
+
+    transition: 0.3s;
 }
 
 .botao:hover {
-    background: #1565c0;
+    background: white;
+    transform: scale(1.02);
 }
 
 /* delete link */
@@ -111,55 +117,17 @@ input, textarea {
 /* =========================
    LOGIN
 ========================= */
-
-.login-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 90vh;
-    padding: 15px;
-}
-
-.login-card {
-    width: 100%;
+.login-container {
     max-width: 400px;
-
-    background: rgba(255,255,255,0.95);
-
-    padding: 25px;
-
-    border-radius: 15px;
-
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-}
-
-.login-card .titulo-principal {
-    color: black;
-    font-size: 28px;
-    margin-bottom: 25px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.login-form button {
-    border: none;
-    cursor: pointer;
-}
-
-.voltar-btn {
-    margin-top: 15px;
+    gap: 10px;
 }
 
 /* =========================
@@ -189,17 +157,5 @@ input, textarea {
 
     .botao {
         font-size: 16px;
-    }
-
-    .login-card {
-        padding: 20px;
-    }
-
-    .login-card .titulo-principal {
-        font-size: 22px;
-    }
-
-    .login-form input {
-        font-size: 15px;
     }
 }

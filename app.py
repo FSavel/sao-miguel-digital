@@ -11,7 +11,7 @@ ADMIN_PASS = "1234"
 
 
 # =========================
-# UTILITÁRIO GERAL
+# UTILITÁRIO
 # =========================
 def ler_sheet(nome):
     try:
@@ -92,140 +92,7 @@ def admin():
 
 
 # =========================
-# ROTAS PÚBLICAS (EVITAR 404)
-# =========================
-@app.route("/avisos")
-def avisos():
-    return render_template("avisos.html", avisos=ler_sheet("avisos"))
-
-
-@app.route("/leituras")
-def leituras():
-    return render_template("leituras.html", leituras=ler_sheet("leituras"))
-
-
-@app.route("/canticos")
-def canticos():
-    return render_template("canticos.html", canticos=ler_sheet("canticos"))
-
-
-@app.route("/pedido_oracao")
-def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
-
-
-@app.route("/calendario")
-def calendario():
-    return render_template("calendario.html", calendario=ler_sheet("calendario"))
-
-
-@app.route("/acolitos")
-def acolitos():
-    return render_template("acolitos.html", acolitos=ler_sheet("acolitos"))
-
-
-# =========================
-# AVISOS
-# =========================
-@app.route("/add_aviso", methods=["POST"])
-def add_aviso():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("avisos")
-
-    data.append({
-        "titulo": request.form["titulo"],
-        "descricao": request.form["descricao"]
-    })
-
-    guardar_sheet("avisos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_aviso/<int:index>")
-def delete_aviso(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("avisos")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("avisos", data)
-    return redirect("/admin")
-
-
-# =========================
-# LEITURAS (SEM ALTERAÇÃO)
-# =========================
-@app.route("/add_leitura", methods=["POST"])
-def add_leitura():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("leituras")
-
-    data.append({
-        "tipo": request.form["tipo"],
-        "texto": request.form["texto"]
-    })
-
-    guardar_sheet("leituras", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_leitura/<int:index>")
-def delete_leitura(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("leituras")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("leituras", data)
-    return redirect("/admin")
-
-
-# =========================
-# CÂNTICOS
-# =========================
-@app.route("/add_cantico", methods=["POST"])
-def add_cantico():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("canticos")
-
-    data.append({
-        "momento": request.form["momento"],
-        "cantico": request.form["cantico"],
-        "letra": request.form["letra"]
-    })
-
-    guardar_sheet("canticos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_cantico/<int:index>")
-def delete_cantico(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("canticos")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("canticos", data)
-    return redirect("/admin")
-
-
-# =========================
-# ACÓLITOS (SIMPLIFICADO E ESTÁVEL)
+# ACÓLITOS (CORRIGIDO)
 # =========================
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
@@ -235,8 +102,13 @@ def add_acolito():
     data = ler_sheet("acolitos")
 
     data.append({
-        "funcao": request.form["funcao"],
-        "nome": request.form["nome"]
+        "cruciferario": request.form["cruciferario"],
+        "turiferario": request.form["turiferario"],
+        "naveteiro": request.form["naveteiro"],
+        "cerimoniario": request.form["cerimoniario"],
+        "velas": request.form["velas"],
+        "missal": request.form["missal"],
+        "campainha": request.form["campainha"]
     })
 
     guardar_sheet("acolitos", data)
@@ -295,8 +167,99 @@ def delete_leitor(index):
 
 
 # =========================
-# CALENDÁRIO
+# RESTO DO SISTEMA (IGUAL AO TEU)
 # =========================
+@app.route("/add_aviso", methods=["POST"])
+def add_aviso():
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+
+    data.append({
+        "titulo": request.form["titulo"],
+        "descricao": request.form["descricao"]
+    })
+
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_aviso/<int:index>")
+def delete_aviso(index):
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/add_leitura", methods=["POST"])
+def add_leitura():
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    data.append({
+        "tipo": request.form["tipo"],
+        "texto": request.form["texto"]
+    })
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_leitura/<int:index>")
+def delete_leitura(index):
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/add_cantico", methods=["POST"])
+def add_cantico():
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    data.append({
+        "momento": request.form["momento"],
+        "cantico": request.form["cantico"],
+        "letra": request.form["letra"]
+    })
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_cantico/<int:index>")
+def delete_cantico(index):
+    if not session.get("admin"):
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
     if not session.get("admin"):
@@ -328,9 +291,6 @@ def delete_calendario(index):
     return redirect("/admin")
 
 
-# =========================
-# PEDIDOS DE ORAÇÃO
-# =========================
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
     if not session.get("admin"):
@@ -362,9 +322,6 @@ def delete_pedido(index):
     return redirect("/admin")
 
 
-# =========================
-# ESCALAS
-# =========================
 @app.route("/escalas")
 def escalas():
     return render_template(

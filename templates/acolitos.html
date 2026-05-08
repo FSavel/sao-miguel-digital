@@ -30,18 +30,57 @@
         “Servi ao Senhor com alegria.” — Salmo 100
     </p>
 
-    <!-- LISTA -->
+    <!-- ESCALA -->
 
     {% for a in acolitos %}
 
     <div class="card">
 
-        <h2>
-            {{ a.funcao }}
-        </h2>
+        <p>
+            <b>Cruciferário:</b>
+            {{ a.cruciferario }}
+        </p>
+
+        <hr>
 
         <p>
-            {{ a.nome }}
+            <b>Turiferário:</b>
+            {{ a.turiferario }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Naveteiro:</b>
+            {{ a.naveteiro }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Cerimoniário:</b>
+            {{ a.cerimoniario }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Velas:</b>
+            {{ a.velas }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Missal:</b>
+            {{ a.missal }}
+        </p>
+
+        <hr>
+
+        <p>
+            <b>Campainha:</b>
+            {{ a.campainha }}
         </p>
 
     </div>

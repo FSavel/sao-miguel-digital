@@ -21,7 +21,6 @@
 <div class="container">
 
     <!-- TÍTULO -->
-
     <h1 class="titulo-principal">
         🙏 Pedidos de Oração
     </h1>
@@ -30,8 +29,7 @@
         “Orai uns pelos outros.” — Tiago 5:16
     </p>
 
-    <!-- LISTA DOS PEDIDOS -->
-
+    <!-- LISTA -->
     {% if pedidos %}
 
         {% for p in pedidos %}
@@ -43,8 +41,7 @@
             </h2>
 
             <p>
-                <b>Categoria:</b>
-                {{ p.categoria }}
+                <b>Categoria:</b> {{ p.categoria }}
             </p>
 
             <hr>
@@ -60,17 +57,12 @@
     {% else %}
 
         <div class="card">
-
-            <p>
-                Nenhum pedido de oração disponível.
-            </p>
-
+            <p>Nenhum pedido de oração disponível.</p>
         </div>
 
     {% endif %}
 
-    <!-- VOLTAR -->
-
+    <!-- BOTÃO -->
     <a href="/" class="botao">
         🏠 Voltar ao Início
     </a>

@@ -1,38 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login Admin</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
 <div class="overlay">
-    <div class="container">
 
-        <h1>🔐 Login Admin</h1>
+    <div class="login-wrapper">
 
-        {% if erro %}
-            <p style="color:red;">{{ erro }}</p>
-        {% endif %}
+        <div class="login-card">
 
-        <form method="POST">
+            <h1 class="titulo-principal">
+                🔐 Login Admin
+            </h1>
 
-            <input type="text" name="username" placeholder="Utilizador" required>
-            <br><br>
+            <form method="POST" class="login-form">
 
-            <input type="password" name="password" placeholder="Senha" required>
-            <br><br>
+                <input type="text"
+                       name="username"
+                       placeholder="Utilizador"
+                       required>
 
-            <button type="submit" class="botao">Entrar</button>
+                <input type="password"
+                       name="password"
+                       placeholder="Senha"
+                       required>
 
-        </form>
+                <button type="submit" class="botao">
+                    Entrar
+                </button>
 
-        <br>
+            </form>
 
-        <a href="/" class="voltar">⬅️ Voltar</a>
+            <a href="/" class="botao voltar-btn">
+                ⬅️ Voltar
+            </a>
+
+        </div>
 
     </div>
+
 </div>
 
 </body>

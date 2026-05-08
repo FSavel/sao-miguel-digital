@@ -13,33 +13,51 @@
 
 <div class="container">
 
+    <!-- TÍTULO GERAL -->
     <h1 class="titulo-principal">👥 Escalas de Serviço</h1>
 
     <p class="frase-biblica">
-        “Tudo deve ser feito com ordem e decência.” — 1 Coríntios 14:40
+        “Servi ao Senhor com alegria.” — Salmo 100
     </p>
 
     {% if escalas %}
 
+        {% set grupos = {} %}
+
+        {# AGRUPAR POR TIPO DE SERVIÇO #}
         {% for e in escalas %}
+            {% if e.grupo not in grupos %}
+                {% set _ = grupos.update({e.grupo: []}) %}
+            {% endif %}
+            {% set _ = grupos[e.grupo].append(e) %}
+        {% endfor %}
 
-            <div class="card">
+        {# MOSTRAR TODOS OS GRUPOS #}
+        {% for grupo, itens in grupos.items() %}
 
-                <h2>{{ e.grupo }}</h2>
+            <h2 style="color:white; margin-top:20px;">
+                {{ grupo }}
+            </h2>
 
-                {% if e.tipo %}
-                    <p><strong>Tipo:</strong> {{ e.tipo }}</p>
-                {% endif %}
+            {% for e in itens %}
 
-                {% if e.funcao %}
-                    <p><strong>Função:</strong> {{ e.funcao }}</p>
-                {% endif %}
+                <div class="card">
 
-                {% if e.nome %}
-                    <p><strong>Nome:</strong> {{ e.nome }}</p>
-                {% endif %}
+                    {% if e.tipo %}
+                        <p><strong>Tipo:</strong> {{ e.tipo }}</p>
+                    {% endif %}
 
-            </div>
+                    {% if e.funcao %}
+                        <p><strong>Função:</strong> {{ e.funcao }}</p>
+                    {% endif %}
+
+                    {% if e.nome %}
+                        <p><strong>Nome:</strong> {{ e.nome }}</p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
 
         {% endfor %}
 
@@ -51,7 +69,7 @@
 
     {% endif %}
 
-    <a href="/" class="botao">⬅️ Voltar ao início</a>
+    <a href="/" class="botao">⬅️ Voltar ao Início</a>
 
 </div>
 

@@ -1,69 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>São Miguel Digital</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
 
-    <div class="overlay">
+<div class="overlay">
 
-        <div class="container">
+<div class="container">
 
-            <!-- TÍTULO -->
-            <h1 class="titulo-principal">
-                Plataforma digital da Paróquia São Miguel Arcanjo da Manhiça
-            </h1>
+    <!-- TÍTULO -->
+    <h1 class="titulo-principal">
+        Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
+    </h1>
 
-            <!-- FRASE -->
-            <p class="frase-biblica">
-                “Eu sou o caminho, a verdade e a vida.” — João 14:6
-            </p>
+    <!-- FRASE -->
+    <p class="frase-biblica">
+        “Eu sou o caminho, a verdade e a vida.” — João 14:6
+    </p>
 
-            <br>
+    <br>
 
-            <!-- MENU PRINCIPAL -->
+    <!-- MENU PRINCIPAL -->
 
-            <a href="/avisos" class="botao">
-                📢 Avisos Semanais
-            </a>
+    <a href="/avisos" class="botao">
+        📢 Avisos Semanais
+    </a>
 
-            <a href="/leituras" class="botao">
-                📖 Leituras
-            </a>
+    <a href="/leituras" class="botao">
+        📖 Leituras
+    </a>
 
-            <a href="/canticos" class="botao">
-                🎵 Cânticos
-            </a>
+    <a href="/canticos" class="botao">
+        🎵 Cânticos
+    </a>
 
-            <a href="/acolitos" class="botao">
-                👥 Escalas de Serviço
-            </a>
+    <!-- ALTERADO -->
+    <a href="/escalas" class="botao">
+        👥 Escalas de Serviço
+    </a>
 
-            <a href="/pedido_oracao" class="botao">
-                📥 Pedido de Oração
-            </a>
+    <a href="/pedido_oracao" class="botao">
+        📥 Pedido de Oração
+    </a>
 
-            <a href="/calendario" class="botao">
-                📅 Calendário Pastoral
-            </a>
+    <a href="/calendario" class="botao">
+        📅 Calendário Pastoral
+    </a>
 
-            <br>
+    <br>
 
-            <!-- ADMIN -->
+    <!-- ADMIN -->
+    <a href="/login" class="botao">
+        ⚙️ Admin
+    </a>
 
-            <a href="/login" class="botao">
-                ⚙️ Admin
-            </a>
+</div>
 
-        </div>
-
-    </div>
+</div>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Pedido de Oração</title>
+    <title>Pedidos de Oração</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
@@ -23,86 +23,51 @@
     <!-- TÍTULO -->
 
     <h1 class="titulo-principal">
-        📥 Pedido de Oração
+        🙏 Pedidos de Oração
     </h1>
 
     <p class="frase-biblica">
         “Orai uns pelos outros.” — Tiago 5:16
     </p>
 
-    <!-- FORMULÁRIO -->
+    <!-- LISTA DOS PEDIDOS -->
 
-    <div class="card">
+    {% if pedidos %}
 
-        <form action="/enviar_oracao" method="POST">
+        {% for p in pedidos %}
 
-            <!-- NOME -->
+        <div class="card">
 
-            <input type="text"
-                   name="nome"
-                   placeholder="Seu nome (opcional)">
+            <h2>
+                {{ p.nome }}
+            </h2>
 
-            <br><br>
+            <p>
+                <b>Categoria:</b>
+                {{ p.categoria }}
+            </p>
 
-            <!-- CATEGORIA -->
+            <hr>
 
-            <select name="categoria" required
-                    style="
-                    width:90%;
-                    padding:12px;
-                    border-radius:10px;
-                    border:none;
-                    font-size:14px;">
+            <p>
+                {{ p.pedido }}
+            </p>
 
-                <option value="">
-                    Selecione a categoria
-                </option>
+        </div>
 
-                <option value="Saúde">
-                    Saúde
-                </option>
+        {% endfor %}
 
-                <option value="Família">
-                    Família
-                </option>
+    {% else %}
 
-                <option value="Trabalho">
-                    Trabalho
-                </option>
+        <div class="card">
 
-                <option value="Estudos">
-                    Estudos
-                </option>
+            <p>
+                Nenhum pedido de oração disponível.
+            </p>
 
-                <option value="Falecido">
-                    Falecido
-                </option>
+        </div>
 
-                <option value="Agradecimento">
-                    Agradecimento
-                </option>
-
-            </select>
-
-            <br><br>
-
-            <!-- PEDIDO -->
-
-            <textarea name="pedido"
-                      placeholder="Escreva aqui o seu pedido de oração..."
-                      required></textarea>
-
-            <br><br>
-
-            <!-- BOTÃO -->
-
-            <button class="botao" type="submit">
-                🙏 Enviar Pedido
-            </button>
-
-        </form>
-
-    </div>
+    {% endif %}
 
     <!-- VOLTAR -->
 

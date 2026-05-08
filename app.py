@@ -35,6 +35,14 @@ def guardar_sheet(nome, lista):
 
 
 # =========================
+# HOME
+# =========================
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+# =========================
 # LOGIN
 # =========================
 @app.route("/login", methods=["GET", "POST"])
@@ -54,21 +62,10 @@ def login():
     return render_template("login.html", erro=erro)
 
 
-# =========================
-# LOGOUT
-# =========================
 @app.route("/logout")
 def logout():
     session.pop("admin", None)
     return redirect("/")
-
-
-# =========================
-# HOME
-# =========================
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 
 # =========================
@@ -92,13 +89,92 @@ def admin():
 
 
 # =========================
-# ACÓLITOS (CORRIGIDO)
+# AVISOS
+# =========================
+@app.route("/add_aviso", methods=["POST"])
+def add_aviso():
+    data = ler_sheet("avisos")
+
+    data.append({
+        "titulo": request.form["titulo"],
+        "descricao": request.form["descricao"]
+    })
+
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_aviso/<int:index>")
+def delete_aviso(index):
+    data = ler_sheet("avisos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+# =========================
+# LEITURAS
+# =========================
+@app.route("/add_leitura", methods=["POST"])
+def add_leitura():
+    data = ler_sheet("leituras")
+
+    data.append({
+        "tipo": request.form["tipo"],
+        "texto": request.form["texto"]
+    })
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_leitura/<int:index>")
+def delete_leitura(index):
+    data = ler_sheet("leituras")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+# =========================
+# CÂNTICOS
+# =========================
+@app.route("/add_cantico", methods=["POST"])
+def add_cantico():
+    data = ler_sheet("canticos")
+
+    data.append({
+        "momento": request.form["momento"],
+        "cantico": request.form["cantico"],
+        "letra": request.form["letra"]
+    })
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_cantico/<int:index>")
+def delete_cantico(index):
+    data = ler_sheet("canticos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+# =========================
+# ACÓLITOS
 # =========================
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("acolitos")
 
     data.append({
@@ -117,9 +193,6 @@ def add_acolito():
 
 @app.route("/delete_acolito/<int:index>")
 def delete_acolito(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("acolitos")
 
     if 0 <= index < len(data):
@@ -130,13 +203,10 @@ def delete_acolito(index):
 
 
 # =========================
-# LEITORES (SEM ALTERAÇÃO)
+# LEITORES
 # =========================
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("leitores")
 
     data.append({
@@ -154,9 +224,6 @@ def add_leitor():
 
 @app.route("/delete_leitor/<int:index>")
 def delete_leitor(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("leitores")
 
     if 0 <= index < len(data):
@@ -167,104 +234,10 @@ def delete_leitor(index):
 
 
 # =========================
-# RESTO DO SISTEMA (IGUAL AO TEU)
+# CALENDÁRIO
 # =========================
-@app.route("/add_aviso", methods=["POST"])
-def add_aviso():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("avisos")
-
-    data.append({
-        "titulo": request.form["titulo"],
-        "descricao": request.form["descricao"]
-    })
-
-    guardar_sheet("avisos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_aviso/<int:index>")
-def delete_aviso(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("avisos")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("avisos", data)
-    return redirect("/admin")
-
-
-@app.route("/add_leitura", methods=["POST"])
-def add_leitura():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("leituras")
-
-    data.append({
-        "tipo": request.form["tipo"],
-        "texto": request.form["texto"]
-    })
-
-    guardar_sheet("leituras", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_leitura/<int:index>")
-def delete_leitura(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("leituras")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("leituras", data)
-    return redirect("/admin")
-
-
-@app.route("/add_cantico", methods=["POST"])
-def add_cantico():
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("canticos")
-
-    data.append({
-        "momento": request.form["momento"],
-        "cantico": request.form["cantico"],
-        "letra": request.form["letra"]
-    })
-
-    guardar_sheet("canticos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_cantico/<int:index>")
-def delete_cantico(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
-    data = ler_sheet("canticos")
-
-    if 0 <= index < len(data):
-        data.pop(index)
-
-    guardar_sheet("canticos", data)
-    return redirect("/admin")
-
-
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("calendario")
 
     data.append({
@@ -279,9 +252,6 @@ def add_calendario():
 
 @app.route("/delete_calendario/<int:index>")
 def delete_calendario(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("calendario")
 
     if 0 <= index < len(data):
@@ -291,11 +261,11 @@ def delete_calendario(index):
     return redirect("/admin")
 
 
+# =========================
+# PEDIDOS
+# =========================
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("pedidos")
 
     data.append({
@@ -310,9 +280,6 @@ def add_pedido():
 
 @app.route("/delete_pedido/<int:index>")
 def delete_pedido(index):
-    if not session.get("admin"):
-        return redirect("/login")
-
     data = ler_sheet("pedidos")
 
     if 0 <= index < len(data):
@@ -322,6 +289,9 @@ def delete_pedido(index):
     return redirect("/admin")
 
 
+# =========================
+# ESCALAS
+# =========================
 @app.route("/escalas")
 def escalas():
     return render_template(

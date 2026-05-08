@@ -1,75 +1,195 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Escalas de Serviço</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
 <div class="overlay">
 
 <div class="container">
 
-    <!-- TÍTULO GERAL -->
-    <h1 class="titulo-principal">👥 Escalas de Serviço</h1>
+    <!-- TÍTULO -->
+    <h1 class="titulo-principal">
+        👥 Escalas de Serviço
+    </h1>
 
     <p class="frase-biblica">
         “Servi ao Senhor com alegria.” — Salmo 100
     </p>
 
-    {% if escalas %}
 
-        {% set grupos = {} %}
+    <!-- ===================== ACÓLITOS ===================== -->
 
-        {# AGRUPAR POR TIPO DE SERVIÇO #}
-        {% for e in escalas %}
-            {% if e.grupo not in grupos %}
-                {% set _ = grupos.update({e.grupo: []}) %}
-            {% endif %}
-            {% set _ = grupos[e.grupo].append(e) %}
-        {% endfor %}
+    <div class="card">
 
-        {# MOSTRAR TODOS OS GRUPOS #}
-        {% for grupo, itens in grupos.items() %}
+        <h2>👦 Escala dos Acólitos</h2>
 
-            <h2 style="color:white; margin-top:20px;">
-                {{ grupo }}
-            </h2>
+        {% if acolitos %}
 
-            {% for e in itens %}
+            {% for a in acolitos %}
 
-                <div class="card">
+                <p>
+                    <b>Cruciferário:</b>
+                    {{ a.cruciferario }}
+                </p>
 
-                    {% if e.tipo %}
-                        <p><strong>Tipo:</strong> {{ e.tipo }}</p>
-                    {% endif %}
+                <hr>
 
-                    {% if e.funcao %}
-                        <p><strong>Função:</strong> {{ e.funcao }}</p>
-                    {% endif %}
+                <p>
+                    <b>Turiferário:</b>
+                    {{ a.turiferario }}
+                </p>
 
-                    {% if e.nome %}
-                        <p><strong>Nome:</strong> {{ e.nome }}</p>
-                    {% endif %}
+                <hr>
 
-                </div>
+                <p>
+                    <b>Naveteiro:</b>
+                    {{ a.naveteiro }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Cerimoniário:</b>
+                    {{ a.cerimoniario }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Velas:</b>
+                    {{ a.velas }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Missal:</b>
+                    {{ a.missal }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Campainha:</b>
+                    {{ a.campainha }}
+                </p>
 
             {% endfor %}
 
-        {% endfor %}
+        {% else %}
 
-    {% else %}
+            <p>Nenhuma escala de acólitos disponível.</p>
 
-        <div class="card">
-            <p>Nenhuma escala disponível.</p>
-        </div>
+        {% endif %}
 
-    {% endif %}
+    </div>
 
-    <a href="/" class="botao">⬅️ Voltar ao Início</a>
+
+    <!-- ===================== LEITORES ===================== -->
+
+    <div class="card">
+
+        <h2>📖 Escala de Leitores</h2>
+
+        {% if leitores %}
+
+            {% for l in leitores %}
+
+                <p>
+                    <b>1ª Leitura PT:</b>
+                    {{ l.primeira_pt }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>1ª Leitura CH/Ronga:</b>
+                    {{ l.primeira_ch }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Salmo:</b>
+                    {{ l.salmo }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>2ª Leitura PT:</b>
+                    {{ l.segunda_pt }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>2ª Leitura CH/Ronga:</b>
+                    {{ l.segunda_ch }}
+                </p>
+
+                <hr>
+
+                <p>
+                    <b>Oração dos Fiéis:</b>
+                    {{ l.oracao_fieis }}
+                </p>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>Nenhuma escala de leitores disponível.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ===================== ACOLHIMENTO ===================== -->
+
+    <div class="card">
+
+        <h2>🤝 Acolhimento</h2>
+
+        <p>
+            Escala ainda não configurada.
+        </p>
+
+    </div>
+
+
+    <!-- ===================== OUTROS SERVIÇOS ===================== -->
+
+    <div class="card">
+
+        <h2>⛪ Outros Serviços</h2>
+
+        <p>
+            Escala ainda não configurada.
+        </p>
+
+    </div>
+
+
+    <!-- BOTÃO VOLTAR -->
+
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
 
 </div>
 

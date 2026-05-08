@@ -14,16 +14,13 @@
 <body>
 
 <div class="overlay">
-
 <div class="container">
 
-    <!-- HEADER -->
     <h1 class="titulo-principal">⚙️ Painel Administrativo</h1>
 
     <p class="frase-biblica">
         Gestão da Paróquia São Miguel Arcanjo
     </p>
-
 
     <!-- ===================== AVISOS ===================== -->
     <div class="card">
@@ -31,29 +28,21 @@
         <h2>📢 Avisos Semanais</h2>
 
         <form action="/add_aviso" method="POST">
-
             <input type="text" name="titulo" placeholder="Título" required>
             <textarea name="descricao" placeholder="Descrição" required></textarea>
-
             <button class="botao" type="submit">Adicionar</button>
-
         </form>
 
         <hr>
 
         {% for a in avisos %}
-
             <p><b>{{ a.titulo }}</b></p>
             <p>{{ a.descricao }}</p>
-
             <a class="delete" href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
-
         {% endfor %}
 
     </div>
-
 
     <!-- ===================== LEITURAS ===================== -->
     <div class="card">
@@ -61,29 +50,21 @@
         <h2>📖 Leituras</h2>
 
         <form action="/add_leitura" method="POST">
-
-            <input type="text" name="tipo" placeholder="Ex: Primeira Leitura PT" required>
+            <input type="text" name="tipo" placeholder="Tipo de leitura" required>
             <textarea name="texto" placeholder="Texto da leitura" required></textarea>
-
             <button class="botao" type="submit">Adicionar</button>
-
         </form>
 
         <hr>
 
         {% for l in leituras %}
-
             <p><b>{{ l.tipo }}</b></p>
             <p>{{ l.texto }}</p>
-
             <a class="delete" href="/delete_leitura/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
-
         {% endfor %}
 
     </div>
-
 
     <!-- ===================== CÂNTICOS ===================== -->
     <div class="card">
@@ -91,31 +72,23 @@
         <h2>🎵 Cânticos</h2>
 
         <form action="/add_cantico" method="POST">
-
             <input type="text" name="momento" placeholder="Momento" required>
             <input type="text" name="cantico" placeholder="Nome do cântico" required>
             <textarea name="letra" placeholder="Letra" required></textarea>
-
             <button class="botao" type="submit">Adicionar</button>
-
         </form>
 
         <hr>
 
         {% for c in canticos %}
-
             <p><b>{{ c.momento }}</b> - {{ c.cantico }}</p>
-
             <a class="delete" href="/delete_cantico/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
-
         {% endfor %}
 
     </div>
 
-
-    <!-- ===================== ACÓLITOS ===================== -->
+    <!-- ===================== ACÓLITOS (FIXO E COMPATÍVEL) ===================== -->
     <div class="card">
 
         <h2>👦 Escala dos Acólitos</h2>
@@ -147,15 +120,13 @@
             <p><b>Campainha:</b> {{ a.campainha }}</p>
 
             <a class="delete" href="/delete_acolito/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
 
         {% endfor %}
 
     </div>
 
-
-    <!-- ===================== LEITORES (SEM ALTERAÇÃO) ===================== -->
+    <!-- ===================== LEITORES ===================== -->
     <div class="card">
 
         <h2>📖 Escala de Leitores</h2>
@@ -185,13 +156,11 @@
             <p><b>Oração:</b> {{ l.oracao_fieis }}</p>
 
             <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
 
         {% endfor %}
 
     </div>
-
 
     <!-- ===================== CALENDÁRIO ===================== -->
     <div class="card">
@@ -199,30 +168,22 @@
         <h2>📅 Calendário Pastoral</h2>
 
         <form action="/add_calendario" method="POST">
-
             <input type="text" name="evento" placeholder="Evento" required>
             <input type="date" name="data" required>
             <textarea name="descricao" placeholder="Descrição" required></textarea>
-
             <button class="botao" type="submit">Adicionar</button>
-
         </form>
 
         <hr>
 
         {% for c in calendario %}
-
             <p><b>{{ c.evento }}</b> - {{ c.data }}</p>
             <p>{{ c.descricao }}</p>
-
             <a class="delete" href="/delete_calendario/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
-
         {% endfor %}
 
     </div>
-
 
     <!-- ===================== PEDIDOS ===================== -->
     <div class="card">
@@ -251,26 +212,20 @@
         <hr>
 
         {% for p in pedidos %}
-
             <p><b>{{ p.nome }}</b></p>
             <p>{{ p.categoria }}</p>
             <p>{{ p.pedido }}</p>
-
             <a class="delete" href="/delete_pedido/{{ loop.index0 }}">❌ Apagar</a>
-
             <hr>
-
         {% endfor %}
 
     </div>
-
 
     <!-- BOTÕES -->
     <a href="/" class="botao">🏠 Início</a>
     <a href="/logout" class="botao">🚪 Sair</a>
 
 </div>
-
 </div>
 
 </body>

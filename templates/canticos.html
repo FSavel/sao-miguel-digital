@@ -32,29 +32,35 @@
 
     <!-- LISTA DE CÂNTICOS -->
 
-    {% for c in canticos %}
+    {% if canticos %}
 
-    <div class="card">
+        {% for c in canticos %}
 
-        <h2>
-            🎼 {{ c.momento }}
-        </h2>
+            <div class="card">
 
-        <p>
-            <b>{{ c.cantico }}</b>
-        </p>
+                <h2>🎼 {{ c.momento }}</h2>
 
-        <hr>
+                <p><b>{{ c.cantico }}</b></p>
 
-        <h3>📜 Letra</h3>
+                <hr>
 
-        <p style="white-space: pre-line;">
-            {{ c.letra }}
-        </p>
+                <h3>📜 Letra</h3>
 
-    </div>
+                <p style="white-space: pre-line;">
+                    {{ c.letra }}
+                </p>
 
-    {% endfor %}
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card">
+            <p>Nenhum cântico disponível.</p>
+        </div>
+
+    {% endif %}
 
     <!-- VOLTAR -->
 

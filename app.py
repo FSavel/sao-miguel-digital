@@ -89,6 +89,35 @@ def admin():
 
 
 # =========================
+# PÁGINAS PÚBLICAS (FALTAVAM)
+# =========================
+
+@app.route("/avisos")
+def avisos():
+    return render_template("avisos.html", avisos=ler_sheet("avisos"))
+
+
+@app.route("/leituras")
+def leituras():
+    return render_template("leituras.html", leituras=ler_sheet("leituras"))
+
+
+@app.route("/canticos")
+def canticos():
+    return render_template("canticos.html", canticos=ler_sheet("canticos"))
+
+
+@app.route("/pedido_oracao")
+def pedido_oracao():
+    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
+
+
+@app.route("/calendario")
+def calendario():
+    return render_template("calendario.html", calendario=ler_sheet("calendario"))
+
+
+# =========================
 # AVISOS
 # =========================
 @app.route("/add_aviso", methods=["POST"])

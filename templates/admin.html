@@ -33,7 +33,6 @@
         <form action="/add_aviso" method="POST">
 
             <input type="text" name="titulo" placeholder="Título" required>
-
             <textarea name="descricao" placeholder="Descrição" required></textarea>
 
             <button class="botao" type="submit">Adicionar</button>
@@ -64,7 +63,6 @@
         <form action="/add_leitura" method="POST">
 
             <input type="text" name="tipo" placeholder="Ex: Primeira Leitura PT" required>
-
             <textarea name="texto" placeholder="Texto da leitura" required></textarea>
 
             <button class="botao" type="submit">Adicionar</button>
@@ -95,9 +93,7 @@
         <form action="/add_cantico" method="POST">
 
             <input type="text" name="momento" placeholder="Momento" required>
-
             <input type="text" name="cantico" placeholder="Nome do cântico" required>
-
             <textarea name="letra" placeholder="Letra" required></textarea>
 
             <button class="botao" type="submit">Adicionar</button>
@@ -126,40 +122,13 @@
 
         <form action="/add_acolito" method="POST">
 
-            <input type="text"
-                   name="cruciferario"
-                   placeholder="Cruciferário"
-                   required>
-
-            <input type="text"
-                   name="turiferario"
-                   placeholder="Turiferário"
-                   required>
-
-            <input type="text"
-                   name="naveteiro"
-                   placeholder="Naveteiro"
-                   required>
-
-            <input type="text"
-                   name="cerimoniario"
-                   placeholder="Cerimoniário"
-                   required>
-
-            <input type="text"
-                   name="velas"
-                   placeholder="Velas"
-                   required>
-
-            <input type="text"
-                   name="missal"
-                   placeholder="Missal"
-                   required>
-
-            <input type="text"
-                   name="campainha"
-                   placeholder="Campainha"
-                   required>
+            <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+            <input type="text" name="turiferario" placeholder="Turiferário" required>
+            <input type="text" name="naveteiro" placeholder="Naveteiro" required>
+            <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
+            <input type="text" name="velas" placeholder="Velas" required>
+            <input type="text" name="missal" placeholder="Missal" required>
+            <input type="text" name="campainha" placeholder="Campainha" required>
 
             <button class="botao" type="submit">Adicionar</button>
 
@@ -186,7 +155,7 @@
     </div>
 
 
-    <!-- ===================== LEITORES ===================== -->
+    <!-- ===================== LEITORES (SEM ALTERAÇÃO) ===================== -->
     <div class="card">
 
         <h2>📖 Escala de Leitores</h2>
@@ -265,14 +234,12 @@
             <input type="text" name="nome" placeholder="Nome" required>
 
             <select name="categoria" required>
-
                 <option value="Saúde">Saúde</option>
                 <option value="Família">Família</option>
                 <option value="Trabalho">Trabalho</option>
                 <option value="Estudos">Estudos</option>
                 <option value="Falecido">Falecido</option>
                 <option value="Agradecimento">Agradecimento</option>
-
             </select>
 
             <textarea name="pedido" placeholder="Pedido de oração" required></textarea>

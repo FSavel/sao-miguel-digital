@@ -3,14 +3,11 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>Leitores</title>
 
-    <title>Escala de Leitores</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -21,67 +18,72 @@
 <div class="container">
 
     <!-- TÍTULO -->
-
     <h1 class="titulo-principal">
-        📖 Escala de Leitores
+        📖 Leitores
     </h1>
 
     <p class="frase-biblica">
-        “A tua palavra é lâmpada para os meus pés.” — Salmo 119
+        “A tua palavra é lâmpada para os meus pés.” — Salmo 119:105
     </p>
 
-    <!-- ESCALA -->
-
-    {% for l in leitores %}
-
+    <!-- ===================== FORMULÁRIO ===================== -->
     <div class="card">
 
-        <p>
-            <b>Primeira Leitura em Português:</b>
-            {{ l.primeira_pt }}
-        </p>
+        <h2>➕ Adicionar Escala de Leitores</h2>
 
-        <hr>
+        <form action="/add_leitor" method="POST">
 
-        <p>
-            <b>Primeira Leitura em Changana/Ronga:</b>
-            {{ l.primeira_ch }}
-        </p>
+            <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
+            <input type="text" name="primeira_ch" placeholder="1ª Leitura CH/Ronga">
 
-        <hr>
+            <input type="text" name="salmo" placeholder="Salmo" required>
 
-        <p>
-            <b>Salmo:</b>
-            {{ l.salmo }}
-        </p>
+            <input type="text" name="segunda_pt" placeholder="2ª Leitura PT">
+            <input type="text" name="segunda_ch" placeholder="2ª Leitura CH/Ronga">
 
-        <hr>
+            <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
 
-        <p>
-            <b>Segunda Leitura em Português:</b>
-            {{ l.segunda_pt }}
-        </p>
+            <button class="botao" type="submit">
+                Guardar Escala
+            </button>
 
-        <hr>
-
-        <p>
-            <b>Segunda Leitura em Changana/Ronga:</b>
-            {{ l.segunda_ch }}
-        </p>
-
-        <hr>
-
-        <p>
-            <b>Oração dos Fiéis:</b>
-            {{ l.oracao_fieis }}
-        </p>
+        </form>
 
     </div>
 
-    {% endfor %}
+    <!-- ===================== LISTA ===================== -->
+    <div class="card">
+
+        <h2>📋 Escalas Registadas</h2>
+
+        {% if leitores %}
+
+            {% for l in leitores %}
+
+                <p><b>1ª Leitura PT:</b> {{ l.primeira_pt }}</p>
+                <p><b>1ª Leitura CH/Ronga:</b> {{ l.primeira_ch }}</p>
+                <p><b>Salmo:</b> {{ l.salmo }}</p>
+                <p><b>2ª Leitura PT:</b> {{ l.segunda_pt }}</p>
+                <p><b>2ª Leitura CH/Ronga:</b> {{ l.segunda_ch }}</p>
+                <p><b>Oração dos Fiéis:</b> {{ l.oracao_fieis }}</p>
+
+                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+                <hr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>Nenhuma escala de leitores registada.</p>
+
+        {% endif %}
+
+    </div>
 
     <!-- VOLTAR -->
-
     <a href="/" class="botao">
         🏠 Voltar ao Início
     </a>

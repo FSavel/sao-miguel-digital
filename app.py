@@ -39,6 +39,7 @@ def guardar_sheet(nome, lista):
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
     erro = None
 
     if request.method == "POST":
@@ -102,6 +103,7 @@ def avisos():
 
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -118,6 +120,7 @@ def add_aviso():
 
 @app.route("/delete_aviso/<int:index>")
 def delete_aviso(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -140,6 +143,7 @@ def leituras():
 
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -156,6 +160,7 @@ def add_leitura():
 
 @app.route("/delete_leitura/<int:index>")
 def delete_leitura(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -178,6 +183,7 @@ def canticos():
 
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -195,6 +201,7 @@ def add_cantico():
 
 @app.route("/delete_cantico/<int:index>")
 def delete_cantico(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -217,6 +224,7 @@ def acolitos():
 
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -233,6 +241,7 @@ def add_acolito():
 
 @app.route("/delete_acolito/<int:index>")
 def delete_acolito(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -255,6 +264,7 @@ def leitores():
 
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -275,6 +285,7 @@ def add_leitor():
 
 @app.route("/delete_leitor/<int:index>")
 def delete_leitor(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -297,6 +308,7 @@ def calendario():
 
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -314,6 +326,7 @@ def add_calendario():
 
 @app.route("/delete_calendario/<int:index>")
 def delete_calendario(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -336,6 +349,7 @@ def pedido_oracao():
 
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -353,6 +367,7 @@ def add_pedido():
 
 @app.route("/delete_pedido/<int:index>")
 def delete_pedido(index):
+
     if not session.get("admin"):
         return redirect("/login")
 
@@ -363,6 +378,19 @@ def delete_pedido(index):
 
     guardar_sheet("pedidos", data)
     return redirect("/admin")
+
+
+# =========================
+# ESCALAS DE SERVIÇO (CORRIGIDO)
+# =========================
+@app.route("/escalas")
+def escalas():
+
+    return render_template(
+        "escalas.html",
+        acolitos=ler_sheet("acolitos"),
+        leitores=ler_sheet("leitores")
+    )
 
 
 # =========================

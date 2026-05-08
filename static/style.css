@@ -9,11 +9,11 @@
    FUNDO
 ========================= */
 body {
-    background: url("/static/igreja.jpg") no-repeat center center fixed;
+    background: url("../static/igreja.jpg") no-repeat center center fixed;
     background-size: cover;
 }
 
-/* overlay mais transparente */
+/* overlay */
 .overlay {
     min-height: 100vh;
     background: rgba(0, 0, 0, 0.55);
@@ -56,7 +56,6 @@ body {
     border-radius: 10px;
 }
 
-/* textos dentro dos cards SEMPRE PRETOS */
 .card p,
 .card h2,
 .card h3,
@@ -64,7 +63,7 @@ body {
     color: black;
 }
 
-/* título dos cards */
+/* títulos dos cards */
 .card h2 {
     font-weight: bold;
     margin-bottom: 10px;
@@ -72,10 +71,19 @@ body {
     padding-bottom: 5px;
 }
 
+/* separação visual */
+.card hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
 /* =========================
    INPUTS
 ========================= */
-input, textarea, select {
+input,
+textarea,
+select {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -104,6 +112,8 @@ input, textarea, select {
 
     transition: 0.3s;
     border: 1px solid rgba(0,0,0,0.1);
+
+    cursor: pointer;
 }
 
 .botao:hover {
@@ -141,26 +151,9 @@ input, textarea, select {
     gap: 10px;
 }
 
-/* erro login */
 .erro {
     color: red;
     margin-bottom: 10px;
-}
-
-/* =========================
-   ESCALAS (organização visual)
-========================= */
-.card h2 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: black;
-}
-
-/* separação visual dentro das escalas */
-.card hr {
-    margin: 8px 0;
-    border: none;
-    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 /* =========================

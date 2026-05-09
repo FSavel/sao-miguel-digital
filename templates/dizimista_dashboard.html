@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Espaço</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="overlay">
+<div class="container">
+
+<h2>👤 Olá, {{ user.nome }}</h2>
+
+<p><b>Número:</b> {{ user.numero }}</p>
+<p><b>Email:</b> {{ user.email }}</p>
+<p><b>Contacto:</b> {{ user.contacto }}</p>
+
+<br>
+
+<h3>💰 Minhas Contribuições</h3>
+
+{% if contribuicoes %}
+    {% for c in contribuicoes %}
+        <div class="card">
+            <p><b>Valor:</b> {{ c.valor }} MZN</p>
+            <p><b>Data:</b> {{ c.data }}</p>
+            <p><b>Descrição:</b> {{ c.descricao }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Sem contribuições registadas.</p>
+{% endif %}
+
+<br>
+
+<a href="/dizimista_logout" class="botao">🚪 Sair</a>
+
+</div>
+</div>
+
+</body>
+</html>

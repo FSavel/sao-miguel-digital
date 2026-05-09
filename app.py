@@ -1,11 +1,16 @@
 from flask import Flask, render_template, request, redirect, session
+import pandas as pd
 import os
 import json
+
+# Google Sheets
 import gspread
 from google.oauth2.service_account import Credentials
 
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
+
+EXCEL_FILE = "paroquia.xlsx"
 
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -13,49 +18,81 @@ ADMIN_PASS = "1234"
 # =========================
 # GOOGLE SHEETS CONFIG
 # =========================
+SPREADSHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
 
-creds_json = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+gc = None
+sheet = None
 
-scope = [
-    "https://spreadsheets.google.com/feeds",
-    "https://www.googleapis.com/auth/drive"
-]
+try:
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
 
-creds = Credentials.from_service_account_info(creds_json, scopes=scope)
-client = gspread.authorize(creds)
+    if creds_json:
+        creds_dict = json.loads(creds_json)
 
-SHEET_NAME = "paroquia"
-sheet = client.open(SHEET_NAME)
+        scopes = [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ]
+
+        creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+        gc = gspread.authorize(creds)
+
+        sheet = gc.open_by_key(SPREADSHEET_ID)
+
+        print("✅ Google Sheets ligado com sucesso!")
+
+except Exception as e:
+    print("⚠️ Google Sheets não ativado, a usar Excel:", e)
 
 
 # =========================
-# UTILITÁRIO (SUBSTITUI EXCEL)
+# UTILITÁRIO (HÍBRIDO)
 # =========================
-
 def ler_sheet(nome):
     try:
-        ws = sheet.worksheet(nome)
-        return ws.get_all_records()
+        # GOOGLE SHEETS
+        if sheet:
+            ws = sheet.worksheet(nome)
+            return ws.get_all_records()
+
+        # EXCEL fallback
+        df = pd.read_excel(EXCEL_FILE, sheet_name=nome)
+        df = df.fillna("")
+        return df.to_dict(orient="records")
+
     except:
         return []
 
 
 def guardar_sheet(nome, lista):
-    try:
-        ws = sheet.worksheet(nome)
-        ws.clear()
+    df = pd.DataFrame(lista)
 
-        if len(lista) > 0:
-            ws.update([list(lista[0].keys())] +
-                      [list(i.values()) for i in lista])
-    except:
-        pass
+    try:
+        # GOOGLE SHEETS
+        if sheet:
+            ws = sheet.worksheet(nome)
+            ws.clear()
+
+            if not df.empty:
+                ws.update([df.columns.values.tolist()] + df.values.tolist())
+            return
+
+        # EXCEL fallback
+        with pd.ExcelWriter(
+            EXCEL_FILE,
+            engine="openpyxl",
+            mode="a",
+            if_sheet_exists="replace"
+        ) as writer:
+            df.to_excel(writer, sheet_name=nome, index=False)
+
+    except Exception as e:
+        print("Erro ao guardar:", e)
 
 
 # =========================
 # HOME
 # =========================
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -64,7 +101,6 @@ def index():
 # =========================
 # LOGIN
 # =========================
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
@@ -91,7 +127,6 @@ def logout():
 # =========================
 # ADMIN
 # =========================
-
 @app.route("/admin")
 def admin():
     if not session.get("admin"):
@@ -112,7 +147,6 @@ def admin():
 # =========================
 # PÁGINAS PÚBLICAS
 # =========================
-
 @app.route("/avisos")
 def avisos():
     return render_template("avisos.html", avisos=ler_sheet("avisos"))
@@ -139,9 +173,8 @@ def calendario():
 
 
 # =========================
-# AVISOS
+# CRUD AVISOS
 # =========================
-
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
     data = ler_sheet("avisos")
@@ -169,7 +202,6 @@ def delete_aviso(index):
 # =========================
 # LEITURAS
 # =========================
-
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
     data = ler_sheet("leituras")
@@ -197,7 +229,6 @@ def delete_leitura(index):
 # =========================
 # CÂNTICOS
 # =========================
-
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
     data = ler_sheet("canticos")
@@ -226,7 +257,6 @@ def delete_cantico(index):
 # =========================
 # ACÓLITOS
 # =========================
-
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
     data = ler_sheet("acolitos")
@@ -259,7 +289,6 @@ def delete_acolito(index):
 # =========================
 # LEITORES
 # =========================
-
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
     data = ler_sheet("leitores")
@@ -291,7 +320,6 @@ def delete_leitor(index):
 # =========================
 # CALENDÁRIO
 # =========================
-
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
     data = ler_sheet("calendario")
@@ -320,7 +348,6 @@ def delete_calendario(index):
 # =========================
 # PEDIDOS
 # =========================
-
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
     data = ler_sheet("pedidos")
@@ -349,7 +376,6 @@ def delete_pedido(index):
 # =========================
 # ESCALAS
 # =========================
-
 @app.route("/escalas")
 def escalas():
     return render_template(
@@ -362,6 +388,5 @@ def escalas():
 # =========================
 # RUN
 # =========================
-
 if __name__ == "__main__":
     app.run(debug=True)

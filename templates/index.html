@@ -17,13 +17,9 @@
      TICKER DE AVISOS
 ========================= -->
 <div class="ticker">
-    <span id="aviso">
-        {% if avisos and avisos|length > 0 %}
-            📢 {{ avisos[0].titulo }} - {{ avisos[0].descricao }}
-        {% else %}
-            Sem avisos no momento.
-        {% endif %}
-    </span>
+    <div class="ticker-content" id="ticker-content">
+        Carregando avisos...
+    </div>
 </div>
 
 <div class="overlay">
@@ -44,19 +40,62 @@
 
         <!-- MENU PRINCIPAL -->
         <a href="/avisos" class="botao">📢 Avisos Semanais</a>
+
         <a href="/leituras" class="botao">📖 Leituras</a>
+
         <a href="/canticos" class="botao">🎵 Cânticos</a>
+
         <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
-        <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
-        <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
+
+        <a href="/pedido_oracao" class="botao">
+            📥 Pedido de Oração
+        </a>
+
+        <a href="/calendario" class="botao">
+            📅 Calendário Pastoral
+        </a>
 
         <br>
 
-        <a href="/login" class="botao">⚙️ Admin</a>
+        <a href="/login" class="botao">
+            ⚙️ Admin
+        </a>
 
     </div>
 
 </div>
+
+<!-- =========================
+     SCRIPT AVISOS
+========================= -->
+<script>
+
+let avisos = {{ avisos | tojson | safe }};
+
+let textoFinal = "";
+
+if (avisos.length > 0) {
+
+    avisos.forEach(aviso => {
+
+        textoFinal +=
+            " ✨ 📢 " +
+            aviso.titulo +
+            " - " +
+            aviso.descricao +
+            " ✨ ✦ ";
+
+    });
+
+} else {
+
+    textoFinal = "Sem avisos no momento.";
+
+}
+
+document.getElementById("ticker-content").innerText = textoFinal;
+
+</script>
 
 </body>
 </html>

@@ -24,7 +24,7 @@ body {
 }
 
 /* =========================
-   CONTAINER (PADRÃO GLOBAL)
+   CONTAINER
 ========================= */
 .container {
     max-width: 900px;
@@ -32,7 +32,7 @@ body {
 }
 
 /* =========================
-   TÍTULO
+   TÍTULOS
 ========================= */
 .titulo-principal {
     color: white;
@@ -50,7 +50,7 @@ body {
 }
 
 /* =========================
-   TICKER
+   TICKER (ESTÁVEL - 1 LINHA)
 ========================= */
 .ticker {
     position: fixed;
@@ -68,7 +68,6 @@ body {
     border-bottom: 2px solid rgba(255,255,255,0.2);
 }
 
-/* ticker correto (uma linha só) */
 .ticker-content {
     display: inline-block;
     white-space: nowrap;
@@ -77,6 +76,7 @@ body {
     font-size: 16px;
 }
 
+/* animação direita → esquerda */
 @keyframes scrollLeft {
     0% {
         transform: translateX(0%);
@@ -103,6 +103,19 @@ body {
     color: black;
 }
 
+.card h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 5px;
+}
+
+.card hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
 /* =========================
    INPUTS
 ========================= */
@@ -116,7 +129,6 @@ select {
     border: 1px solid #ccc;
     background: white;
     color: black;
-    font-size: 16px; /* evita zoom no telemóvel */
 }
 
 /* =========================
@@ -145,42 +157,73 @@ select {
 .botao:hover {
     background: #ffffff;
     transform: scale(1.02);
+    border: 1px solid rgba(0,0,0,0.25);
 }
 
 /* =========================
-   LOGIN (ADMIN + DIZIMISTA UNIFICADO)
+   DELETE LINKS
+========================= */
+.delete {
+    color: #c40000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.delete:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   LOGIN (ADMIN + DIZIMISTA)
 ========================= */
 .login-container {
-    max-width: 420px;
+    max-width: 400px;
     margin: auto;
     padding: 20px;
     text-align: center;
-
     background: rgba(255,255,255,0.95);
     border-radius: 10px;
 }
 
+/* formulário */
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* erro */
 .erro {
     color: red;
     margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* botão mostrar password */
-.show-pass {
-    margin-top: 5px;
-    font-size: 14px;
-    color: black;
 }
 
 /* =========================
-   DÍZIMO / USER BOX
+   PASSWORD TOGGLE
+========================= */
+.password-box {
+    position: relative;
+    width: 100%;
+}
+
+.password-box input {
+    padding-right: 45px;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
+/* =========================
+   USER BOX (DÍZIMO)
 ========================= */
 .user-box {
     background: rgba(255,255,255,0.95);
@@ -190,7 +233,7 @@ select {
 }
 
 /* =========================
-   MOBILE RESPONSIVE
+   MOBILE
 ========================= */
 @media (max-width: 600px) {
 
@@ -226,7 +269,6 @@ select {
     }
 
     .login-container {
-        width: 100%;
-        margin: 10px;
+        width: 95%;
     }
 }

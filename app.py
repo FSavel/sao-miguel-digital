@@ -1,48 +1,80 @@
 from flask import Flask, render_template, request, redirect, session
-import pandas as pd
+import os
+import json
+import gspread
+from google.oauth2.service_account import Credentials
 
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
 
-EXCEL_FILE = "paroquia.xlsx"
+# =========================
+# GOOGLE SHEETS CONFIG
+# =========================
+SHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
 
-ADMIN_USER = "Padre"
-ADMIN_PASS = "1234"
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
+creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+
+if not creds_json:
+    raise Exception("GOOGLE_CREDENTIALS não encontrada no Render")
+
+creds_dict = json.loads(creds_json)
+
+creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
+client = gspread.authorize(creds)
+
+sheet = client.open_by_key(SHEET_ID)
+
+print("✅ Google Sheets ligado com sucesso!")
 
 # =========================
-# UTILITÁRIO
+# UTILITÁRIO GOOGLE SHEETS
 # =========================
+def get_worksheet(nome):
+    try:
+        return sheet.worksheet(nome)
+    except:
+        return sheet.add_worksheet(title=nome, rows="1000", cols="20")
+
+
 def ler_sheet(nome):
     try:
-        df = pd.read_excel(EXCEL_FILE, sheet_name=nome)
-        df = df.fillna("")
-        return df.to_dict(orient="records")
+        ws = get_worksheet(nome)
+        data = ws.get_all_records()
+        return data
     except:
         return []
 
 
 def guardar_sheet(nome, lista):
-    df = pd.DataFrame(lista)
+    ws = get_worksheet(nome)
 
-    with pd.ExcelWriter(
-        EXCEL_FILE,
-        engine="openpyxl",
-        mode="a",
-        if_sheet_exists="replace"
-    ) as writer:
-        df.to_excel(writer, sheet_name=nome, index=False)
+    ws.clear()
+
+    if len(lista) == 0:
+        return
+
+    headers = list(lista[0].keys())
+    ws.append_row(headers)
+
+    for item in lista:
+        ws.append_row([item.get(h, "") for h in headers])
 
 
 # =========================
-# HOME (ATUALIZADO ✔)
+# APP
 # =========================
+ADMIN_USER = "Padre"
+ADMIN_PASS = "1234"
+
+
 @app.route("/")
 def index():
-    return render_template(
-        "index.html",
-        avisos=ler_sheet("avisos")
-    )
+    return render_template("index.html", avisos=ler_sheet("avisos"))
 
 
 # =========================
@@ -92,7 +124,7 @@ def admin():
 
 
 # =========================
-# PÁGINAS PÚBLICAS
+# PÁGINAS
 # =========================
 @app.route("/avisos")
 def avisos():
@@ -117,6 +149,15 @@ def pedido_oracao():
 @app.route("/calendario")
 def calendario():
     return render_template("calendario.html", calendario=ler_sheet("calendario"))
+
+
+@app.route("/escalas")
+def escalas():
+    return render_template(
+        "escalas.html",
+        acolitos=ler_sheet("acolitos"),
+        leitores=ler_sheet("leitores")
+    )
 
 
 # =========================
@@ -318,18 +359,6 @@ def delete_pedido(index):
 
     guardar_sheet("pedidos", data)
     return redirect("/admin")
-
-
-# =========================
-# ESCALAS
-# =========================
-@app.route("/escalas")
-def escalas():
-    return render_template(
-        "escalas.html",
-        acolitos=ler_sheet("acolitos"),
-        leitores=ler_sheet("leitores")
-    )
 
 
 # =========================

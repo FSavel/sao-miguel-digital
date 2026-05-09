@@ -16,12 +16,19 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: #b30000;
+            background: linear-gradient(90deg, #8b0000, #b30000);
             color: white;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
             text-align: center;
             z-index: 9999;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        body {
+            padding-top: 60px; /* evita o ticker tapar o conteúdo */
         }
     </style>
 
@@ -67,18 +74,20 @@
 
 </div>
 
-<!-- SCRIPT PARA RODAR OS AVISOS -->
+<!-- SCRIPT DOS AVISOS ROTATIVOS -->
 <script>
-    let avisos = {{ avisos | tojson | safe }};
+    let avisos = {{ avisos | tojson }};
     let index = 0;
 
     function mostrarAviso() {
-        if (avisos.length === 0) {
-            document.getElementById("aviso").innerText = "Sem avisos no momento.";
+        const el = document.getElementById("aviso");
+
+        if (!avisos || avisos.length === 0) {
+            el.innerText = "Sem avisos no momento.";
             return;
         }
 
-        document.getElementById("aviso").innerText =
+        el.innerText =
             "📢 " + avisos[index].titulo + " - " + avisos[index].descricao;
 
         index++;

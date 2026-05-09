@@ -26,13 +26,39 @@
         autocomplete="username"
     >
 
-    <input 
-        type="password" 
-        name="password" 
-        placeholder="Palavra-passe" 
-        required
-        autocomplete="current-password"
-    >
+    <!-- PASSWORD + BOTÃO MOSTRAR -->
+    <div style="position:relative; width:100%;">
+
+        <input 
+            type="password" 
+            name="password" 
+            id="password"
+            placeholder="Palavra-passe" 
+            required
+            autocomplete="current-password"
+            style="padding-right:50px;"
+        >
+
+        <button 
+            type="button" 
+            onclick="togglePassword()" 
+            style="
+                position:absolute;
+                right:10px;
+                top:50%;
+                transform:translateY(-50%);
+                background:none;
+                border:none;
+                cursor:pointer;
+                font-size:14px;
+                color:#333;
+                font-weight:bold;
+            "
+        >
+            👁️
+        </button>
+
+    </div>
 
     <button class="botao" type="submit">Entrar</button>
 
@@ -40,6 +66,19 @@
 
 </div>
 </div>
+
+<!-- SCRIPT MOSTRAR PASSWORD -->
+<script>
+function togglePassword() {
+    const input = document.getElementById("password");
+
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+</script>
 
 </body>
 </html>

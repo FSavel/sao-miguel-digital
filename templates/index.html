@@ -9,97 +9,54 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <style>
-        /* BARRA DE AVISOS */
-        .ticker {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #8b0000, #b30000);
-            color: white;
-            padding: 12px;
-            font-weight: bold;
-            text-align: center;
-            z-index: 9999;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        body {
-            padding-top: 60px; /* evita o ticker tapar o conteúdo */
-        }
-    </style>
-
 </head>
 
 <body>
 
-<!-- BARRA DE AVISOS ROTATIVOS -->
+<!-- =========================
+     TICKER DE AVISOS
+========================= -->
 <div class="ticker">
-    <span id="aviso">Carregando avisos...</span>
+    <span id="aviso">
+        {% if avisos and avisos|length > 0 %}
+            📢 {{ avisos[0].titulo }} - {{ avisos[0].descricao }}
+        {% else %}
+            Sem avisos no momento.
+        {% endif %}
+    </span>
 </div>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1 class="titulo-principal">
-        Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
-    </h1>
+        <!-- TÍTULO -->
+        <h1 class="titulo-principal">
+            Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
+        </h1>
 
-    <!-- FRASE -->
-    <p class="frase-biblica">
-        “Eu sou o caminho, a verdade e a vida.” — João 14:6
-    </p>
+        <!-- FRASE -->
+        <p class="frase-biblica">
+            “Eu sou o caminho, a verdade e a vida.” — João 14:6
+        </p>
 
-    <br>
+        <br>
 
-    <!-- MENU PRINCIPAL -->
+        <!-- MENU PRINCIPAL -->
+        <a href="/avisos" class="botao">📢 Avisos Semanais</a>
+        <a href="/leituras" class="botao">📖 Leituras</a>
+        <a href="/canticos" class="botao">🎵 Cânticos</a>
+        <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
+        <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
+        <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
 
-    <a href="/avisos" class="botao">📢 Avisos Semanais</a>
-    <a href="/leituras" class="botao">📖 Leituras</a>
-    <a href="/canticos" class="botao">🎵 Cânticos</a>
-    <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
-    <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
-    <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
+        <br>
 
-    <br>
+        <a href="/login" class="botao">⚙️ Admin</a>
 
-    <a href="/login" class="botao">⚙️ Admin</a>
+    </div>
 
 </div>
-
-</div>
-
-<!-- SCRIPT DOS AVISOS ROTATIVOS -->
-<script>
-    let avisos = {{ avisos | tojson }};
-    let index = 0;
-
-    function mostrarAviso() {
-        const el = document.getElementById("aviso");
-
-        if (!avisos || avisos.length === 0) {
-            el.innerText = "Sem avisos no momento.";
-            return;
-        }
-
-        el.innerText =
-            "📢 " + avisos[index].titulo + " - " + avisos[index].descricao;
-
-        index++;
-
-        if (index >= avisos.length) {
-            index = 0;
-        }
-    }
-
-    mostrarAviso();
-    setInterval(mostrarAviso, 5000); // muda a cada 5 segundos
-</script>
 
 </body>
 </html>

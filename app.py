@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_file
 import os
 import json
 import gspread
@@ -32,7 +32,7 @@ sheet = client.open_by_key(SHEET_ID)
 print("✅ Google Sheets ligado com sucesso!")
 
 # =========================
-# UTILITÁRIO GOOGLE SHEETS
+# UTILITÁRIO SHEETS
 # =========================
 def get_worksheet(nome):
     try:
@@ -122,7 +122,7 @@ def admin():
 
 
 # ======================================================
-# 🔷 MÓDULO DIZIMISTA (CORRIGIDO E ESTÁVEL)
+# 🔷 MÓDULO DIZIMISTA (ESTÁVEL)
 # ======================================================
 
 @app.route("/dizimista_login", methods=["GET", "POST"])
@@ -156,20 +156,20 @@ def dizimista_dashboard():
     if not session.get("dizimista"):
         return redirect("/dizimista_login")
 
-    numero = session["dizimista"]
+    numero = str(session["dizimista"]).strip()
 
     dizimistas = ler_sheet("dizimistas")
     contribuicoes = ler_sheet("contribuicoes")
 
     user = None
     for d in dizimistas:
-        if str(d.get("numero", "")).strip() == str(numero).strip():
+        if str(d.get("numero", "")).strip() == numero:
             user = d
             break
 
     minhas = [
         c for c in contribuicoes
-        if str(c.get("numero", "")).strip() == str(numero).strip()
+        if str(c.get("numero", "")).strip() == numero
     ]
 
     return render_template(
@@ -186,7 +186,7 @@ def dizimista_logout():
 
 
 # =========================
-# PÁGINAS PUBLICAS
+# PÁGINAS PÚBLICAS
 # =========================
 @app.route("/avisos")
 def avisos():

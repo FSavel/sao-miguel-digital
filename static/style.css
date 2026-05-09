@@ -70,7 +70,7 @@ body {
     position: absolute;
     white-space: nowrap;
     will-change: transform;
-    animation: scrollLeft 12s linear infinite;
+    animation: scrollLeft 25s linear infinite;
     padding-left: 100%;
 }
 

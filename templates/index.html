@@ -47,12 +47,15 @@
 
         <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
 
-        <a href="/pedido_oracao" class="botao">
-            📥 Pedido de Oração
-        </a>
+        <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
 
-        <a href="/calendario" class="botao">
-            📅 Calendário Pastoral
+        <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
+
+        <br>
+
+        <!-- 🔷 NOVO: DIZIMISTAS -->
+        <a href="/dizimista_login" class="botao">
+            💰 Área do Dizimista
         </a>
 
         <br>
@@ -66,7 +69,7 @@
 </div>
 
 <!-- =========================
-     SCRIPT AVISOS
+     SCRIPT AVISOS (CORRIGIDO)
 ========================= -->
 <script>
 
@@ -76,16 +79,16 @@ let textoFinal = "";
 
 if (avisos.length > 0) {
 
-    avisos.forEach(aviso => {
+    for (let i = 0; i < avisos.length; i++) {
 
         textoFinal +=
-            " ✨ 📢 " +
-            aviso.titulo +
+            " 📢 " +
+            avisos[i].titulo +
             " - " +
-            aviso.descricao +
-            " ✨ ✦ ";
+            avisos[i].descricao +
+            "   •   ";
 
-    });
+    }
 
 } else {
 

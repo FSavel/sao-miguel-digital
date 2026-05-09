@@ -50,7 +50,7 @@ body {
 }
 
 /* =========================
-   TICKER (ORIGINAL RESTAURADO)
+   TICKER (CORRIGIDO)
 ========================= */
 .ticker {
     position: fixed;
@@ -72,12 +72,11 @@ body {
     position: absolute;
     white-space: nowrap;
     font-size: 16px;
-    padding-left: 100%;
     will-change: transform;
     animation: scrollLeft 25s linear infinite;
 }
 
-/* animação simples direita → esquerda */
+/* animação direita → esquerda */
 @keyframes scrollLeft {
     0% {
         transform: translateX(100%);
@@ -91,7 +90,7 @@ body {
    CARDS
 ========================= */
 .card {
-    background: rgba(255,255,255,0.92);
+    background: rgba(255, 255, 255, 0.92);
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -111,6 +110,12 @@ body {
     padding-bottom: 5px;
 }
 
+.card hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
 /* =========================
    INPUTS
 ========================= */
@@ -122,6 +127,8 @@ select {
     margin: 5px 0;
     border-radius: 6px;
     border: 1px solid #ccc;
+    background: white;
+    color: black;
 }
 
 /* =========================
@@ -130,28 +137,40 @@ select {
 .botao {
     display: block;
     text-align: center;
-    background: rgba(255,255,255,0.92);
+
+    background: rgba(255, 255, 255, 0.92);
     color: black;
+
     padding: 12px;
     margin-top: 10px;
+
     border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
+
     transition: 0.3s;
+    border: 1px solid rgba(0,0,0,0.1);
+
+    cursor: pointer;
 }
 
 .botao:hover {
-    background: white;
+    background: #ffffff;
     transform: scale(1.02);
+    border: 1px solid rgba(0,0,0,0.25);
 }
 
 /* =========================
-   DELETE
+   DELETE LINKS
 ========================= */
 .delete {
-    color: #b30000;
-    text-decoration: none;
+    color: #c40000;
     font-weight: bold;
+    text-decoration: none;
+}
+
+.delete:hover {
+    text-decoration: underline;
 }
 
 /* =========================
@@ -160,6 +179,7 @@ select {
 .login-container {
     max-width: 400px;
     margin: auto;
+    padding: 20px;
     text-align: center;
 }
 
@@ -183,8 +203,22 @@ select {
         font-size: 22px;
     }
 
+    .container {
+        padding: 10px;
+        padding-top: 60px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .botao {
+        font-size: 16px;
+    }
+
     .ticker {
         height: 40px;
+        font-size: 14px;
     }
 
     .ticker span {

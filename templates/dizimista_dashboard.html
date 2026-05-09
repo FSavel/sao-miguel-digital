@@ -31,17 +31,19 @@
 
         <h3>💰 Resumo Financeiro</h3>
 
-        {% set total = namespace(value=0) %}
+        {% set total = 0 %}
 
         {% for c in contribuicoes %}
-            {% set total.value = total.value + (c.valor | float) %}
+            {% if c.valor %}
+                {% set total = total + (c.valor | float) %}
+            {% endif %}
         {% endfor %}
 
-        <h2>💰 Total de Contribuições: {{ total.value }} MZN</h2>
+        <h2>💰 Total de Contribuições: {{ total }} MZN</h2>
 
-        {% if contribuicoes|length == 0 %}
+        {% if total == 0 %}
             <p style="color:red; font-weight:bold;">
-                ⚠️ Sem pagamentos este mês
+                ⚠️ Sem pagamentos registados
             </p>
         {% else %}
             <p style="color:green;">

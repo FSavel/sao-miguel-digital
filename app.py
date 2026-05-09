@@ -1,16 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
-import pandas as pd
 import os
 import json
-
-# Google Sheets
 import gspread
-from google.oauth2.service_account import Credentials
 
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
-
-EXCEL_FILE = "paroquia.xlsx"
 
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -18,84 +12,59 @@ ADMIN_PASS = "1234"
 # =========================
 # GOOGLE SHEETS CONFIG
 # =========================
-SPREADSHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
 
-gc = None
-sheet = None
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
-try:
-    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+creds_json = os.getenv("GOOGLE_CREDENTIALS")
+creds_dict = json.loads(creds_json)
 
-    if creds_json:
-        creds_dict = json.loads(creds_json)
+gc = gspread.service_account_from_dict(creds_dict)
 
-        scopes = [
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/drive"
-        ]
+SHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
+sheet = gc.open_by_key(SHEET_ID)
 
-        creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
-        gc = gspread.authorize(creds)
-
-        sheet = gc.open_by_key(SPREADSHEET_ID)
-
-        print("✅ Google Sheets ligado com sucesso!")
-
-except Exception as e:
-    print("⚠️ Google Sheets não ativado, a usar Excel:", e)
+print("✅ Google Sheets ligado com sucesso!")
 
 
 # =========================
-# UTILITÁRIO (HÍBRIDO)
+# UTILITÁRIO SHEETS
 # =========================
+
 def ler_sheet(nome):
     try:
-        # GOOGLE SHEETS
-        if sheet:
-            ws = sheet.worksheet(nome)
-            return ws.get_all_records()
-
-        # EXCEL fallback
-        df = pd.read_excel(EXCEL_FILE, sheet_name=nome)
-        df = df.fillna("")
-        return df.to_dict(orient="records")
-
+        ws = sheet.worksheet(nome)
+        data = ws.get_all_records()
+        return data
     except:
         return []
 
 
-def guardar_sheet(nome, lista):
-    df = pd.DataFrame(lista)
+def guardar_sheet(nome, data):
+    ws = sheet.worksheet(nome)
+    ws.clear()
 
-    try:
-        # GOOGLE SHEETS
-        if sheet:
-            ws = sheet.worksheet(nome)
-            ws.clear()
-
-            if not df.empty:
-                ws.update([df.columns.values.tolist()] + df.values.tolist())
-            return
-
-        # EXCEL fallback
-        with pd.ExcelWriter(
-            EXCEL_FILE,
-            engine="openpyxl",
-            mode="a",
-            if_sheet_exists="replace"
-        ) as writer:
-            df.to_excel(writer, sheet_name=nome, index=False)
-
-    except Exception as e:
-        print("Erro ao guardar:", e)
+    if len(data) > 0:
+        ws.update([list(data[0].keys())] + [list(i.values()) for i in data])
 
 
 # =========================
-# HOME
+# HOME (BANNER ROTATIVO)
 # =========================
 @app.route("/")
 def index():
-    return render_template("index.html")
+    avisos = ler_sheet("avisos")
+
+    # últimos 5 avisos para rotação
+    avisos_rotativos = avisos[-5:] if len(avisos) > 5 else avisos
+
+    return render_template(
+        "index.html",
+        avisos=avisos,
+        avisos_rotativos=avisos_rotativos
+    )
 
 
 # =========================
@@ -145,35 +114,7 @@ def admin():
 
 
 # =========================
-# PÁGINAS PÚBLICAS
-# =========================
-@app.route("/avisos")
-def avisos():
-    return render_template("avisos.html", avisos=ler_sheet("avisos"))
-
-
-@app.route("/leituras")
-def leituras():
-    return render_template("leituras.html", leituras=ler_sheet("leituras"))
-
-
-@app.route("/canticos")
-def canticos():
-    return render_template("canticos.html", canticos=ler_sheet("canticos"))
-
-
-@app.route("/pedido_oracao")
-def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
-
-
-@app.route("/calendario")
-def calendario():
-    return render_template("calendario.html", calendario=ler_sheet("calendario"))
-
-
-# =========================
-# CRUD AVISOS
+# AVISOS
 # =========================
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():

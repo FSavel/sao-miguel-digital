@@ -3,18 +3,36 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>São Miguel Digital</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* BARRA DE AVISOS */
+        .ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #b30000;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 9999;
+        }
+    </style>
 
 </head>
 
 <body>
+
+<!-- BARRA DE AVISOS ROTATIVOS -->
+<div class="ticker">
+    <span id="aviso">Carregando avisos...</span>
+</div>
 
 <div class="overlay">
 
@@ -34,40 +52,45 @@
 
     <!-- MENU PRINCIPAL -->
 
-    <a href="/avisos" class="botao">
-        📢 Avisos Semanais
-    </a>
-
-    <a href="/leituras" class="botao">
-        📖 Leituras
-    </a>
-
-    <a href="/canticos" class="botao">
-        🎵 Cânticos
-    </a>
-
-    <a href="/escalas" class="botao">
-        👥 Escalas de Serviço
-    </a>
-
-    <a href="/pedido_oracao" class="botao">
-        📥 Pedido de Oração
-    </a>
-
-    <a href="/calendario" class="botao">
-        📅 Calendário Pastoral
-    </a>
+    <a href="/avisos" class="botao">📢 Avisos Semanais</a>
+    <a href="/leituras" class="botao">📖 Leituras</a>
+    <a href="/canticos" class="botao">🎵 Cânticos</a>
+    <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
+    <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
+    <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
 
     <br>
 
-    <!-- ADMIN -->
-    <a href="/login" class="botao">
-        ⚙️ Admin
-    </a>
+    <a href="/login" class="botao">⚙️ Admin</a>
 
 </div>
 
 </div>
+
+<!-- SCRIPT PARA RODAR OS AVISOS -->
+<script>
+    let avisos = {{ avisos | tojson | safe }};
+    let index = 0;
+
+    function mostrarAviso() {
+        if (avisos.length === 0) {
+            document.getElementById("aviso").innerText = "Sem avisos no momento.";
+            return;
+        }
+
+        document.getElementById("aviso").innerText =
+            "📢 " + avisos[index].titulo + " - " + avisos[index].descricao;
+
+        index++;
+
+        if (index >= avisos.length) {
+            index = 0;
+        }
+    }
+
+    mostrarAviso();
+    setInterval(mostrarAviso, 5000); // muda a cada 5 segundos
+</script>
 
 </body>
 </html>

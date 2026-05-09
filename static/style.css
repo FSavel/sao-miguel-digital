@@ -24,7 +24,7 @@ body {
 }
 
 /* =========================
-   CONTAINER
+   CONTAINER (PADRÃO GLOBAL)
 ========================= */
 .container {
     max-width: 900px;
@@ -50,7 +50,7 @@ body {
 }
 
 /* =========================
-   TICKER (CORRIGIDO + MAIS ESTÁVEL)
+   TICKER
 ========================= */
 .ticker {
     position: fixed;
@@ -68,7 +68,7 @@ body {
     border-bottom: 2px solid rgba(255,255,255,0.2);
 }
 
-/* conteúdo único em linha (evita duplicação visual) */
+/* ticker correto (uma linha só) */
 .ticker-content {
     display: inline-block;
     white-space: nowrap;
@@ -77,7 +77,6 @@ body {
     font-size: 16px;
 }
 
-/* animação direita → esquerda suave */
 @keyframes scrollLeft {
     0% {
         transform: translateX(0%);
@@ -104,19 +103,6 @@ body {
     color: black;
 }
 
-.card h2 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    padding-bottom: 5px;
-}
-
-.card hr {
-    margin: 8px 0;
-    border: none;
-    border-top: 1px solid rgba(0,0,0,0.1);
-}
-
 /* =========================
    INPUTS
 ========================= */
@@ -130,6 +116,7 @@ select {
     border: 1px solid #ccc;
     background: white;
     color: black;
+    font-size: 16px; /* evita zoom no telemóvel */
 }
 
 /* =========================
@@ -158,30 +145,19 @@ select {
 .botao:hover {
     background: #ffffff;
     transform: scale(1.02);
-    border: 1px solid rgba(0,0,0,0.25);
 }
 
 /* =========================
-   DELETE LINKS
-========================= */
-.delete {
-    color: #c40000;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.delete:hover {
-    text-decoration: underline;
-}
-
-/* =========================
-   LOGIN
+   LOGIN (ADMIN + DIZIMISTA UNIFICADO)
 ========================= */
 .login-container {
-    max-width: 400px;
+    max-width: 420px;
     margin: auto;
     padding: 20px;
     text-align: center;
+
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px;
 }
 
 .login-form {
@@ -193,10 +169,18 @@ select {
 .erro {
     color: red;
     margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* botão mostrar password */
+.show-pass {
+    margin-top: 5px;
+    font-size: 14px;
+    color: black;
 }
 
 /* =========================
-   DÍZIMO / ESPAÇO DO USUÁRIO (MOBILE FIX)
+   DÍZIMO / USER BOX
 ========================= */
 .user-box {
     background: rgba(255,255,255,0.95);
@@ -206,7 +190,7 @@ select {
 }
 
 /* =========================
-   MOBILE
+   MOBILE RESPONSIVE
 ========================= */
 @media (max-width: 600px) {
 
@@ -239,5 +223,10 @@ select {
     textarea,
     select {
         font-size: 16px;
+    }
+
+    .login-container {
+        width: 100%;
+        margin: 10px;
     }
 }

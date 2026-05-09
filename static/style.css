@@ -50,7 +50,7 @@ body {
 }
 
 /* =========================
-   TICKER (CORRIGIDO)
+   TICKER (CORRIGIDO + MAIS ESTÁVEL)
 ========================= */
 .ticker {
     position: fixed;
@@ -68,18 +68,19 @@ body {
     border-bottom: 2px solid rgba(255,255,255,0.2);
 }
 
-.ticker span {
-    position: absolute;
+/* conteúdo único em linha (evita duplicação visual) */
+.ticker-content {
+    display: inline-block;
     white-space: nowrap;
+    padding-left: 100%;
+    animation: scrollLeft 30s linear infinite;
     font-size: 16px;
-    will-change: transform;
-    animation: scrollLeft 25s linear infinite;
 }
 
-/* animação direita → esquerda */
+/* animação direita → esquerda suave */
 @keyframes scrollLeft {
     0% {
-        transform: translateX(100%);
+        transform: translateX(0%);
     }
     100% {
         transform: translateX(-100%);
@@ -195,6 +196,16 @@ select {
 }
 
 /* =========================
+   DÍZIMO / ESPAÇO DO USUÁRIO (MOBILE FIX)
+========================= */
+.user-box {
+    background: rgba(255,255,255,0.95);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* =========================
    MOBILE
 ========================= */
 @media (max-width: 600px) {
@@ -218,10 +229,15 @@ select {
 
     .ticker {
         height: 40px;
+    }
+
+    .ticker-content {
         font-size: 14px;
     }
 
-    .ticker span {
-        font-size: 14px;
+    input,
+    textarea,
+    select {
+        font-size: 16px;
     }
 }

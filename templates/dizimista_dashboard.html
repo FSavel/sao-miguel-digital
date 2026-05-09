@@ -9,19 +9,19 @@
 <div class="overlay">
 <div class="container">
 
-<h2>👤 Olá, {{ user.nome }}</h2>
+<h2>👤 Olá, {{ user.nome if user else 'Dizimista' }}</h2>
 
-<p><b>Número:</b> {{ user.numero }}</p>
-<p><b>Email:</b> {{ user.email }}</p>
-<p><b>Contacto:</b> {{ user.contacto }}</p>
+<p><b>Número:</b> {{ user.numero if user else '' }}</p>
+<p><b>Email:</b> {{ user.email if user else '' }}</p>
+<p><b>Contacto:</b> {{ user.contacto if user else '' }}</p>
 
 <br>
 
 <h3>💰 Minhas Contribuições</h3>
 
-{% if contribuicoes %}
+{% if contribuicoes and contribuicoes|length > 0 %}
     {% for c in contribuicoes %}
-        <div class="card">
+        <div class="card" style="margin-bottom:10px;">
             <p><b>Valor:</b> {{ c.valor }} MZN</p>
             <p><b>Data:</b> {{ c.data }}</p>
             <p><b>Descrição:</b> {{ c.descricao }}</p>

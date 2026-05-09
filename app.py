@@ -1,69 +1,47 @@
 from flask import Flask, render_template, request, redirect, session
-import os
-import json
-import gspread
+import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
 
+EXCEL_FILE = "paroquia.xlsx"
+
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
 
-# =========================
-# GOOGLE SHEETS CONFIG
-# =========================
-
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
-
-creds_json = os.getenv("GOOGLE_CREDENTIALS")
-creds_dict = json.loads(creds_json)
-
-gc = gspread.service_account_from_dict(creds_dict)
-
-SHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
-sheet = gc.open_by_key(SHEET_ID)
-
-print("✅ Google Sheets ligado com sucesso!")
-
 
 # =========================
-# UTILITÁRIO SHEETS
+# UTILITÁRIO
 # =========================
-
 def ler_sheet(nome):
     try:
-        ws = sheet.worksheet(nome)
-        data = ws.get_all_records()
-        return data
+        df = pd.read_excel(EXCEL_FILE, sheet_name=nome)
+        df = df.fillna("")
+        return df.to_dict(orient="records")
     except:
         return []
 
 
-def guardar_sheet(nome, data):
-    ws = sheet.worksheet(nome)
-    ws.clear()
+def guardar_sheet(nome, lista):
+    df = pd.DataFrame(lista)
 
-    if len(data) > 0:
-        ws.update([list(data[0].keys())] + [list(i.values()) for i in data])
+    with pd.ExcelWriter(
+        EXCEL_FILE,
+        engine="openpyxl",
+        mode="a",
+        if_sheet_exists="replace"
+    ) as writer:
+        df.to_excel(writer, sheet_name=nome, index=False)
 
 
 # =========================
-# HOME (BANNER ROTATIVO)
+# HOME (ATUALIZADO ✔)
 # =========================
 @app.route("/")
 def index():
-    avisos = ler_sheet("avisos")
-
-    # últimos 5 avisos para rotação
-    avisos_rotativos = avisos[-5:] if len(avisos) > 5 else avisos
-
     return render_template(
         "index.html",
-        avisos=avisos,
-        avisos_rotativos=avisos_rotativos
+        avisos=ler_sheet("avisos")
     )
 
 
@@ -111,6 +89,34 @@ def admin():
         calendario=ler_sheet("calendario"),
         pedidos=ler_sheet("pedidos")
     )
+
+
+# =========================
+# PÁGINAS PÚBLICAS
+# =========================
+@app.route("/avisos")
+def avisos():
+    return render_template("avisos.html", avisos=ler_sheet("avisos"))
+
+
+@app.route("/leituras")
+def leituras():
+    return render_template("leituras.html", leituras=ler_sheet("leituras"))
+
+
+@app.route("/canticos")
+def canticos():
+    return render_template("canticos.html", canticos=ler_sheet("canticos"))
+
+
+@app.route("/pedido_oracao")
+def pedido_oracao():
+    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
+
+
+@app.route("/calendario")
+def calendario():
+    return render_template("calendario.html", calendario=ler_sheet("calendario"))
 
 
 # =========================

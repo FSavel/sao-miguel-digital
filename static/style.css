@@ -60,6 +60,7 @@ body {
     left: 0;
 
     width: 100%;
+
     height: 45px;
 
     background: #8B0000;
@@ -69,6 +70,7 @@ body {
     overflow: hidden;
 
     display: flex;
+
     align-items: center;
 
     z-index: 9999;
@@ -76,10 +78,14 @@ body {
     border-bottom: 2px solid rgba(255,255,255,0.15);
 }
 
-/* TEXTO */
+/* TEXTO DO AVISO */
 .ticker-content {
 
+    position: absolute;
+
     white-space: nowrap;
+
+    line-height: 45px;
 
     display: inline-block;
 
@@ -108,9 +114,13 @@ body {
    CARDS
 ========================= */
 .card {
+
     background: rgba(255, 255, 255, 0.92);
+
     padding: 15px;
+
     margin-bottom: 15px;
+
     border-radius: 10px;
 }
 
@@ -121,18 +131,23 @@ body {
     color: black;
 }
 
-/* títulos dos cards */
 .card h2 {
+
     font-weight: bold;
+
     margin-bottom: 10px;
+
     border-bottom: 1px solid rgba(0,0,0,0.1);
+
     padding-bottom: 5px;
 }
 
-/* separação visual */
 .card hr {
+
     margin: 8px 0;
+
     border: none;
+
     border-top: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -142,12 +157,19 @@ body {
 input,
 textarea,
 select {
+
     width: 100%;
+
     padding: 10px;
+
     margin: 5px 0;
+
     border-radius: 6px;
+
     border: 1px solid #ccc;
+
     background: white;
+
     color: black;
 }
 
@@ -155,37 +177,50 @@ select {
    BOTÕES
 ========================= */
 .botao {
+
     display: block;
+
     text-align: center;
 
     background: rgba(255, 255, 255, 0.92);
+
     color: black;
 
     padding: 12px;
+
     margin-top: 10px;
 
     border-radius: 10px;
+
     text-decoration: none;
+
     font-weight: bold;
 
     transition: 0.3s;
+
     border: 1px solid rgba(0,0,0,0.1);
 
     cursor: pointer;
 }
 
 .botao:hover {
+
     background: #ffffff;
+
     transform: scale(1.02);
+
     border: 1px solid rgba(0,0,0,0.25);
 }
 
 /* =========================
-   DELETE LINKS
+   LINKS DELETE
 ========================= */
 .delete {
+
     color: #c40000;
+
     font-weight: bold;
+
     text-decoration: none;
 }
 
@@ -197,20 +232,29 @@ select {
    LOGIN
 ========================= */
 .login-container {
+
     max-width: 400px;
+
     margin: auto;
+
     padding: 20px;
+
     text-align: center;
 }
 
 .login-form {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 10px;
 }
 
 .erro {
+
     color: red;
+
     margin-bottom: 10px;
 }
 
@@ -240,7 +284,11 @@ select {
     }
 
     .ticker-content {
+
+        line-height: 40px;
+
         font-size: 14px;
+
         animation: tickerMove 30s linear infinite;
     }
 }

@@ -17,21 +17,27 @@
      TICKER DE AVISOS
 ========================= -->
 <div class="ticker">
+
     <div class="ticker-content" id="ticker-content">
         Carregando avisos...
     </div>
+
 </div>
 
 <div class="overlay">
 
     <div class="container">
 
-        <!-- TÍTULO -->
+        <!-- =========================
+             TÍTULO
+        ========================= -->
         <h1 class="titulo-principal">
             Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
         </h1>
 
-        <!-- FRASE -->
+        <!-- =========================
+             FRASE BÍBLICA
+        ========================= -->
         <p class="frase-biblica">
             “Eu sou o caminho, a verdade e a vida.” — João 14:6
         </p>
@@ -39,33 +45,89 @@
         <br>
 
         <!-- =========================
-             MENU PRINCIPAL
+             LITURGIA
         ========================= -->
+        <div class="card">
 
-        <a href="/avisos" class="botao">📢 Avisos Semanais</a>
+            <h2>📖 Liturgia</h2>
 
-        <a href="/leituras" class="botao">📖 Leituras</a>
+            <a href="/avisos" class="botao">
+                📢 Avisos Semanais
+            </a>
 
-        <a href="/canticos" class="botao">🎵 Cânticos</a>
+            <a href="/leituras" class="botao">
+                📖 Leituras
+            </a>
 
-        <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
+            <a href="/canticos" class="botao">
+                🎵 Cânticos
+            </a>
 
-        <a href="/pedido_oracao" class="botao">📥 Pedido de Oração</a>
+            <a href="/escalas" class="botao">
+                👥 Escalas de Serviço
+            </a>
 
-        <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
+            <a href="/calendario" class="botao">
+                📅 Calendário Pastoral
+            </a>
 
-        <a href="/dizimista_login" class="botao">💰 Área do Dizimista</a>
+        </div>
 
         <br>
 
-        <a href="/login" class="botao">⚙️ Admin</a>
+        <!-- =========================
+             ESPIRITUAL
+        ========================= -->
+        <div class="card">
+
+            <h2>🙏 Espiritual</h2>
+
+            <a href="/pedido_oracao" class="botao">
+                🙏 Pedido de Oração
+            </a>
+
+        </div>
+
+        <br>
+
+        <!-- =========================
+             FINANÇAS
+        ========================= -->
+        <div class="card">
+
+            <h2>💰 Finanças</h2>
+
+            <a href="/dizimista_login" class="botao">
+                👤 Área do Dizimista
+            </a>
+
+            <a href="/financeiro" class="botao">
+                📊 Situação Financeira da Paróquia
+            </a>
+
+        </div>
+
+        <br>
+
+        <!-- =========================
+             ADMINISTRAÇÃO
+        ========================= -->
+        <div class="card">
+
+            <h2>⚙️ Administração</h2>
+
+            <a href="/login" class="botao">
+                ⚙️ Painel Administrativo
+            </a>
+
+        </div>
 
     </div>
 
 </div>
 
 <!-- =========================
-     SCRIPT AVISOS (TICKER FIXADO)
+     SCRIPT DO TICKER
 ========================= -->
 <script>
 
@@ -76,11 +138,20 @@ let textoFinal = "";
 if (avisos && avisos.length > 0) {
 
     avisos.forEach(aviso => {
-        textoFinal += " ✨ 📢 " + aviso.titulo + " - " + aviso.descricao + " ✨ • ";
+
+        textoFinal +=
+        " ✨ 📢 " +
+        aviso.titulo +
+        " - " +
+        aviso.descricao +
+        " ✨ • ";
+
     });
 
 } else {
+
     textoFinal = "Sem avisos no momento.";
+
 }
 
 document.getElementById("ticker-content").innerText = textoFinal;

@@ -16,11 +16,50 @@
 <div class="overlay">
 <div class="container">
 
-    <h1 class="titulo-principal">⚙️ Painel Administrativo</h1>
+    <!-- =========================
+         TÍTULO
+    ========================= -->
+    <h1 class="titulo-principal">
+        ⚙️ Painel Administrativo
+    </h1>
 
     <p class="frase-biblica">
         Gestão da Paróquia São Miguel Arcanjo
     </p>
+
+    <!-- =========================
+         MENU RÁPIDO ADMIN
+    ========================= -->
+    <div class="card">
+
+        <h2>📂 Navegação Rápida</h2>
+
+        <a href="#liturgia" class="botao">📖 Liturgia</a>
+
+        <a href="#espiritual" class="botao">🙏 Espiritual</a>
+
+        <a href="#financas" class="botao">💰 Finanças</a>
+
+        <a href="#administracao" class="botao">⚙️ Administração</a>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- 📖 LITURGIA -->
+    <!-- ===================================================== -->
+    <div class="card" id="liturgia">
+
+        <h2>📖 Liturgia</h2>
+
+        <a href="#leituras-area" class="botao">📖 Leituras</a>
+
+        <a href="#canticos-area" class="botao">🎵 Cânticos</a>
+
+        <a href="#acolitos-area" class="botao">👦 Escala dos Acólitos</a>
+
+        <a href="#leitores-area" class="botao">📚 Escala de Leitores</a>
+
+    </div>
 
     <!-- ===================== AVISOS ===================== -->
     <div class="card">
@@ -28,82 +67,153 @@
         <h2>📢 Avisos Semanais</h2>
 
         <form action="/add_aviso" method="POST">
+
             <input type="text" name="titulo" placeholder="Título" required>
+
             <textarea name="descricao" placeholder="Descrição" required></textarea>
-            <button class="botao" type="submit">Adicionar</button>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Aviso
+            </button>
+
         </form>
 
         <hr>
 
         {% for a in avisos %}
+
             <p><b>{{ a.titulo }}</b></p>
+
             <p>{{ a.descricao }}</p>
-            <a class="delete" href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_aviso/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_aviso/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
+
         {% endfor %}
 
     </div>
 
     <!-- ===================== LEITURAS ===================== -->
-    <div class="card">
+    <div class="card" id="leituras-area">
 
         <h2>📖 Leituras</h2>
 
         <form action="/add_leitura" method="POST">
+
             <input type="text" name="tipo" placeholder="Tipo de leitura" required>
+
             <textarea name="texto" placeholder="Texto da leitura" required></textarea>
-            <button class="botao" type="submit">Adicionar</button>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Leitura
+            </button>
+
         </form>
 
         <hr>
 
         {% for l in leituras %}
+
             <p><b>{{ l.tipo }}</b></p>
+
             <p>{{ l.texto }}</p>
-            <a class="delete" href="/delete_leitura/{{ loop.index0 }}">❌ Apagar</a>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_leitura/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_leitura/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
+
         {% endfor %}
 
     </div>
 
     <!-- ===================== CÂNTICOS ===================== -->
-    <div class="card">
+    <div class="card" id="canticos-area">
 
         <h2>🎵 Cânticos</h2>
 
         <form action="/add_cantico" method="POST">
+
             <input type="text" name="momento" placeholder="Momento" required>
+
             <input type="text" name="cantico" placeholder="Nome do cântico" required>
+
             <textarea name="letra" placeholder="Letra" required></textarea>
-            <button class="botao" type="submit">Adicionar</button>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Cântico
+            </button>
+
         </form>
 
         <hr>
 
         {% for c in canticos %}
+
             <p><b>{{ c.momento }}</b> - {{ c.cantico }}</p>
-            <a class="delete" href="/delete_cantico/{{ loop.index0 }}">❌ Apagar</a>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_cantico/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_cantico/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
+
         {% endfor %}
 
     </div>
 
     <!-- ===================== ACÓLITOS ===================== -->
-    <div class="card">
+    <div class="card" id="acolitos-area">
 
         <h2>👦 Escala dos Acólitos</h2>
 
         <form action="/add_acolito" method="POST">
 
             <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+
             <input type="text" name="turiferario" placeholder="Turiferário" required>
+
             <input type="text" name="naveteiro" placeholder="Naveteiro" required>
+
             <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
+
             <input type="text" name="velas" placeholder="Velas" required>
+
             <input type="text" name="missal" placeholder="Missal" required>
+
             <input type="text" name="campainha" placeholder="Campainha" required>
 
-            <button class="botao" type="submit">Adicionar</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Escala
+            </button>
 
         </form>
 
@@ -115,11 +225,19 @@
             <p><b>Turiferário:</b> {{ a.turiferario }}</p>
             <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
             <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
-            <p><b>Velas:</b> {{ a.velas }}</p>
-            <p><b>Missal:</b> {{ a.missal }}</p>
-            <p><b>Campainha:</b> {{ a.campainha }}</p>
 
-            <a class="delete" href="/delete_acolito/{{ loop.index0 }}">❌ Apagar</a>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_acolito/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
 
         {% endfor %}
@@ -127,20 +245,27 @@
     </div>
 
     <!-- ===================== LEITORES ===================== -->
-    <div class="card">
+    <div class="card" id="leitores-area">
 
-        <h2>📖 Escala de Leitores</h2>
+        <h2>📚 Escala de Leitores</h2>
 
         <form action="/add_leitor" method="POST">
 
             <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
+
             <input type="text" name="primeira_ch" placeholder="1ª Leitura CH/Ronga" required>
+
             <input type="text" name="salmo" placeholder="Salmo" required>
+
             <input type="text" name="segunda_pt" placeholder="2ª Leitura PT" required>
+
             <input type="text" name="segunda_ch" placeholder="2ª Leitura CH/Ronga" required>
+
             <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
 
-            <button class="botao" type="submit">Adicionar</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Escala
+            </button>
 
         </form>
 
@@ -150,43 +275,40 @@
 
             <p><b>1ª PT:</b> {{ l.primeira_pt }}</p>
             <p><b>1ª CH:</b> {{ l.primeira_ch }}</p>
-            <p><b>Salmo:</b> {{ l.salmo }}</p>
-            <p><b>2ª PT:</b> {{ l.segunda_pt }}</p>
-            <p><b>2ª CH:</b> {{ l.segunda_ch }}</p>
-            <p><b>Oração:</b> {{ l.oracao_fieis }}</p>
 
-            <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_leitor/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
 
         {% endfor %}
 
     </div>
 
-    <!-- ===================== CALENDÁRIO ===================== -->
-    <div class="card">
+    <!-- ===================================================== -->
+    <!-- 🙏 ESPIRITUAL -->
+    <!-- ===================================================== -->
+    <div class="card" id="espiritual">
 
-        <h2>📅 Calendário Pastoral</h2>
+        <h2>🙏 Espiritual</h2>
 
-        <form action="/add_calendario" method="POST">
-            <input type="text" name="evento" placeholder="Evento" required>
-            <input type="date" name="data" required>
-            <textarea name="descricao" placeholder="Descrição" required></textarea>
-            <button class="botao" type="submit">Adicionar</button>
-        </form>
-
-        <hr>
-
-        {% for c in calendario %}
-            <p><b>{{ c.evento }}</b> - {{ c.data }}</p>
-            <p>{{ c.descricao }}</p>
-            <a class="delete" href="/delete_calendario/{{ loop.index0 }}">❌ Apagar</a>
-            <hr>
-        {% endfor %}
+        <a href="#pedidos-area" class="botao">
+            🙏 Pedidos de Oração
+        </a>
 
     </div>
 
     <!-- ===================== PEDIDOS ===================== -->
-    <div class="card">
+    <div class="card" id="pedidos-area">
 
         <h2>🙏 Pedidos de Oração</h2>
 
@@ -195,35 +317,133 @@
             <input type="text" name="nome" placeholder="Nome" required>
 
             <select name="categoria" required>
+
                 <option value="Saúde">Saúde</option>
                 <option value="Família">Família</option>
                 <option value="Trabalho">Trabalho</option>
                 <option value="Estudos">Estudos</option>
                 <option value="Falecido">Falecido</option>
                 <option value="Agradecimento">Agradecimento</option>
+
             </select>
 
             <textarea name="pedido" placeholder="Pedido de oração" required></textarea>
 
-            <button class="botao" type="submit">Adicionar Pedido</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Pedido
+            </button>
 
         </form>
 
         <hr>
 
         {% for p in pedidos %}
+
             <p><b>{{ p.nome }}</b></p>
+
             <p>{{ p.categoria }}</p>
+
             <p>{{ p.pedido }}</p>
-            <a class="delete" href="/delete_pedido/{{ loop.index0 }}">❌ Apagar</a>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_pedido/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_pedido/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
             <hr>
+
         {% endfor %}
 
     </div>
 
-    <!-- BOTÕES -->
-    <a href="/" class="botao">🏠 Início</a>
-    <a href="/logout" class="botao">🚪 Sair</a>
+    <!-- ===================================================== -->
+    <!-- 💰 FINANÇAS -->
+    <!-- ===================================================== -->
+    <div class="card" id="financas">
+
+        <h2>💰 Finanças</h2>
+
+        <a href="/dizimista_login" class="botao">
+            👤 Área do Dizimista
+        </a>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- ⚙️ ADMINISTRAÇÃO -->
+    <!-- ===================================================== -->
+    <div class="card" id="administracao">
+
+        <h2>⚙️ Administração</h2>
+
+        <a href="#calendario-area" class="botao">
+            📅 Calendário Pastoral
+        </a>
+
+    </div>
+
+    <!-- ===================== CALENDÁRIO ===================== -->
+    <div class="card" id="calendario-area">
+
+        <h2>📅 Calendário Pastoral</h2>
+
+        <form action="/add_calendario" method="POST">
+
+            <input type="text" name="evento" placeholder="Evento" required>
+
+            <input type="date" name="data" required>
+
+            <textarea name="descricao" placeholder="Descrição" required></textarea>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Evento
+            </button>
+
+        </form>
+
+        <hr>
+
+        {% for c in calendario %}
+
+            <p><b>{{ c.evento }}</b> - {{ c.data }}</p>
+
+            <p>{{ c.descricao }}</p>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_calendario/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_calendario/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- =========================
+         BOTÕES FINAIS
+    ========================= -->
+    <a href="/" class="botao">
+        🏠 Voltar ao Início
+    </a>
+
+    <a href="/logout" class="botao">
+        🚪 Terminar Sessão
+    </a>
 
 </div>
 </div>

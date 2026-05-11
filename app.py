@@ -279,7 +279,53 @@ def export_extrato_pdf():
     if not session.get("dizimista"):
         return redirect("/dizimista_login")
 
-    return redirect("/dizimista_dashboard")
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.lib.pagesizes import A4
+    from flask import send_file
+    import tempfile
+
+    numero = session["dizimista"]
+
+    user = None
+    for d in read("dizimistas"):
+        if str(d.get("numero")) == str(numero):
+            user = d
+            break
+
+    contribuicoes = [
+        c for c in read("contribuicoes")
+        if str(c.get("numero")) == str(numero)
+    ]
+
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+
+    doc = SimpleDocTemplate(temp.name, pagesize=A4)
+    styles = getSampleStyleSheet()
+    elementos = []
+
+    elementos.append(Paragraph("Extrato do Dizimista", styles["Title"]))
+    elementos.append(Spacer(1, 20))
+
+    if user:
+        elementos.append(Paragraph(f"<b>Nome:</b> {user.get('nome','')}", styles["BodyText"]))
+        elementos.append(Paragraph(f"<b>Número:</b> {user.get('numero','')}", styles["BodyText"]))
+
+    elementos.append(Spacer(1, 20))
+    elementos.append(Paragraph("Contribuições:", styles["Heading2"]))
+
+    for c in contribuicoes:
+        texto = f"Data: {c.get('data','')} | Valor: {c.get('valor','')} MZN"
+        elementos.append(Paragraph(texto, styles["BodyText"]))
+
+    doc.build(elementos)
+
+    return send_file(
+        temp.name,
+        as_attachment=True,
+        download_name="extrato_dizimista.pdf",
+        mimetype="application/pdf"
+    )
 
 
 # =========================

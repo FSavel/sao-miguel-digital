@@ -38,13 +38,12 @@ creds = Credentials.from_service_account_info(
 )
 
 client = gspread.authorize(creds)
-
 sheet = client.open_by_key(SHEET_ID)
 
 print("✅ Google Sheets ligado com sucesso!")
 
 # =========================
-# UTILITÁRIO SHEETS
+# UTILITÁRIOS
 # =========================
 def get_worksheet(nome):
     try:
@@ -65,7 +64,7 @@ def guardar_sheet(nome, lista):
     ws = get_worksheet(nome)
     ws.clear()
 
-    if len(lista) == 0:
+    if not lista:
         return
 
     headers = list(lista[0].keys())
@@ -76,7 +75,7 @@ def guardar_sheet(nome, lista):
 
 
 # =========================
-# APP PRINCIPAL
+# LOGIN ADMIN
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -87,9 +86,6 @@ def index():
     return render_template("index.html", avisos=ler_sheet("avisos"))
 
 
-# =========================
-# LOGIN ADMIN
-# =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
@@ -113,9 +109,6 @@ def logout():
     return redirect("/")
 
 
-# =========================
-# ADMIN
-# =========================
 @app.route("/admin")
 def admin():
     if not session.get("admin"):
@@ -133,22 +126,20 @@ def admin():
     )
 
 
-# ======================================================
-# 🔷 DIZIMISTA LOGIN
-# ======================================================
+# =========================
+# DIZIMISTA LOGIN
+# =========================
 @app.route("/dizimista_login", methods=["GET", "POST"])
 def dizimista_login():
     erro = None
 
     if request.method == "POST":
-
         numero = str(request.form["numero"]).strip()
         password = str(request.form["password"]).strip()
 
         dizimistas = ler_sheet("dizimistas")
 
         user = None
-
         for d in dizimistas:
             if str(d.get("numero", "")).strip() == numero and str(d.get("password", "")).strip() == password:
                 user = d
@@ -184,7 +175,6 @@ def dizimista_dashboard():
     contribuicoes = ler_sheet("contribuicoes")
 
     user = None
-
     for d in dizimistas:
         if str(d.get("numero", "")).strip() == numero:
             user = d
@@ -203,7 +193,7 @@ def dizimista_dashboard():
 
 
 # =========================
-# EXPORTAR PDF (NOVO)
+# EXPORTAR PDF (EXTRATO)
 # =========================
 @app.route("/export_extrato_pdf")
 def export_extrato_pdf():
@@ -240,7 +230,6 @@ def export_extrato_pdf():
 
     pdf.drawString(50, altura - 100, f"Nome: {user.get('nome','')}")
     pdf.drawString(50, altura - 120, f"Número: {numero}")
-
     pdf.drawString(50, altura - 140, f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 
     y = altura - 180
@@ -277,7 +266,6 @@ def export_extrato_pdf():
     pdf.drawString(50, y - 50, "Obrigado pela sua contribuição 🙏")
 
     pdf.save()
-
     buffer.seek(0)
 
     return send_file(
@@ -289,42 +277,7 @@ def export_extrato_pdf():
 
 
 # =========================
-# PÁGINAS PÚBLICAS
-# =========================
-@app.route("/avisos")
-def avisos():
-    return render_template("avisos.html", avisos=ler_sheet("avisos"))
-
-
-@app.route("/leituras")
-def leituras():
-    return render_template("leituras.html", leituras=ler_sheet("leituras"))
-
-
-@app.route("/canticos")
-def canticos():
-    return render_template("canticos.html", canticos=ler_sheet("canticos"))
-
-
-@app.route("/pedido_oracao")
-def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
-
-
-@app.route("/calendario")
-def calendario():
-    return render_template("calendario.html", calendario=ler_sheet("calendario"))
-
-
-@app.route("/escalas")
-def escalas():
-    return render_template("escalas.html",
-                           acolitos=ler_sheet("acolitos"),
-                           leitores=ler_sheet("leitores"))
-
-
-# =========================
-# RUN
+# RUN (RENDER)
 # =========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

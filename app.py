@@ -322,8 +322,9 @@ def edit_acolito(i):
         return redirect("/admin")
 
     return render_template(
-        "acolitos.html",
-        acolitos=data
+        "edit_acolito.html",
+        acolito=data[i],
+        index=i
     )
 
 
@@ -367,8 +368,9 @@ def edit_leitor(i):
         return redirect("/admin")
 
     return render_template(
-        "leitores.html",
-        leitores=data
+        "edit_leitor.html",
+        leitor=data[i],
+        index=i
     )
 
 

@@ -284,6 +284,7 @@ def export_extrato_pdf():
     from reportlab.lib.pagesizes import A4
     from flask import send_file
     import tempfile
+    from datetime import datetime
 
     numero = session["dizimista"]
 
@@ -298,6 +299,25 @@ def export_extrato_pdf():
         if str(c.get("numero")) == str(numero)
     ]
 
+    # =========================
+    # DATA E HORA DO DOWNLOAD
+    # =========================
+    agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    # =========================
+    # NOME DO FICHEIRO (F.Savel)
+    # =========================
+    nome_completo = user.get("nome", "").strip()
+
+    partes = nome_completo.split()
+
+    if len(partes) >= 2:
+        inicial = partes[0][0].upper()
+        ultimo = partes[-1].capitalize()
+        nome_ficheiro = f"extrato_dizimista_{inicial}.{ultimo}.pdf"
+    else:
+        nome_ficheiro = "extrato_dizimista.pdf"
+
     temp = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
 
     doc = SimpleDocTemplate(temp.name, pagesize=A4)
@@ -310,6 +330,10 @@ def export_extrato_pdf():
     if user:
         elementos.append(Paragraph(f"<b>Nome:</b> {user.get('nome','')}", styles["BodyText"]))
         elementos.append(Paragraph(f"<b>Número:</b> {user.get('numero','')}", styles["BodyText"]))
+        elementos.append(Paragraph(f"<b>Contacto:</b> {user.get('contacto','N/A')}", styles["BodyText"]))
+
+    elementos.append(Spacer(1, 10))
+    elementos.append(Paragraph(f"<b>Data e Hora do Download:</b> {agora}", styles["BodyText"]))
 
     elementos.append(Spacer(1, 20))
     elementos.append(Paragraph("Contribuições:", styles["Heading2"]))
@@ -323,10 +347,9 @@ def export_extrato_pdf():
     return send_file(
         temp.name,
         as_attachment=True,
-        download_name="extrato_dizimista.pdf",
+        download_name=nome_ficheiro,
         mimetype="application/pdf"
     )
-
 
 # =========================
 # ACÓLITOS

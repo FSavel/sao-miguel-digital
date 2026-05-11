@@ -81,13 +81,8 @@ TICKER
 }
 
 @keyframes tickerMove {
-    0% {
-        transform: translateX(0%);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
 }
 
 /* =========================
@@ -176,29 +171,15 @@ BOTÕES
 /* =========================
 CORES ESPECIAIS
 ========================= */
-.botao-admin {
-    background: rgba(255, 220, 120, 0.95);
-}
+.botao-admin { background: rgba(255,220,120,0.95); }
+.botao-financas { background: rgba(160,255,190,0.95); }
+.botao-liturgia { background: rgba(210,220,255,0.95); }
+.botao-espiritual { background: rgba(255,210,240,0.95); }
 
-.botao-financas {
-    background: rgba(160, 255, 190, 0.95);
-}
-
-.botao-liturgia {
-    background: rgba(210, 220, 255, 0.95);
-}
-
-.botao-espiritual {
-    background: rgba(255, 210, 240, 0.95);
-}
-
+/* BOTÕES IMPORTANTES */
 .botao-voltar {
     background: #1e88e5;
     color: white;
-}
-
-.botao-voltar:hover {
-    background: #1976d2;
 }
 
 .botao-sair {
@@ -206,21 +187,13 @@ CORES ESPECIAIS
     color: white;
 }
 
-.botao-sair:hover {
-    background: #1b5e20;
-}
-
 .botao-pdf {
     background: #8b0000;
     color: white;
 }
 
-.botao-pdf:hover {
-    background: #a50000;
-}
-
 /* =========================
-LINKS DELETE / EDIT
+LINKS
 ========================= */
 .delete {
     color: #c40000;
@@ -264,7 +237,7 @@ LOGIN
 }
 
 /* =========================
-PASSWORD BOX
+PASSWORD
 ========================= */
 .password-box {
     position: relative;
@@ -283,31 +256,34 @@ PASSWORD BOX
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 16px;
 }
 
 /* =========================
-USER BOX
-========================= */
-.user-box {
-    background: rgba(255,255,255,0.96);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-/* =========================
-SAUDAÇÃO DIZIMISTA
+SAUDAÇÃO DIZIMISTA (CORRIGIDO)
 ========================= */
 .saudacao-dizimista {
     color: white;
     text-align: center;
-    font-size: 28px;
+    font-size: 26px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
 /* =========================
-TABELAS
+MENU CENTRALIZADO
+========================= */
+.menu-centralizado {
+    text-align: center;
+}
+
+.menu-centralizado h2,
+.menu-centralizado h3,
+.menu-centralizado p {
+    text-align: center;
+}
+
+/* =========================
+TABELA RESPONSIVA (CORRIGIDA)
 ========================= */
 .table-responsive {
     width: 100%;
@@ -322,14 +298,7 @@ table {
     min-width: 600px;
 }
 
-table th {
-    background: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-    white-space: nowrap;
-}
-
+table th,
 table td {
     padding: 10px;
     border: 1px solid #ddd;
@@ -338,44 +307,8 @@ table td {
     white-space: nowrap;
 }
 
-/* =========================
-MENU PRINCIPAL CENTRALIZADO
-========================= */
-.menu-centralizado .botao {
-    text-align: center;
-}
-
-.menu-centralizado h2,
-.menu-centralizado h3,
-.menu-centralizado p {
-    text-align: center;
-}
-
-/* =========================
-MENU SECTION
-========================= */
-.menu-section {
-    margin-top: 20px;
-    margin-bottom: 25px;
-}
-
-.menu-title {
-    color: white;
-    font-size: 20px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* =========================
-PDF BUTTON
-========================= */
-.pdf-btn {
-    background: #a80000;
-    color: white;
-}
-
-.pdf-btn:hover {
-    background: #c40000;
+table th {
+    background: #f0f0f0;
 }
 
 /* =========================
@@ -383,62 +316,37 @@ RESPONSIVO
 ========================= */
 @media (max-width: 600px) {
 
-    .overlay {
-        padding-top: 50px;
-    }
+    .overlay { padding-top: 50px; }
 
-    .titulo-principal {
-        font-size: 22px;
-    }
+    .titulo-principal { font-size: 22px; }
 
-    .frase-biblica {
-        font-size: 14px;
-    }
+    .frase-biblica { font-size: 14px; }
 
-    .card {
-        padding: 14px;
-    }
+    .card { padding: 14px; }
 
-    .botao {
-        font-size: 15px;
-        padding: 11px;
-    }
+    .botao { font-size: 15px; padding: 11px; }
 
-    .ticker {
-        height: 38px;
-    }
+    .ticker { height: 38px; }
 
-    .ticker-content {
-        font-size: 13px;
-    }
+    .ticker-content { font-size: 13px; }
 
-    input,
-    textarea,
-    select {
-        font-size: 16px;
-    }
+    input, textarea, select { font-size: 16px; }
 
-    .login-container {
-        width: 100%;
-    }
+    .login-container { width: 100%; }
 
-    table {
-        min-width: 520px;
-    }
+    table { min-width: 520px; }
 
-    table th,
-    table td {
+    table th, table td {
         font-size: 13px;
         padding: 8px;
     }
 
     .saudacao-dizimista {
         font-size: 22px;
-        line-height: 1.4;
     }
 
     .table-responsive::-webkit-scrollbar {
-        height: 8px;
+        height: 6px;
     }
 
     .table-responsive::-webkit-scrollbar-thumb {

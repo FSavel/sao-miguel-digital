@@ -12,14 +12,14 @@
 <div class="container">
 
     <!-- =========================
-         SAUDAÇÃO
+         SAUDAÇÃO (BRANCA)
     ========================== -->
     <h2 class="saudacao-dizimista">
         👤 Olá, {{ user.nome }}
     </h2>
 
     <!-- =========================
-         DADOS DO DIZIMISTA
+         DADOS
     ========================== -->
     <div class="card">
 
@@ -28,6 +28,8 @@
         <p><b>Contacto:</b> {{ user.contacto }}</p>
 
     </div>
+
+    <br>
 
     <!-- =========================
          RESUMO FINANCEIRO
@@ -44,22 +46,30 @@
 
         <h2>💰 Total de Contribuições: {{ total.value }} MZN</h2>
 
-        <!-- frase única (SEM REPETIÇÃO) -->
-        <p style="color:green; font-weight:bold; text-align:center; margin-top:10px;">
+        <!-- frase restaurada (como tinhas) -->
+        <p style="color:green; font-weight:bold;">
             🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
         </p>
 
     </div>
 
+    <br>
+
     <!-- =========================
-         BOTÃO EXPORTAR PDF (REAL)
+         BOTÃO EXPORTAR PDF (ORIGINAL RESTAURADO)
     ========================== -->
-    <a href="/export_extrato_pdf" class="botao botao-pdf">
+    <a href="/export_extrato_pdf" class="botao pdf-btn">
         📥 Exportar Extrato PDF
     </a>
 
+    <p style="text-align:center; color:white; margin-top:8px;">
+        Pode exportar o seu histórico de contribuições em PDF.
+    </p>
+
+    <br>
+
     <!-- =========================
-         TABELA DE CONTRIBUIÇÕES
+         TABELA
     ========================== -->
     <div class="card">
 
@@ -100,6 +110,8 @@
         {% endif %}
 
     </div>
+
+    <br>
 
     <!-- =========================
          SAIR

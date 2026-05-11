@@ -4,20 +4,12 @@ import json
 import gspread
 from google.oauth2.service_account import Credentials
 
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from io import BytesIO
-from datetime import datetime
-
-# =========================
-# APP INIT
-# =========================
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
 
-# =========================
-# GOOGLE SHEETS
-# =========================
+# ======================================================
+# 📊 GOOGLE SHEETS CONFIGURAÇÃO
+# ======================================================
 SHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
 
 SCOPES = [
@@ -42,53 +34,59 @@ sheet = client.open_by_key(SHEET_ID)
 
 print("✅ Google Sheets ligado com sucesso!")
 
-# =========================
-# HELPERS
-# =========================
-def ws(name):
+# ======================================================
+# 🔧 HELPERS (UTILITÁRIOS SHEETS)
+# ======================================================
+def get_worksheet(nome):
     try:
-        return sheet.worksheet(name)
+        return sheet.worksheet(nome)
     except:
-        return sheet.add_worksheet(title=name, rows="1000", cols="20")
+        return sheet.add_worksheet(title=nome, rows="1000", cols="20")
 
 
-def read(name):
+def ler_sheet(nome):
     try:
-        return ws(name).get_all_records()
+        return get_worksheet(nome).get_all_records()
     except:
         return []
 
 
-def save(name, data):
-    w = ws(name)
-    w.clear()
+def guardar_sheet(nome, lista):
+    ws = get_worksheet(nome)
+    ws.clear()
 
-    if not data:
+    if not lista:
         return
 
-    headers = list(data[0].keys())
-    w.append_row(headers)
+    headers = list(lista[0].keys())
+    ws.append_row(headers)
 
-    for row in data:
-        w.append_row([row.get(h, "") for h in headers])
+    for item in lista:
+        ws.append_row([item.get(h, "") for h in headers])
 
 
+# ======================================================
+# 🔐 CONTROLO ADMIN
+# ======================================================
 def admin_ok():
-    return session.get("admin") is True
+    return session.get("admin")
 
 
-# =========================
-# LOGIN ADMIN
-# =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
 
 
+# ======================================================
+# 🏠 HOME
+# ======================================================
 @app.route("/")
 def index():
-    return render_template("index.html", avisos=read("avisos"))
+    return render_template("index.html", avisos=ler_sheet("avisos"))
 
 
+# ======================================================
+# 🔑 LOGIN ADMIN
+# ======================================================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
@@ -111,9 +109,9 @@ def logout():
     return redirect("/")
 
 
-# =========================
-# ADMIN
-# =========================
+# ======================================================
+# 🧭 DASHBOARD ADMIN
+# ======================================================
 @app.route("/admin")
 def admin():
     if not admin_ok():
@@ -121,165 +119,246 @@ def admin():
 
     return render_template(
         "admin.html",
-        avisos=read("avisos"),
-        leituras=read("leituras"),
-        canticos=read("canticos"),
-        acolitos=read("acolitos"),
-        leitores=read("leitores"),
-        calendario=read("calendario"),
-        pedidos=read("pedidos")
+        avisos=ler_sheet("avisos"),
+        leituras=ler_sheet("leituras"),
+        canticos=ler_sheet("canticos"),
+        acolitos=ler_sheet("acolitos"),
+        leitores=ler_sheet("leitores"),
+        calendario=ler_sheet("calendario"),
+        pedidos=ler_sheet("pedidos")
     )
 
 
-# =========================
-# 🔥 ROTAS PÚBLICAS (FIX 404)
-# =========================
+# ======================================================
+# 🌐 PÁGINAS PÚBLICAS
+# ======================================================
 @app.route("/avisos")
 def avisos():
-    return render_template("avisos.html", avisos=read("avisos"))
+    return render_template("avisos.html", avisos=ler_sheet("avisos"))
 
 
 @app.route("/leituras")
 def leituras():
-    return render_template("leituras.html", leituras=read("leituras"))
+    return render_template("leituras.html", leituras=ler_sheet("leituras"))
 
 
 @app.route("/canticos")
 def canticos():
-    return render_template("canticos.html", canticos=read("canticos"))
+    return render_template("canticos.html", canticos=ler_sheet("canticos"))
+
+
+@app.route("/calendario")
+def calendario():
+    return render_template("calendario.html", calendario=ler_sheet("calendario"))
+
+
+@app.route("/pedido_oracao")
+def pedido_oracao():
+    return render_template("pedido_oracao.html", pedidos=ler_sheet("pedidos"))
 
 
 @app.route("/escalas")
 def escalas():
     return render_template(
         "escalas.html",
-        acolitos=read("acolitos"),
-        leitores=read("leitores")
+        acolitos=ler_sheet("acolitos"),
+        leitores=ler_sheet("leitores")
     )
 
 
-@app.route("/calendario")
-def calendario():
-    return render_template("calendario.html", calendario=read("calendario"))
-
-
-@app.route("/pedido_oracao")
-def pedido_oracao():
-    return render_template("pedido_oracao.html")
-
-
+# ======================================================
+# 💰 FINANCEIRO (ADICIONADO - RESOLVE ERRO 500)
+# ======================================================
 @app.route("/financeiro")
 def financeiro():
+    if not admin_ok():
+        return redirect("/login")
+
     return render_template("financeiro.html")
 
 
-# =========================
-# DIZIMISTA
-# =========================
-@app.route("/dizimista_login", methods=["GET", "POST"])
-def dizimista_login():
-    erro = None
+# ======================================================
+# ➕ ADD ROTAS (CRIAR DADOS)
+# ======================================================
+@app.route("/add_aviso", methods=["POST"])
+def add_aviso():
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+    data.append({
+        "titulo": request.form["titulo"],
+        "descricao": request.form["descricao"]
+    })
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/add_leitura", methods=["POST"])
+def add_leitura():
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+    data.append({
+        "tipo": request.form["tipo"],
+        "texto": request.form["texto"]
+    })
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/add_cantico", methods=["POST"])
+def add_cantico():
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+    data.append({
+        "momento": request.form["momento"],
+        "cantico": request.form["cantico"],
+        "letra": request.form["letra"]
+    })
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+@app.route("/add_pedido", methods=["POST"])
+def add_pedido():
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+    data.append(request.form.to_dict())
+    guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+@app.route("/add_calendario", methods=["POST"])
+def add_calendario():
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("calendario")
+    data.append(request.form.to_dict())
+    guardar_sheet("calendario", data)
+    return redirect("/admin")
+
+
+# ======================================================
+# ✏️ EDIT ROTAS
+# ======================================================
+@app.route("/edit_aviso/<int:i>", methods=["GET", "POST"])
+def edit_aviso(i):
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
 
     if request.method == "POST":
-        numero = request.form["numero"]
-        password = request.form["password"]
+        data[i]["titulo"] = request.form["titulo"]
+        data[i]["descricao"] = request.form["descricao"]
+        guardar_sheet("avisos", data)
+        return redirect("/admin")
 
-        data = read("dizimistas")
-
-        user = next(
-            (d for d in data if str(d.get("numero")) == numero and str(d.get("password")) == password),
-            None
-        )
-
-        if user:
-            session["dizimista"] = numero
-            return redirect("/dizimista_dashboard")
-        else:
-            erro = "Credenciais inválidas"
-
-    return render_template("dizimista_login.html", erro=erro)
+    return render_template("edit_aviso.html", aviso=data[i], index=i)
 
 
-@app.route("/dizimista_logout")
-def dizimista_logout():
-    session.pop("dizimista", None)
-    return redirect("/")
+@app.route("/edit_leitura/<int:i>", methods=["GET", "POST"])
+def edit_leitura(i):
+    if not admin_ok():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if request.method == "POST":
+        data[i]["tipo"] = request.form["tipo"]
+        data[i]["texto"] = request.form["texto"]
+        guardar_sheet("leituras", data)
+        return redirect("/admin")
+
+    return render_template("edit_leitura.html", leitura=data[i], index=i)
 
 
-@app.route("/dizimista_dashboard")
-def dizimista_dashboard():
-    if not session.get("dizimista"):
-        return redirect("/dizimista_login")
+@app.route("/edit_cantico/<int:i>", methods=["GET", "POST"])
+def edit_cantico(i):
+    if not admin_ok():
+        return redirect("/login")
 
-    numero = session["dizimista"]
+    data = ler_sheet("canticos")
 
-    diz = read("dizimistas")
-    cont = read("contribuicoes")
+    if request.method == "POST":
+        data[i]["momento"] = request.form["momento"]
+        data[i]["cantico"] = request.form["cantico"]
+        data[i]["letra"] = request.form["letra"]
+        guardar_sheet("canticos", data)
+        return redirect("/admin")
 
-    user = next((d for d in diz if str(d.get("numero")) == numero), None)
-
-    minhas = [c for c in cont if str(c.get("numero")) == numero]
-
-    return render_template(
-        "dizimista_dashboard.html",
-        user=user,
-        contribuicoes=minhas
-    )
+    return render_template("edit_cantico.html", cantico=data[i], index=i)
 
 
-# =========================
-# PDF
-# =========================
-@app.route("/export_extrato_pdf")
-def export_extrato_pdf():
+@app.route("/edit_pedido/<int:i>", methods=["GET", "POST"])
+def edit_pedido(i):
+    if not admin_ok():
+        return redirect("/login")
 
-    if not session.get("dizimista"):
-        return redirect("/dizimista_login")
+    data = ler_sheet("pedidos")
 
-    numero = session["dizimista"]
+    if request.method == "POST":
+        data[i]["nome"] = request.form["nome"]
+        data[i]["categoria"] = request.form["categoria"]
+        data[i]["pedido"] = request.form["pedido"]
+        guardar_sheet("pedidos", data)
+        return redirect("/admin")
 
-    diz = read("dizimistas")
-    cont = read("contribuicoes")
-
-    user = next((d for d in diz if str(d.get("numero")) == numero), None)
-    minhas = [c for c in cont if str(c.get("numero")) == numero]
-
-    buffer = BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=A4)
-
-    h = A4[1]
-
-    pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(50, h - 60, "PARÓQUIA SÃO MIGUEL ARCANJO")
-
-    pdf.setFont("Helvetica", 11)
-    pdf.drawString(50, h - 80, "Extrato de Contribuições")
-
-    pdf.drawString(50, h - 100, f"Nome: {user.get('nome','') if user else ''}")
-    pdf.drawString(50, h - 120, f"Número: {numero}")
-    pdf.drawString(50, h - 140, f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
-
-    y = h - 180
-    total = 0
-
-    for c in minhas:
-        pdf.drawString(50, y, str(c.get("data", "")))
-        pdf.drawString(150, y, f"{c.get('valor',0)} MZN")
-        pdf.drawString(250, y, str(c.get("descricao", "")))
-        total += float(c.get("valor", 0))
-        y -= 20
-
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(50, y - 20, f"TOTAL: {total} MZN")
-
-    pdf.save()
-    buffer.seek(0)
-
-    return send_file(buffer, as_attachment=True, download_name="extrato.pdf", mimetype="application/pdf")
+    return render_template("edit_pedido.html", pedido=data[i], index=i)
 
 
-# =========================
-# RUN
-# =========================
+# ======================================================
+# 🗑 DELETE ROTAS
+# ======================================================
+@app.route("/delete_aviso/<int:i>")
+def delete_aviso(i):
+    if admin_ok():
+        data = ler_sheet("avisos")
+        if 0 <= i < len(data):
+            data.pop(i)
+            guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_leitura/<int:i>")
+def delete_leitura(i):
+    if admin_ok():
+        data = ler_sheet("leituras")
+        if 0 <= i < len(data):
+            data.pop(i)
+            guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_cantico/<int:i>")
+def delete_cantico(i):
+    if admin_ok():
+        data = ler_sheet("canticos")
+        if 0 <= i < len(data):
+            data.pop(i)
+            guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_pedido/<int:i>")
+def delete_pedido(i):
+    if admin_ok():
+        data = ler_sheet("pedidos")
+        if 0 <= i < len(data):
+            data.pop(i)
+            guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+# ======================================================
+# 🚀 RUN (RENDER READY)
+# ======================================================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)

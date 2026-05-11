@@ -45,7 +45,7 @@ print("✅ Google Sheets ligado com sucesso!")
 # =========================
 # HELPERS
 # =========================
-def get_ws(name):
+def ws(name):
     try:
         return sheet.worksheet(name)
     except:
@@ -54,53 +54,50 @@ def get_ws(name):
 
 def read(name):
     try:
-        return get_ws(name).get_all_records()
+        return ws(name).get_all_records()
     except:
         return []
 
 
 def save(name, data):
-    ws = get_ws(name)
-    ws.clear()
+    w = ws(name)
+    w.clear()
 
     if not data:
         return
 
     headers = list(data[0].keys())
-    ws.append_row(headers)
+    w.append_row(headers)
 
     for row in data:
-        ws.append_row([row.get(h, "") for h in headers])
+        w.append_row([row.get(h, "") for h in headers])
 
 
 def admin_ok():
-    return session.get("admin")
+    return session.get("admin") is True
 
 
 # =========================
-# ADMIN CREDENTIALS
+# LOGIN ADMIN
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
 
 
-# =========================
-# HOME
-# =========================
 @app.route("/")
 def index():
     return render_template("index.html", avisos=read("avisos"))
 
 
-# =========================
-# LOGIN
-# =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
 
     if request.method == "POST":
-        if request.form["username"] == ADMIN_USER and request.form["password"] == ADMIN_PASS:
+        u = request.form["username"]
+        p = request.form["password"]
+
+        if u == ADMIN_USER and p == ADMIN_PASS:
             session["admin"] = True
             return redirect("/admin")
         erro = "Credenciais inválidas"
@@ -115,7 +112,7 @@ def logout():
 
 
 # =========================
-# ADMIN DASHBOARD
+# ADMIN
 # =========================
 @app.route("/admin")
 def admin():
@@ -134,10 +131,9 @@ def admin():
     )
 
 
-# ======================================================
-# 🔥 ROTAS PÚBLICAS (CORRIGEM OS 404)
-# ======================================================
-
+# =========================
+# 🔥 ROTAS PÚBLICAS (FIX 404)
+# =========================
 @app.route("/avisos")
 def avisos():
     return render_template("avisos.html", avisos=read("avisos"))
@@ -178,211 +174,40 @@ def financeiro():
 
 
 # =========================
-# ADD ROTAS
+# DIZIMISTA
 # =========================
-
-@app.route("/add_aviso", methods=["POST"])
-def add_aviso():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("avisos")
-    data.append({
-        "titulo": request.form["titulo"],
-        "descricao": request.form["descricao"]
-    })
-    save("avisos", data)
-    return redirect("/admin")
-
-
-@app.route("/add_leitura", methods=["POST"])
-def add_leitura():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("leituras")
-    data.append({
-        "tipo": request.form["tipo"],
-        "texto": request.form["texto"]
-    })
-    save("leituras", data)
-    return redirect("/admin")
-
-
-@app.route("/add_cantico", methods=["POST"])
-def add_cantico():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("canticos")
-    data.append({
-        "momento": request.form["momento"],
-        "cantico": request.form["cantico"],
-        "letra": request.form["letra"]
-    })
-    save("canticos", data)
-    return redirect("/admin")
-
-
-@app.route("/add_acolito", methods=["POST"])
-def add_acolito():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("acolitos")
-    data.append(request.form.to_dict())
-    save("acolitos", data)
-    return redirect("/admin")
-
-
-@app.route("/add_leitor", methods=["POST"])
-def add_leitor():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("leitores")
-    data.append(request.form.to_dict())
-    save("leitores", data)
-    return redirect("/admin")
-
-
-@app.route("/add_pedido", methods=["POST"])
-def add_pedido():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("pedidos")
-    data.append(request.form.to_dict())
-    save("pedidos", data)
-    return redirect("/admin")
-
-
-@app.route("/add_calendario", methods=["POST"])
-def add_calendario():
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("calendario")
-    data.append(request.form.to_dict())
-    save("calendario", data)
-    return redirect("/admin")
-
-
-# =========================
-# EDIT ROTAS
-# =========================
-
-@app.route("/edit_aviso/<int:i>", methods=["GET", "POST"])
-def edit_aviso(i):
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("avisos")
+@app.route("/dizimista_login", methods=["GET", "POST"])
+def dizimista_login():
+    erro = None
 
     if request.method == "POST":
-        data[i]["titulo"] = request.form["titulo"]
-        data[i]["descricao"] = request.form["descricao"]
-        save("avisos", data)
-        return redirect("/admin")
+        numero = request.form["numero"]
+        password = request.form["password"]
 
-    return render_template("edit_aviso.html", aviso=data[i], index=i)
+        data = read("dizimistas")
 
+        user = next(
+            (d for d in data if str(d.get("numero")) == numero and str(d.get("password")) == password),
+            None
+        )
 
-@app.route("/edit_leitura/<int:i>", methods=["GET", "POST"])
-def edit_leitura(i):
-    if not admin_ok():
-        return redirect("/login")
+        if user:
+            session["dizimista"] = numero
+            return redirect("/dizimista_dashboard")
+        else:
+            erro = "Credenciais inválidas"
 
-    data = read("leituras")
-
-    if request.method == "POST":
-        data[i]["tipo"] = request.form["tipo"]
-        data[i]["texto"] = request.form["texto"]
-        save("leituras", data)
-        return redirect("/admin")
-
-    return render_template("edit_leitura.html", leitura=data[i], index=i)
+    return render_template("dizimista_login.html", erro=erro)
 
 
-@app.route("/edit_cantico/<int:i>", methods=["GET", "POST"])
-def edit_cantico(i):
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("canticos")
-
-    if request.method == "POST":
-        data[i]["momento"] = request.form["momento"]
-        data[i]["cantico"] = request.form["cantico"]
-        data[i]["letra"] = request.form["letra"]
-        save("canticos", data)
-        return redirect("/admin")
-
-    return render_template("edit_cantico.html", cantico=data[i], index=i)
+@app.route("/dizimista_logout")
+def dizimista_logout():
+    session.pop("dizimista", None)
+    return redirect("/")
 
 
-@app.route("/edit_pedido/<int:i>", methods=["GET", "POST"])
-def edit_pedido(i):
-    if not admin_ok():
-        return redirect("/login")
-
-    data = read("pedidos")
-
-    if request.method == "POST":
-        data[i]["nome"] = request.form["nome"]
-        data[i]["categoria"] = request.form["categoria"]
-        data[i]["pedido"] = request.form["pedido"]
-        save("pedidos", data)
-        return redirect("/admin")
-
-    return render_template("edit_pedido.html", pedido=data[i], index=i)
-
-
-# =========================
-# DELETE ROTAS
-# =========================
-
-@app.route("/delete_aviso/<int:i>")
-def delete_aviso(i):
-    if admin_ok():
-        data = read("avisos")
-        data.pop(i)
-        save("avisos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_leitura/<int:i>")
-def delete_leitura(i):
-    if admin_ok():
-        data = read("leituras")
-        data.pop(i)
-        save("leituras", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_cantico/<int:i>")
-def delete_cantico(i):
-    if admin_ok():
-        data = read("canticos")
-        data.pop(i)
-        save("canticos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_pedido/<int:i>")
-def delete_pedido(i):
-    if admin_ok():
-        data = read("pedidos")
-        data.pop(i)
-        save("pedidos", data)
-    return redirect("/admin")
-
-
-# =========================
-# PDF DIZIMISTA
-# =========================
-@app.route("/export_extrato_pdf")
-def export_pdf():
+@app.route("/dizimista_dashboard")
+def dizimista_dashboard():
     if not session.get("dizimista"):
         return redirect("/dizimista_login")
 
@@ -391,8 +216,33 @@ def export_pdf():
     diz = read("dizimistas")
     cont = read("contribuicoes")
 
-    user = next((d for d in diz if d.get("numero") == numero), None)
-    minhas = [c for c in cont if c.get("numero") == numero]
+    user = next((d for d in diz if str(d.get("numero")) == numero), None)
+
+    minhas = [c for c in cont if str(c.get("numero")) == numero]
+
+    return render_template(
+        "dizimista_dashboard.html",
+        user=user,
+        contribuicoes=minhas
+    )
+
+
+# =========================
+# PDF
+# =========================
+@app.route("/export_extrato_pdf")
+def export_extrato_pdf():
+
+    if not session.get("dizimista"):
+        return redirect("/dizimista_login")
+
+    numero = session["dizimista"]
+
+    diz = read("dizimistas")
+    cont = read("contribuicoes")
+
+    user = next((d for d in diz if str(d.get("numero")) == numero), None)
+    minhas = [c for c in cont if str(c.get("numero")) == numero]
 
     buffer = BytesIO()
     pdf = canvas.Canvas(buffer, pagesize=A4)
@@ -407,15 +257,14 @@ def export_pdf():
 
     pdf.drawString(50, h - 100, f"Nome: {user.get('nome','') if user else ''}")
     pdf.drawString(50, h - 120, f"Número: {numero}")
-
-    pdf.drawString(50, h - 140, f"Data: {datetime.now()}")
+    pdf.drawString(50, h - 140, f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 
     y = h - 180
     total = 0
 
     for c in minhas:
         pdf.drawString(50, y, str(c.get("data", "")))
-        pdf.drawString(150, y, str(c.get("valor", "")))
+        pdf.drawString(150, y, f"{c.get('valor',0)} MZN")
         pdf.drawString(250, y, str(c.get("descricao", "")))
         total += float(c.get("valor", 0))
         y -= 20
@@ -426,7 +275,7 @@ def export_pdf():
     pdf.save()
     buffer.seek(0)
 
-    return send_file(buffer, download_name="extrato.pdf", as_attachment=True)
+    return send_file(buffer, as_attachment=True, download_name="extrato.pdf", mimetype="application/pdf")
 
 
 # =========================

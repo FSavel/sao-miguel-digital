@@ -44,11 +44,13 @@
                 {% set total.value = total.value + (c.valor | float) %}
             {% endfor %}
 
-            <h2>💰 Total de Contribuições: {{ total.value }} MZN</h2>
+            <h3 class="total-contribuicoes">
+    Total de Contribuições: <span class="valor-verde">{{ total.value }} MZN</span>
+</h3>
 
-            <p style="color:green; font-weight:bold;">
-                🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
-            </p>
+            <p class="frase-agradecimento">
+    🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
+</p>
 
         </div>
 

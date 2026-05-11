@@ -9,11 +9,14 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from datetime import datetime
 
+# =========================
+# APP
+# =========================
 app = Flask(__name__)
 app.secret_key = "saomiguel2026"
 
 # =========================
-# GOOGLE SHEETS
+# GOOGLE SHEETS CONFIG
 # =========================
 SHEET_ID = "1AZaKlDN1rVg5hbFKh69YffISFt5TcnyVArJFOWhBoeA"
 
@@ -23,6 +26,7 @@ SCOPES = [
 ]
 
 creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+
 if not creds_json:
     raise Exception("GOOGLE_CREDENTIALS não encontrada")
 
@@ -75,7 +79,7 @@ def admin_required():
 
 
 # =========================
-# APP
+# APP ROUTES
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -87,7 +91,7 @@ def index():
 
 
 # =========================
-# LOGIN ADMIN
+# LOGIN / LOGOUT
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -109,7 +113,7 @@ def logout():
 
 
 # =========================
-# ADMIN
+# ADMIN DASHBOARD
 # =========================
 @app.route("/admin")
 def admin():
@@ -129,142 +133,224 @@ def admin():
 
 
 # =========================
-# 🔥 ADD ROTAS (RESTO FECHADO)
+# =========================
+# ADD ROTAS
+# =========================
 # =========================
 
-# ---------- AVISOS ----------
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("avisos")
-
     data.append({
         "titulo": request.form["titulo"],
         "descricao": request.form["descricao"]
     })
-
     guardar_sheet("avisos", data)
     return redirect("/admin")
 
 
-# ---------- LEITURAS ----------
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("leituras")
-
     data.append({
         "tipo": request.form["tipo"],
         "texto": request.form["texto"]
     })
-
     guardar_sheet("leituras", data)
     return redirect("/admin")
 
 
-# ---------- CÂNTICOS ----------
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("canticos")
-
     data.append({
         "momento": request.form["momento"],
         "cantico": request.form["cantico"],
         "letra": request.form["letra"]
     })
-
     guardar_sheet("canticos", data)
     return redirect("/admin")
 
 
-# ---------- ACÓLITOS ----------
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("acolitos")
-
-    data.append({
-        "cruciferario": request.form["cruciferario"],
-        "turiferario": request.form["turiferario"],
-        "naveteiro": request.form["naveteiro"],
-        "cerimoniario": request.form["cerimoniario"],
-        "velas": request.form["velas"],
-        "missal": request.form["missal"],
-        "campainha": request.form["campainha"]
-    })
-
+    data.append(request.form.to_dict())
     guardar_sheet("acolitos", data)
     return redirect("/admin")
 
 
-# ---------- LEITORES ----------
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("leitores")
-
-    data.append({
-        "primeira_pt": request.form["primeira_pt"],
-        "primeira_ch": request.form["primeira_ch"],
-        "salmo": request.form["salmo"],
-        "segunda_pt": request.form["segunda_pt"],
-        "segunda_ch": request.form["segunda_ch"],
-        "oracao_fieis": request.form["oracao_fieis"]
-    })
-
+    data.append(request.form.to_dict())
     guardar_sheet("leitores", data)
     return redirect("/admin")
 
 
-# ---------- PEDIDOS ----------
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("pedidos")
-
-    data.append({
-        "nome": request.form["nome"],
-        "categoria": request.form["categoria"],
-        "pedido": request.form["pedido"]
-    })
-
+    data.append(request.form.to_dict())
     guardar_sheet("pedidos", data)
     return redirect("/admin")
 
 
-# ---------- CALENDÁRIO ----------
 @app.route("/add_calendario", methods=["POST"])
 def add_calendario():
     if not admin_required():
         return redirect("/login")
 
     data = ler_sheet("calendario")
-
-    data.append({
-        "evento": request.form["evento"],
-        "data": request.form["data"],
-        "descricao": request.form["descricao"]
-    })
-
+    data.append(request.form.to_dict())
     guardar_sheet("calendario", data)
     return redirect("/admin")
 
 
 # =========================
-# PDF (mantido)
+# =========================
+# EDIT ROTAS
+# =========================
+# =========================
+
+@app.route("/edit_aviso/<int:index>", methods=["GET", "POST"])
+def edit_aviso(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+
+    if request.method == "POST":
+        data[index]["titulo"] = request.form["titulo"]
+        data[index]["descricao"] = request.form["descricao"]
+        guardar_sheet("avisos", data)
+        return redirect("/admin")
+
+    return render_template("edit_aviso.html", aviso=data[index], index=index)
+
+
+@app.route("/edit_leitura/<int:index>", methods=["GET", "POST"])
+def edit_leitura(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if request.method == "POST":
+        data[index]["tipo"] = request.form["tipo"]
+        data[index]["texto"] = request.form["texto"]
+        guardar_sheet("leituras", data)
+        return redirect("/admin")
+
+    return render_template("edit_leitura.html", leitura=data[index], index=index)
+
+
+@app.route("/edit_cantico/<int:index>", methods=["GET", "POST"])
+def edit_cantico(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    if request.method == "POST":
+        data[index]["momento"] = request.form["momento"]
+        data[index]["cantico"] = request.form["cantico"]
+        data[index]["letra"] = request.form["letra"]
+        guardar_sheet("canticos", data)
+        return redirect("/admin")
+
+    return render_template("edit_cantico.html", cantico=data[index], index=index)
+
+
+@app.route("/edit_pedido/<int:index>", methods=["GET", "POST"])
+def edit_pedido(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+
+    if request.method == "POST":
+        data[index]["nome"] = request.form["nome"]
+        data[index]["categoria"] = request.form["categoria"]
+        data[index]["pedido"] = request.form["pedido"]
+        guardar_sheet("pedidos", data)
+        return redirect("/admin")
+
+    return render_template("edit_pedido.html", pedido=data[index], index=index)
+
+
+# =========================
+# DELETE ROTAS
+# =========================
+
+@app.route("/delete_aviso/<int:index>")
+def delete_aviso(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+    if 0 <= index < len(data):
+        data.pop(index)
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_leitura/<int:index>")
+def delete_leitura(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+    if 0 <= index < len(data):
+        data.pop(index)
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_cantico/<int:index>")
+def delete_cantico(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+    if 0 <= index < len(data):
+        data.pop(index)
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+@app.route("/delete_pedido/<int:index>")
+def delete_pedido(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+    if 0 <= index < len(data):
+        data.pop(index)
+    guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+# =========================
+# PDF (DIZIMISTA)
 # =========================
 @app.route("/export_extrato_pdf")
 def export_extrato_pdf():
@@ -294,8 +380,7 @@ def export_extrato_pdf():
     pdf.drawString(50, altura - 100, f"Nome: {user.get('nome','') if user else ''}")
     pdf.drawString(50, altura - 120, f"Número: {numero}")
 
-    pdf.drawString(50, altura - 140,
-                   f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    pdf.drawString(50, altura - 140, f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 
     y = altura - 180
     total = 0

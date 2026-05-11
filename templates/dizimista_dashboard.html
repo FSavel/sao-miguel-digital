@@ -60,11 +60,18 @@
 
         <div style="margin-top:15px;">
 
-            <h1 style="font-size:32px; color:#0a7a32; text-align:center;">
+            <h1 style="
+                font-size:32px;
+                color:#0a7a32;
+                text-align:center;
+            ">
                 {{ total.valor }} MZN
             </h1>
 
-            <p style="text-align:center; margin-top:10px;">
+            <p style="
+                text-align:center;
+                margin-top:10px;
+            ">
                 Total de contribuições registadas
             </p>
 
@@ -74,13 +81,21 @@
 
         {% if total.valor == 0 %}
 
-            <p style="color:red; font-weight:bold; text-align:center;">
+            <p style="
+                color:red;
+                font-weight:bold;
+                text-align:center;
+            ">
                 ⚠️ Sem pagamentos registados
             </p>
 
         {% else %}
 
-            <p style="color:green; font-weight:bold; text-align:center;">
+            <p style="
+                color:green;
+                font-weight:bold;
+                text-align:center;
+            ">
                 🙏 Obrigado pela sua contribuição à comunidade
             </p>
 
@@ -97,7 +112,10 @@
 
         {% if contribuicoes %}
 
-        <div class="table-responsive">
+        <!-- =========================
+             DESKTOP TABLE
+        ========================== -->
+        <div class="table-responsive tabela-desktop">
 
             <table>
 
@@ -138,6 +156,41 @@
 
         </div>
 
+        <!-- =========================
+             MOBILE CARDS
+        ========================== -->
+        <div class="mobile-contribuicoes">
+
+            {% for c in contribuicoes %}
+
+            <div class="mobile-card">
+
+                <p>
+                    <b>💳 Número:</b><br>
+                    {{ c.numero }}
+                </p>
+
+                <p>
+                    <b>💰 Valor:</b><br>
+                    {{ c.valor }} MZN
+                </p>
+
+                <p>
+                    <b>📅 Data:</b><br>
+                    {{ c.data }}
+                </p>
+
+                <p>
+                    <b>📝 Descrição:</b><br>
+                    {{ c.descricao }}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
         {% else %}
 
             <p style="text-align:center;">
@@ -149,18 +202,22 @@
     </div>
 
     <!-- =========================
-         EXPORTAR
+         EXTRATO PDF
     ========================== -->
     <div class="card">
 
-        <h2>📄 Extrato</h2>
+        <h2>📄 Extrato Financeiro</h2>
 
         <p style="margin-bottom:10px;">
-            Pode exportar o seu histórico financeiro em PDF.
+
+            Pode exportar o seu histórico de contribuições em PDF.
+
         </p>
 
         <a href="/exportar_pdf" class="botao pdf-btn">
+
             📥 Exportar Extrato PDF
+
         </a>
 
     </div>
@@ -170,11 +227,15 @@
     ========================== -->
 
     <a href="/" class="botao botao-liturgia">
+
         🏠 Voltar ao Início
+
     </a>
 
     <a href="/dizimista_logout" class="botao botao-admin">
+
         🚪 Terminar Sessão
+
     </a>
 
 </div>

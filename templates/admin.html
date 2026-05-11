@@ -34,23 +34,29 @@
 
         <h2>📂 Navegação Rápida</h2>
 
-        <a href="#liturgia" class="botao">📖 Liturgia</a>
-        <a href="#espiritual" class="botao">🙏 Espiritual</a>
-        <a href="#financas" class="botao">💰 Finanças</a>
-        <a href="#administracao" class="botao">⚙️ Administração</a>
+        <a href="#liturgia" class="botao botao-liturgia">📖 Liturgia</a>
+
+        <a href="#espiritual" class="botao botao-espiritual">🙏 Espiritual</a>
+
+        <a href="#financas" class="botao botao-financas">💰 Finanças</a>
+
+        <a href="#administracao" class="botao botao-admin">⚙️ Administração</a>
 
     </div>
 
     <!-- ===================================================== -->
     <!-- 📖 LITURGIA -->
     <!-- ===================================================== -->
-    <div class="card menu-centralizado" id="liturgia">
+    <div class="card" id="liturgia">
 
         <h2>📖 Liturgia</h2>
 
         <a href="#leituras-area" class="botao">📖 Leituras</a>
+
         <a href="#canticos-area" class="botao">🎵 Cânticos</a>
+
         <a href="#acolitos-area" class="botao">👦 Escala dos Acólitos</a>
+
         <a href="#leitores-area" class="botao">📚 Escala de Leitores</a>
 
     </div>
@@ -63,9 +69,12 @@
         <form action="/add_aviso" method="POST">
 
             <input type="text" name="titulo" placeholder="Título" required>
+
             <textarea name="descricao" placeholder="Descrição" required></textarea>
 
-            <button class="botao" type="submit">➕ Adicionar Aviso</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Aviso
+            </button>
 
         </form>
 
@@ -74,12 +83,18 @@
         {% for a in avisos %}
 
             <p><b>{{ a.titulo }}</b></p>
+
             <p>{{ a.descricao }}</p>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-                <a class="botao" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
+                <a class="botao" href="/edit_aviso/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_aviso/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
 
             </div>
 
@@ -97,9 +112,12 @@
         <form action="/add_leitura" method="POST">
 
             <input type="text" name="tipo" placeholder="Tipo de leitura" required>
+
             <textarea name="texto" placeholder="Texto da leitura" required></textarea>
 
-            <button class="botao" type="submit">➕ Adicionar Leitura</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Leitura
+            </button>
 
         </form>
 
@@ -108,12 +126,18 @@
         {% for l in leituras %}
 
             <p><b>{{ l.tipo }}</b></p>
+
             <p>{{ l.texto }}</p>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-                <a class="botao" href="/edit_leitura/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_leitura/{{ loop.index0 }}">❌ Apagar</a>
+                <a class="botao" href="/edit_leitura/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_leitura/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
 
             </div>
 
@@ -131,10 +155,14 @@
         <form action="/add_cantico" method="POST">
 
             <input type="text" name="momento" placeholder="Momento" required>
+
             <input type="text" name="cantico" placeholder="Nome do cântico" required>
+
             <textarea name="letra" placeholder="Letra" required></textarea>
 
-            <button class="botao" type="submit">➕ Adicionar Cântico</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Cântico
+            </button>
 
         </form>
 
@@ -146,8 +174,13 @@
 
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-                <a class="botao" href="/edit_cantico/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_cantico/{{ loop.index0 }}">❌ Apagar</a>
+                <a class="botao" href="/edit_cantico/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_cantico/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
 
             </div>
 
@@ -165,14 +198,22 @@
         <form action="/add_acolito" method="POST">
 
             <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+
             <input type="text" name="turiferario" placeholder="Turiferário" required>
+
             <input type="text" name="naveteiro" placeholder="Naveteiro" required>
+
             <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
+
             <input type="text" name="velas" placeholder="Velas" required>
+
             <input type="text" name="missal" placeholder="Missal" required>
+
             <input type="text" name="campainha" placeholder="Campainha" required>
 
-            <button class="botao" type="submit">➕ Adicionar Escala</button>
+            <button class="botao" type="submit">
+                ➕ Adicionar Escala
+            </button>
 
         </form>
 
@@ -187,8 +228,13 @@
 
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-                <a class="botao" href="/edit_acolito/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">❌ Apagar</a>
+                <a class="botao" href="/edit_acolito/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
 
             </div>
 
@@ -205,14 +251,21 @@
 
         <form action="/add_leitor" method="POST">
 
-            <input type="text" name="primeira_pt" required>
-            <input type="text" name="primeira_ch" required>
-            <input type="text" name="salmo" required>
-            <input type="text" name="segunda_pt" required>
-            <input type="text" name="segunda_ch" required>
-            <input type="text" name="oracao_fieis" required>
+            <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
 
-            <button class="botao" type="submit">➕ Adicionar Escala</button>
+            <input type="text" name="primeira_ch" placeholder="1ª Leitura CH/Ronga" required>
+
+            <input type="text" name="salmo" placeholder="Salmo" required>
+
+            <input type="text" name="segunda_pt" placeholder="2ª Leitura PT" required>
+
+            <input type="text" name="segunda_ch" placeholder="2ª Leitura CH/Ronga" required>
+
+            <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Escala
+            </button>
 
         </form>
 
@@ -225,8 +278,13 @@
 
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-                <a class="botao" href="/edit_leitor/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
+                <a class="botao" href="/edit_leitor/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
 
             </div>
 
@@ -237,11 +295,13 @@
     </div>
 
     <!-- ===================== ESPIRITUAL ===================== -->
-    <div class="card menu-centralizado" id="espiritual">
+    <div class="card" id="espiritual">
 
         <h2>🙏 Espiritual</h2>
 
-        <a href="#pedidos-area" class="botao">🙏 Pedidos de Oração</a>
+        <a href="#pedidos-area" class="botao">
+            🙏 Pedidos de Oração
+        </a>
 
     </div>
 
@@ -252,31 +312,74 @@
 
         <form action="/add_pedido" method="POST">
 
-            <input type="text" name="nome" required>
-            <select name="categoria" required></select>
-            <textarea name="pedido" required></textarea>
+            <input type="text" name="nome" placeholder="Nome" required>
 
-            <button class="botao">➕ Adicionar Pedido</button>
+            <select name="categoria" required>
+
+                <option value="Saúde">Saúde</option>
+                <option value="Família">Família</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Estudos">Estudos</option>
+                <option value="Falecido">Falecido</option>
+                <option value="Agradecimento">Agradecimento</option>
+
+            </select>
+
+            <textarea name="pedido" placeholder="Pedido de oração" required></textarea>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Pedido
+            </button>
 
         </form>
+
+        <hr>
+
+        {% for p in pedidos %}
+
+            <p><b>{{ p.nome }}</b></p>
+
+            <p>{{ p.categoria }}</p>
+
+            <p>{{ p.pedido }}</p>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_pedido/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_pedido/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
 
     </div>
 
     <!-- ===================== FINANÇAS ===================== -->
-    <div class="card menu-centralizado" id="financas">
+    <div class="card" id="financas">
 
         <h2>💰 Finanças</h2>
 
-        <a href="/dizimista_login" class="botao">👤 Área do Dizimista</a>
+        <a href="/dizimista_login" class="botao">
+            👤 Área do Dizimista
+        </a>
 
     </div>
 
-    <!-- ===================== ADMIN ===================== -->
-    <div class="card menu-centralizado" id="administracao">
+    <!-- ===================== ADMINISTRAÇÃO ===================== -->
+    <div class="card" id="administracao">
 
         <h2>⚙️ Administração</h2>
 
-        <a href="#calendario-area" class="botao">📅 Calendário Pastoral</a>
+        <a href="#calendario-area" class="botao">
+            📅 Calendário Pastoral
+        </a>
 
     </div>
 
@@ -287,20 +390,49 @@
 
         <form action="/add_calendario" method="POST">
 
-            <input type="text" name="evento" required>
-            <input type="date" name="data" required>
-            <textarea name="descricao" required></textarea>
+            <input type="text" name="evento" placeholder="Evento" required>
 
-            <button class="botao">➕ Adicionar Evento</button>
+            <input type="date" name="data" required>
+
+            <textarea name="descricao" placeholder="Descrição" required></textarea>
+
+            <button class="botao" type="submit">
+                ➕ Adicionar Evento
+            </button>
 
         </form>
 
+        <hr>
+
+        {% for c in calendario %}
+
+            <p><b>{{ c.evento }}</b> - {{ c.data }}</p>
+
+            <p>{{ c.descricao }}</p>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                <a class="botao" href="/edit_calendario/{{ loop.index0 }}">
+                    ✏️ Editar
+                </a>
+
+                <a class="delete" href="/delete_calendario/{{ loop.index0 }}">
+                    ❌ Apagar
+                </a>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
     </div>
 
-    <!-- ========================= -->
-    <!-- BOTÕES FINAIS -->
-    <!-- ========================= -->
+    <!-- =========================
+         BOTÕES FINAIS
+    ========================= -->
     <a href="/" class="botao">🏠 Voltar ao Início</a>
+
     <a href="/logout" class="botao">🚪 Terminar Sessão</a>
 
 </div>

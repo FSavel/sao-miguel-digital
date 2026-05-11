@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Área do Dizimista</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -16,40 +15,31 @@
         <!-- =========================
              TÍTULO
         ========================= -->
-        <h1 class="titulo-principal">
-            👤 Área do Dizimista
-        </h1>
-
-        <!-- =========================
-             SAUDAÇÃO
-        ========================= -->
-        <h2 class="saudacao-dizimista">
-            Olá, {{ user.nome }}
-        </h2>
-
-        <!-- =========================
-             MENSAGEM
-        ========================= -->
-        <p class="mensagem-dizimista">
-            🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
-        </p>
-
-        <!-- =========================
-             TOTAL
-        ========================= -->
         <div class="card">
 
-            <p class="total-label">
-                Total de Contribuições:
-                <span class="total-valor">
-                    {{ total }} MZN
-                </span>
+            <h2>👤 Área do Dizimista</h2>
+
+            <p class="saudacao-dizimista">
+                Olá, {{ user.nome }}
             </p>
 
         </div>
 
         <!-- =========================
-             BOTÃO PDF
+             RESUMO
+        ========================= -->
+        <div class="card">
+
+            <h3>Total de Contribuições</h3>
+
+            <p class="total-contribuicoes">
+                {{ contribuicoes | length }} registo(s)
+            </p>
+
+        </div>
+
+        <!-- =========================
+             PDF
         ========================= -->
         <div class="card">
 
@@ -64,7 +54,7 @@
         ========================= -->
         <div class="card">
 
-            <h2>📊 Histórico de Contribuições</h2>
+            <h3>📊 Histórico de Contribuições</h3>
 
             <div class="table-responsive">
 
@@ -76,12 +66,10 @@
                     </tr>
 
                     {% for c in contribuicoes %}
-
                     <tr>
                         <td>{{ c.data }}</td>
-                        <td>{{ c.valor }} MZN</td>
+                        <td class="valor-destaque">{{ c.valor }} MZN</td>
                     </tr>
-
                     {% endfor %}
 
                 </table>
@@ -91,7 +79,7 @@
         </div>
 
         <!-- =========================
-             LOGOUT
+             SAIR
         ========================= -->
         <div class="card">
 

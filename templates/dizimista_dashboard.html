@@ -14,10 +14,13 @@
     <!-- =========================
          SAUDAÇÃO
     ========================== -->
-    <h2 style="color:white; text-align:center;">
+    <h2 class="saudacao-dizimista">
         👤 Olá, {{ user.nome }}
     </h2>
 
+    <!-- =========================
+         DADOS DO DIZIMISTA
+    ========================== -->
     <div class="card">
 
         <p><b>Número:</b> {{ user.numero }}</p>
@@ -25,8 +28,6 @@
         <p><b>Contacto:</b> {{ user.contacto }}</p>
 
     </div>
-
-    <br>
 
     <!-- =========================
          RESUMO FINANCEIRO
@@ -43,25 +44,22 @@
 
         <h2>💰 Total de Contribuições: {{ total.value }} MZN</h2>
 
-        <p style="color:green; font-weight:bold;">
+        <!-- frase única (SEM REPETIÇÃO) -->
+        <p style="color:green; font-weight:bold; text-align:center; margin-top:10px;">
             🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
         </p>
 
     </div>
 
-    <br>
-
     <!-- =========================
-         BOTÃO EXPORTAR PDF
+         BOTÃO EXPORTAR PDF (REAL)
     ========================== -->
-    <a href="#" class="botao pdf-btn" onclick="window.print()">
-        📄 Exportar Extrato (PDF)
+    <a href="/export_extrato_pdf" class="botao botao-pdf">
+        📥 Exportar Extrato PDF
     </a>
 
-    <br>
-
     <!-- =========================
-         TABELA
+         TABELA DE CONTRIBUIÇÕES
     ========================== -->
     <div class="card">
 
@@ -103,12 +101,10 @@
 
     </div>
 
-    <br>
-
     <!-- =========================
          SAIR
     ========================== -->
-    <a href="/dizimista_logout" class="botao">
+    <a href="/dizimista_logout" class="botao botao-sair">
         🚪 Sair
     </a>
 

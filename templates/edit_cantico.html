@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+<head>
+
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Editar Cântico</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+```
+
+</head>
+
+<body>
+
+<div class="overlay">
+<div class="container">
+
+```
+<h1 class="titulo-principal">🎵 Editar Cântico</h1>
+
+<div class="card">
+
+    <form method="POST">
+
+        <input 
+            type="text" 
+            name="momento" 
+            value="{{ cantico.momento }}" 
+            required
+        >
+
+        <input 
+            type="text" 
+            name="cantico" 
+            value="{{ cantico.cantico }}" 
+            required
+        >
+
+        <textarea 
+            name="letra" 
+            required
+        >{{ cantico.letra }}</textarea>
+
+        <button class="botao" type="submit">
+            💾 Guardar Alterações
+        </button>
+
+    </form>
+
+</div>
+
+<a href="/admin" class="botao">⬅️ Voltar</a>
+```
+
+</div>
+</div>
+
+</body>
+</html>

@@ -75,7 +75,7 @@ def guardar_sheet(nome, lista):
 
 
 # =========================
-# LOGIN ADMIN
+# APP
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -86,6 +86,9 @@ def index():
     return render_template("index.html", avisos=ler_sheet("avisos"))
 
 
+# =========================
+# LOGIN ADMIN
+# =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
@@ -109,6 +112,9 @@ def logout():
     return redirect("/")
 
 
+# =========================
+# ADMIN
+# =========================
 @app.route("/admin")
 def admin():
     if not session.get("admin"):
@@ -126,9 +132,9 @@ def admin():
     )
 
 
-# =========================
-# DIZIMISTA LOGIN
-# =========================
+# ======================================================
+# 🔷 DIZIMISTA
+# ======================================================
 @app.route("/dizimista_login", methods=["GET", "POST"])
 def dizimista_login():
     erro = None
@@ -140,6 +146,7 @@ def dizimista_login():
         dizimistas = ler_sheet("dizimistas")
 
         user = None
+
         for d in dizimistas:
             if str(d.get("numero", "")).strip() == numero and str(d.get("password", "")).strip() == password:
                 user = d
@@ -160,9 +167,6 @@ def dizimista_logout():
     return redirect("/")
 
 
-# =========================
-# DASHBOARD DIZIMISTA
-# =========================
 @app.route("/dizimista_dashboard")
 def dizimista_dashboard():
 
@@ -175,6 +179,7 @@ def dizimista_dashboard():
     contribuicoes = ler_sheet("contribuicoes")
 
     user = None
+
     for d in dizimistas:
         if str(d.get("numero", "")).strip() == numero:
             user = d
@@ -193,7 +198,7 @@ def dizimista_dashboard():
 
 
 # =========================
-# EXPORTAR PDF (EXTRATO)
+# PDF EXPORT
 # =========================
 @app.route("/export_extrato_pdf")
 def export_extrato_pdf():
@@ -207,6 +212,7 @@ def export_extrato_pdf():
     contribuicoes = ler_sheet("contribuicoes")
 
     user = None
+
     for d in dizimistas:
         if str(d.get("numero", "")).strip() == numero:
             user = d
@@ -268,16 +274,150 @@ def export_extrato_pdf():
     pdf.save()
     buffer.seek(0)
 
-    return send_file(
-        buffer,
-        as_attachment=True,
-        download_name="extrato.pdf",
-        mimetype="application/pdf"
-    )
+    return send_file(buffer, as_attachment=True, download_name="extrato.pdf", mimetype="application/pdf")
 
 
 # =========================
-# RUN (RENDER)
+# =========================
+# 🔥 ROTAS DE EDIÇÃO RESTAURADAS
+# =========================
+# =========================
+
+def admin_required():
+    return session.get("admin")
+
+
+# ---------- AVISOS ----------
+@app.route("/edit_aviso/<int:index>", methods=["GET", "POST"])
+def edit_aviso(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+
+    if index < 0 or index >= len(data):
+        return redirect("/admin")
+
+    if request.method == "POST":
+        data[index]["titulo"] = request.form["titulo"]
+        data[index]["descricao"] = request.form["descricao"]
+        guardar_sheet("avisos", data)
+        return redirect("/admin")
+
+    return render_template("edit_aviso.html", aviso=data[index], index=index)
+
+
+@app.route("/delete_aviso/<int:index>")
+def delete_aviso(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("avisos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("avisos", data)
+    return redirect("/admin")
+
+
+# ---------- LEITURAS ----------
+@app.route("/edit_leitura/<int:index>", methods=["GET", "POST"])
+def edit_leitura(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if request.method == "POST":
+        data[index]["tipo"] = request.form["tipo"]
+        data[index]["texto"] = request.form["texto"]
+        guardar_sheet("leituras", data)
+        return redirect("/admin")
+
+    return render_template("edit_leitura.html", leitura=data[index], index=index)
+
+
+@app.route("/delete_leitura/<int:index>")
+def delete_leitura(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("leituras")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("leituras", data)
+    return redirect("/admin")
+
+
+# ---------- CÂNTICOS ----------
+@app.route("/edit_cantico/<int:index>", methods=["GET", "POST"])
+def edit_cantico(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    if request.method == "POST":
+        data[index]["momento"] = request.form["momento"]
+        data[index]["cantico"] = request.form["cantico"]
+        data[index]["letra"] = request.form["letra"]
+        guardar_sheet("canticos", data)
+        return redirect("/admin")
+
+    return render_template("edit_cantico.html", cantico=data[index], index=index)
+
+
+@app.route("/delete_cantico/<int:index>")
+def delete_cantico(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("canticos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("canticos", data)
+    return redirect("/admin")
+
+
+# ---------- PEDIDOS ----------
+@app.route("/edit_pedido/<int:index>", methods=["GET", "POST"])
+def edit_pedido(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+
+    if request.method == "POST":
+        data[index]["nome"] = request.form["nome"]
+        data[index]["categoria"] = request.form["categoria"]
+        data[index]["pedido"] = request.form["pedido"]
+        guardar_sheet("pedidos", data)
+        return redirect("/admin")
+
+    return render_template("edit_pedido.html", pedido=data[index], index=index)
+
+
+@app.route("/delete_pedido/<int:index>")
+def delete_pedido(index):
+    if not admin_required():
+        return redirect("/login")
+
+    data = ler_sheet("pedidos")
+
+    if 0 <= index < len(data):
+        data.pop(index)
+
+    guardar_sheet("pedidos", data)
+    return redirect("/admin")
+
+
+# =========================
+# RUN
 # =========================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True)

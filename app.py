@@ -59,13 +59,11 @@ def save(name, data):
 def is_admin():
     return session.get("admin")
 
-
 # =========================
 # LOGIN ADMIN
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -77,45 +75,17 @@ def login():
         erro = "Credenciais inválidas"
     return render_template("login.html", erro=erro)
 
-
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-
-# =========================
-# DIZIMISTA LOGIN (ADICIONADO)
-# =========================
-@app.route("/dizimista_login", methods=["GET", "POST"])
-def dizimista_login():
-    erro = None
-
-    if request.method == "POST":
-        numero = request.form["numero"]
-        password = request.form["password"]
-
-        for d in read("dizimistas"):
-            if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
-                session["dizimista"] = numero
-                return redirect("/dizimista_dashboard")
-
-        erro = "Credenciais inválidas"
-
-    return render_template("dizimista_login.html", erro=erro)
-
-
-@app.route("/dizimista_logout")
-def dizimista_logout():
-    session.pop("dizimista", None)
-    return redirect("/")
 # =========================
 # HOME
 # =========================
 @app.route("/")
 def index():
     return render_template("index.html", avisos=read("avisos"))
-
 
 # =========================
 # ADMIN
@@ -136,9 +106,8 @@ def admin():
         leitores=read("leitores")
     )
 
-
 # =========================
-# PÁGINAS
+# PÁGINAS PÚBLICAS
 # =========================
 @app.route("/avisos")
 def avisos():
@@ -172,9 +141,59 @@ def escalas():
 def financeiro():
     return render_template("financeiro.html")
 
+# =========================
+# DIZIMISTA (ADICIONADO)
+# =========================
+@app.route("/dizimista_login", methods=["GET", "POST"])
+def dizimista_login():
+    erro = None
+
+    if request.method == "POST":
+        numero = request.form["numero"]
+        password = request.form["password"]
+
+        for d in read("dizimistas"):
+            if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
+                session["dizimista"] = numero
+                return redirect("/dizimista_dashboard")
+
+        erro = "Credenciais inválidas"
+
+    return render_template("dizimista_login.html", erro=erro)
+
+
+@app.route("/dizimista_dashboard")
+def dizimista_dashboard():
+    if not session.get("dizimista"):
+        return redirect("/dizimista_login")
+
+    numero = session["dizimista"]
+
+    user = None
+    for d in read("dizimistas"):
+        if str(d.get("numero")) == str(numero):
+            user = d
+            break
+
+    contrib = [
+        c for c in read("contribuicoes")
+        if str(c.get("numero")) == str(numero)
+    ]
+
+    return render_template(
+        "dizimista_dashboard.html",
+        user=user,
+        contribuicoes=contrib
+    )
+
+
+@app.route("/dizimista_logout")
+def dizimista_logout():
+    session.pop("dizimista", None)
+    return redirect("/")
 
 # =========================
-# ESCALAS - ACÓLITOS (FIX CRÍTICO)
+# ESCALAS - ACÓLITOS
 # =========================
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
@@ -182,7 +201,6 @@ def add_acolito():
     data.append(request.form.to_dict())
     save("acolitos", data)
     return redirect("/admin")
-
 
 @app.route("/delete_acolito/<int:i>")
 def delete_acolito(i):
@@ -192,9 +210,8 @@ def delete_acolito(i):
         save("acolitos", data)
     return redirect("/admin")
 
-
 # =========================
-# ESCALAS - LEITORES (FIX CRÍTICO)
+# ESCALAS - LEITORES
 # =========================
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
@@ -202,7 +219,6 @@ def add_leitor():
     data.append(request.form.to_dict())
     save("leitores", data)
     return redirect("/admin")
-
 
 @app.route("/delete_leitor/<int:i>")
 def delete_leitor(i):
@@ -212,9 +228,8 @@ def delete_leitor(i):
         save("leitores", data)
     return redirect("/admin")
 
-
 # =========================
-# CRUD RESTO (MANTIDO)
+# CRUD AVISOS
 # =========================
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
@@ -222,3 +237,9 @@ def add_aviso():
     data.append(request.form.to_dict())
     save("avisos", data)
     return redirect("/admin")
+
+# =========================
+# RUN
+# =========================
+if __name__ == "__main__":
+    app.run(debug=True)

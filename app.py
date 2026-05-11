@@ -78,7 +78,7 @@ def admin_ok():
 
 
 # =========================
-# ADMIN CREDENTIALS
+# ADMIN LOGIN
 # =========================
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
@@ -93,7 +93,7 @@ def index():
 
 
 # =========================
-# LOGIN
+# LOGIN ADMIN
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -115,7 +115,7 @@ def logout():
 
 
 # =========================
-# ADMIN DASHBOARD
+# ADMIN
 # =========================
 @app.route("/admin")
 def admin():
@@ -132,6 +132,68 @@ def admin():
         calendario=read("calendario"),
         pedidos=read("pedidos")
     )
+
+
+# =========================
+# ESCALAS (FIX DO 404)
+# =========================
+@app.route("/escalas")
+def escalas():
+    return render_template(
+        "escalas.html",
+        acolitos=read("acolitos"),
+        leitores=read("leitores")
+    )
+
+
+# =========================
+# DIZIMISTA (FIX DO 404 CRÍTICO)
+# =========================
+@app.route("/dizimista_login", methods=["GET", "POST"])
+def dizimista_login():
+    erro = None
+
+    if request.method == "POST":
+        numero = request.form["numero"]
+        password = request.form["password"]
+
+        diz = read("dizimistas")
+
+        for d in diz:
+            if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
+                session["dizimista"] = numero
+                return redirect("/dizimista_dashboard")
+
+        erro = "Dados inválidos"
+
+    return render_template("dizimista_login.html", erro=erro)
+
+
+@app.route("/dizimista_dashboard")
+def dizimista_dashboard():
+    if not session.get("dizimista"):
+        return redirect("/dizimista_login")
+
+    numero = session["dizimista"]
+
+    diz = read("dizimistas")
+    cont = read("contribuicoes")
+
+    user = next((d for d in diz if str(d.get("numero")) == str(numero)), None)
+
+    minhas = [c for c in cont if str(c.get("numero")) == str(numero)]
+
+    return render_template(
+        "dizimista_dashboard.html",
+        user=user,
+        contribuicoes=minhas
+    )
+
+
+@app.route("/dizimista_logout")
+def dizimista_logout():
+    session.pop("dizimista", None)
+    return redirect("/")
 
 
 # =========================
@@ -168,7 +230,7 @@ def financeiro():
 
 
 # =========================
-# AVISOS
+# AVISOS CRUD
 # =========================
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
@@ -206,7 +268,7 @@ def edit_aviso(i):
 
 
 # =========================
-# LEITURAS
+# LEITURAS CRUD
 # =========================
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
@@ -244,16 +306,12 @@ def edit_leitura(i):
 
 
 # =========================
-# CÂNTICOS
+# CÂNTICOS CRUD
 # =========================
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
     data = read("canticos")
-    data.append({
-        "momento": request.form["momento"],
-        "cantico": request.form["cantico"],
-        "letra": request.form["letra"]
-    })
+    data.append(request.form.to_dict())
     save("canticos", data)
     return redirect("/admin")
 
@@ -272,11 +330,7 @@ def edit_cantico(i):
     data = read("canticos")
 
     if request.method == "POST":
-        data[i] = {
-            "momento": request.form["momento"],
-            "cantico": request.form["cantico"],
-            "letra": request.form["letra"]
-        }
+        data[i] = request.form.to_dict()
         save("canticos", data)
         return redirect("/admin")
 
@@ -284,7 +338,7 @@ def edit_cantico(i):
 
 
 # =========================
-# PEDIDOS
+# PEDIDOS CRUD
 # =========================
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():
@@ -313,106 +367,6 @@ def edit_pedido(i):
         return redirect("/admin")
 
     return render_template("edit_pedido.html", pedido=data[i], index=i)
-
-
-# =========================================================
-# 🔥 NOVAS ROTAS ADICIONADAS (O QUE ESTAVA EM FALTA)
-# =========================================================
-
-# =========================
-# CALENDÁRIO (CRUD COMPLETO)
-# =========================
-@app.route("/add_calendario", methods=["POST"])
-def add_calendario():
-    data = read("calendario")
-    data.append(request.form.to_dict())
-    save("calendario", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_calendario/<int:i>")
-def delete_calendario(i):
-    data = read("calendario")
-    if i < len(data):
-        data.pop(i)
-        save("calendario", data)
-    return redirect("/admin")
-
-
-@app.route("/edit_calendario/<int:i>", methods=["GET", "POST"])
-def edit_calendario(i):
-    data = read("calendario")
-
-    if request.method == "POST":
-        data[i] = request.form.to_dict()
-        save("calendario", data)
-        return redirect("/admin")
-
-    return render_template("edit_calendario.html", item=data[i], index=i)
-
-
-# =========================
-# ACÓLITOS (CRUD COMPLETO)
-# =========================
-@app.route("/add_acolito", methods=["POST"])
-def add_acolito():
-    data = read("acolitos")
-    data.append(request.form.to_dict())
-    save("acolitos", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_acolito/<int:i>")
-def delete_acolito(i):
-    data = read("acolitos")
-    if i < len(data):
-        data.pop(i)
-        save("acolitos", data)
-    return redirect("/admin")
-
-
-@app.route("/edit_acolito/<int:i>", methods=["GET", "POST"])
-def edit_acolito(i):
-    data = read("acolitos")
-
-    if request.method == "POST":
-        data[i] = request.form.to_dict()
-        save("acolitos", data)
-        return redirect("/admin")
-
-    return render_template("edit_acolito.html", item=data[i], index=i)
-
-
-# =========================
-# LEITORES (CRUD COMPLETO)
-# =========================
-@app.route("/add_leitor", methods=["POST"])
-def add_leitor():
-    data = read("leitores")
-    data.append(request.form.to_dict())
-    save("leitores", data)
-    return redirect("/admin")
-
-
-@app.route("/delete_leitor/<int:i>")
-def delete_leitor(i):
-    data = read("leitores")
-    if i < len(data):
-        data.pop(i)
-        save("leitores", data)
-    return redirect("/admin")
-
-
-@app.route("/edit_leitor/<int:i>", methods=["GET", "POST"])
-def edit_leitor(i):
-    data = read("leitores")
-
-    if request.method == "POST":
-        data[i] = request.form.to_dict()
-        save("leitores", data)
-        return redirect("/admin")
-
-    return render_template("edit_leitor.html", item=data[i], index=i)
 
 
 # =========================

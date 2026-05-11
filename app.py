@@ -85,6 +85,31 @@ def logout():
 
 
 # =========================
+# DIZIMISTA LOGIN (ADICIONADO)
+# =========================
+@app.route("/dizimista_login", methods=["GET", "POST"])
+def dizimista_login():
+    erro = None
+
+    if request.method == "POST":
+        numero = request.form["numero"]
+        password = request.form["password"]
+
+        for d in read("dizimistas"):
+            if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
+                session["dizimista"] = numero
+                return redirect("/dizimista_dashboard")
+
+        erro = "Credenciais inválidas"
+
+    return render_template("dizimista_login.html", erro=erro)
+
+
+@app.route("/dizimista_logout")
+def dizimista_logout():
+    session.pop("dizimista", None)
+    return redirect("/")
+# =========================
 # HOME
 # =========================
 @app.route("/")

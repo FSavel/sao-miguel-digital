@@ -194,6 +194,27 @@ CORES ESPECIAIS
 }
 
 /* =========================
+CARD PDF (NOVO AJUSTE)
+========================= */
+.card-pdf {
+    background: #8b0000;
+    padding: 10px 12px;
+    border-radius: 10px;
+    width: fit-content;
+    margin: 15px auto;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.card-pdf .botao-pdf {
+    background: white;
+    color: #8b0000;
+    font-weight: bold;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+/* =========================
 DIZIMISTA DASHBOARD
 ========================= */
 .mensagem-dizimista {

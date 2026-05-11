@@ -53,6 +53,23 @@ TÍTULOS
     line-height: 1.5;
 }
 
+/* =====================================================
+MENU HOME (CENTRALIZAÇÃO APENAS NA PÁGINA INICIAL)
+===================================================== */
+.menu-home {
+    text-align: center;
+}
+
+.menu-home h2,
+.menu-home h3,
+.menu-home p {
+    text-align: center;
+}
+
+.menu-home .botao {
+    text-align: center;
+}
+
 /* =========================
 TICKER
 ========================= */
@@ -266,23 +283,6 @@ SAUDAÇÃO DIZIMISTA
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 20px;
-}
-
-/* =========================
-MENU CENTRALIZADO (CORREÇÃO PRINCIPAL)
-========================= */
-.menu-centralizado {
-    text-align: center;
-}
-
-.menu-centralizado h2,
-.menu-centralizado h3,
-.menu-centralizado p {
-    text-align: center;
-}
-
-.menu-centralizado .botao {
-    text-align: center;
 }
 
 /* =========================

@@ -1,4 +1,4 @@
-/* =========================
+ /* =========================
 RESET
 ========================= */
 * {
@@ -194,7 +194,32 @@ CORES ESPECIAIS
 }
 
 /* =========================
-DIZIMISTA DASHBOARD (SIMPLIFICADO)
+PDF EXPORT (NOVO ESTILO SIMPLES)
+========================= */
+.pdf-container {
+    text-align: left;
+    margin: 8px 0;
+}
+
+.botao-pdf {
+    display: inline-block;
+    width: auto;
+    background: transparent;
+    color: #c40000;
+    border: none;
+    padding: 4px 0;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao-pdf:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+DIZIMISTA DASHBOARD
 ========================= */
 .mensagem-dizimista {
     font-size: 13px;
@@ -203,14 +228,12 @@ DIZIMISTA DASHBOARD (SIMPLIFICADO)
     margin-bottom: 10px;
 }
 
-/* texto pequeno "Total de Contribuições" */
 .total-label {
     font-size: 13px;
     text-align: center;
     font-weight: 600;
 }
 
-/* valor em verde (mantido como pediste) */
 .total-valor {
     color: #2e7d32;
     font-weight: bold;

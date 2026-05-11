@@ -18,6 +18,7 @@ SCOPES = [
 ]
 
 creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+
 creds = Credentials.from_service_account_info(
     json.loads(creds_json),
     scopes=SCOPES
@@ -37,11 +38,13 @@ def ws(name):
     except:
         return sheet.add_worksheet(title=name, rows="1000", cols="20")
 
+
 def read(name):
     try:
         return ws(name).get_all_records()
     except:
         return []
+
 
 def save(name, data):
     w = ws(name)
@@ -56,8 +59,10 @@ def save(name, data):
     for r in data:
         w.append_row([r.get(h, "") for h in headers])
 
+
 def is_admin():
     return session.get("admin")
+
 
 # =========================
 # LOGIN ADMIN
@@ -65,27 +70,40 @@ def is_admin():
 ADMIN_USER = "Padre"
 ADMIN_PASS = "1234"
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
+
     if request.method == "POST":
-        if request.form["username"] == ADMIN_USER and request.form["password"] == ADMIN_PASS:
+        if (
+            request.form["username"] == ADMIN_USER
+            and request.form["password"] == ADMIN_PASS
+        ):
             session["admin"] = True
             return redirect("/admin")
+
         erro = "Credenciais inválidas"
+
     return render_template("login.html", erro=erro)
+
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
+
 # =========================
 # HOME
 # =========================
 @app.route("/")
 def index():
-    return render_template("index.html", avisos=read("avisos"))
+    return render_template(
+        "index.html",
+        avisos=read("avisos")
+    )
+
 
 # =========================
 # ADMIN
@@ -106,28 +124,49 @@ def admin():
         leitores=read("leitores")
     )
 
+
 # =========================
 # PÁGINAS PÚBLICAS
 # =========================
 @app.route("/avisos")
 def avisos():
-    return render_template("avisos.html", avisos=read("avisos"))
+    return render_template(
+        "avisos.html",
+        avisos=read("avisos")
+    )
+
 
 @app.route("/leituras")
 def leituras():
-    return render_template("leituras.html", leituras=read("leituras"))
+    return render_template(
+        "leituras.html",
+        leituras=read("leituras")
+    )
+
 
 @app.route("/canticos")
 def canticos():
-    return render_template("canticos.html", canticos=read("canticos"))
+    return render_template(
+        "canticos.html",
+        canticos=read("canticos")
+    )
+
 
 @app.route("/pedido_oracao")
 def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=read("pedidos"))
+    return render_template(
+        "pedido_oracao.html",
+        pedidos=read("pedidos")
+    )
+
 
 @app.route("/calendario")
 def calendario():
-    return render_template("calendario.html", calendario=read("calendario"))
+    return render_template(
+        "calendario.html",
+        calendario=read("calendario")
+    )
+
 
 @app.route("/escalas")
 def escalas():
@@ -137,40 +176,81 @@ def escalas():
         leitores=read("leitores")
     )
 
+
 @app.route("/financeiro")
 def financeiro():
-    return render_template("financeiro.html")
+
+    financeiro = read("financeiro")
+
+    total_entradas = 0
+    total_despesas = 0
+
+    for item in financeiro:
+        try:
+            valor = float(item.get("valor", 0))
+
+            if item.get("tipo") == "entrada":
+                total_entradas += valor
+            else:
+                total_despesas += valor
+
+        except:
+            pass
+
+    saldo = total_entradas - total_despesas
+
+    return render_template(
+        "financeiro.html",
+        financeiro=financeiro,
+        total_entradas=total_entradas,
+        total_despesas=total_despesas,
+        saldo=saldo
+    )
+
 
 # =========================
-# DIZIMISTA (ADICIONADO)
+# DIZIMISTA
 # =========================
 @app.route("/dizimista_login", methods=["GET", "POST"])
 def dizimista_login():
+
     erro = None
 
     if request.method == "POST":
+
         numero = request.form["numero"]
         password = request.form["password"]
 
         for d in read("dizimistas"):
-            if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
+
+            if (
+                str(d.get("numero")) == str(numero)
+                and str(d.get("password")) == str(password)
+            ):
+
                 session["dizimista"] = numero
                 return redirect("/dizimista_dashboard")
 
         erro = "Credenciais inválidas"
 
-    return render_template("dizimista_login.html", erro=erro)
+    return render_template(
+        "dizimista_login.html",
+        erro=erro
+    )
 
 
 @app.route("/dizimista_dashboard")
 def dizimista_dashboard():
+
     if not session.get("dizimista"):
         return redirect("/dizimista_login")
 
     numero = session["dizimista"]
 
     user = None
+
     for d in read("dizimistas"):
+
         if str(d.get("numero")) == str(numero):
             user = d
             break
@@ -192,51 +272,363 @@ def dizimista_logout():
     session.pop("dizimista", None)
     return redirect("/")
 
+
+@app.route("/export_extrato_pdf")
+def export_extrato_pdf():
+
+    if not session.get("dizimista"):
+        return redirect("/dizimista_login")
+
+    return redirect("/dizimista_dashboard")
+
+
 # =========================
-# ESCALAS - ACÓLITOS
+# ACÓLITOS
 # =========================
 @app.route("/add_acolito", methods=["POST"])
 def add_acolito():
+
     data = read("acolitos")
     data.append(request.form.to_dict())
+
     save("acolitos", data)
+
     return redirect("/admin")
+
 
 @app.route("/delete_acolito/<int:i>")
 def delete_acolito(i):
+
     data = read("acolitos")
+
     if i < len(data):
         data.pop(i)
         save("acolitos", data)
+
     return redirect("/admin")
 
+
+@app.route("/edit_acolito/<int:i>", methods=["GET", "POST"])
+def edit_acolito(i):
+
+    data = read("acolitos")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("acolitos", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "acolitos.html",
+        acolitos=data
+    )
+
+
 # =========================
-# ESCALAS - LEITORES
+# LEITORES
 # =========================
 @app.route("/add_leitor", methods=["POST"])
 def add_leitor():
+
     data = read("leitores")
     data.append(request.form.to_dict())
+
     save("leitores", data)
+
     return redirect("/admin")
+
 
 @app.route("/delete_leitor/<int:i>")
 def delete_leitor(i):
+
     data = read("leitores")
+
     if i < len(data):
         data.pop(i)
         save("leitores", data)
+
     return redirect("/admin")
 
+
+@app.route("/edit_leitor/<int:i>", methods=["GET", "POST"])
+def edit_leitor(i):
+
+    data = read("leitores")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("leitores", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "leitores.html",
+        leitores=data
+    )
+
+
 # =========================
-# CRUD AVISOS
+# AVISOS
 # =========================
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
+
     data = read("avisos")
-    data.append(request.form.to_dict())
+
+    data.append({
+        "titulo": request.form["titulo"],
+        "descricao": request.form["descricao"]
+    })
+
     save("avisos", data)
+
     return redirect("/admin")
+
+
+@app.route("/delete_aviso/<int:i>")
+def delete_aviso(i):
+
+    data = read("avisos")
+
+    if i < len(data):
+        data.pop(i)
+        save("avisos", data)
+
+    return redirect("/admin")
+
+
+@app.route("/edit_aviso/<int:i>", methods=["GET", "POST"])
+def edit_aviso(i):
+
+    data = read("avisos")
+
+    if request.method == "POST":
+
+        data[i] = {
+            "titulo": request.form["titulo"],
+            "descricao": request.form["descricao"]
+        }
+
+        save("avisos", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "edit_aviso.html",
+        aviso=data[i],
+        index=i
+    )
+
+
+# =========================
+# LEITURAS
+# =========================
+@app.route("/add_leitura", methods=["POST"])
+def add_leitura():
+
+    data = read("leituras")
+
+    data.append(request.form.to_dict())
+
+    save("leituras", data)
+
+    return redirect("/admin")
+
+
+@app.route("/delete_leitura/<int:i>")
+def delete_leitura(i):
+
+    data = read("leituras")
+
+    if i < len(data):
+        data.pop(i)
+        save("leituras", data)
+
+    return redirect("/admin")
+
+
+@app.route("/edit_leitura/<int:i>", methods=["GET", "POST"])
+def edit_leitura(i):
+
+    data = read("leituras")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("leituras", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "edit_leitura.html",
+        leitura=data[i],
+        index=i
+    )
+
+
+# =========================
+# CÂNTICOS
+# =========================
+@app.route("/add_cantico", methods=["POST"])
+def add_cantico():
+
+    data = read("canticos")
+
+    data.append(request.form.to_dict())
+
+    save("canticos", data)
+
+    return redirect("/admin")
+
+
+@app.route("/delete_cantico/<int:i>")
+def delete_cantico(i):
+
+    data = read("canticos")
+
+    if i < len(data):
+        data.pop(i)
+        save("canticos", data)
+
+    return redirect("/admin")
+
+
+@app.route("/edit_cantico/<int:i>", methods=["GET", "POST"])
+def edit_cantico(i):
+
+    data = read("canticos")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("canticos", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "edit_cantico.html",
+        cantico=data[i],
+        index=i
+    )
+
+
+# =========================
+# PEDIDOS
+# =========================
+@app.route("/add_pedido", methods=["POST"])
+def add_pedido():
+
+    data = read("pedidos")
+
+    data.append(request.form.to_dict())
+
+    save("pedidos", data)
+
+    return redirect("/admin")
+
+
+@app.route("/delete_pedido/<int:i>")
+def delete_pedido(i):
+
+    data = read("pedidos")
+
+    if i < len(data):
+        data.pop(i)
+        save("pedidos", data)
+
+    return redirect("/admin")
+
+
+@app.route("/edit_pedido/<int:i>", methods=["GET", "POST"])
+def edit_pedido(i):
+
+    data = read("pedidos")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("pedidos", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "edit_pedido.html",
+        pedido=data[i],
+        index=i
+    )
+
+
+# =========================
+# CALENDÁRIO
+# =========================
+@app.route("/add_calendario", methods=["POST"])
+def add_calendario():
+
+    data = read("calendario")
+
+    data.append(request.form.to_dict())
+
+    save("calendario", data)
+
+    return redirect("/admin")
+
+
+@app.route("/delete_calendario/<int:i>")
+def delete_calendario(i):
+
+    data = read("calendario")
+
+    if i < len(data):
+        data.pop(i)
+        save("calendario", data)
+
+    return redirect("/admin")
+
+
+@app.route("/edit_calendario/<int:i>", methods=["GET", "POST"])
+def edit_calendario(i):
+
+    data = read("calendario")
+
+    if request.method == "POST":
+
+        data[i] = request.form.to_dict()
+
+        save("calendario", data)
+
+        return redirect("/admin")
+
+    return render_template(
+        "calendario.html",
+        calendario=data
+    )
+
+
+# =========================
+# FINANCEIRO
+# =========================
+@app.route("/add_financeiro", methods=["POST"])
+def add_financeiro():
+
+    if not is_admin():
+        return redirect("/login")
+
+    data = read("financeiro")
+
+    data.append(request.form.to_dict())
+
+    save("financeiro", data)
+
+    return redirect("/financeiro")
+
 
 # =========================
 # RUN

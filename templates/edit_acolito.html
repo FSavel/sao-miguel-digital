@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Editar Acólito</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+<div class="container">
+
+    <h1 class="titulo-principal">⛪ Editar Acólito</h1>
+
+    <div class="card">
+
+        <form method="POST">
+
+            <input 
+                type="text" 
+                name="nome" 
+                value="{{ acolito.nome }}" 
+                required
+            >
+
+            <input 
+                type="text" 
+                name="funcao" 
+                value="{{ acolito.funcao }}" 
+                required
+            >
+
+            <button class="botao" type="submit">
+                💾 Guardar Alterações
+            </button>
+
+        </form>
+
+    </div>
+
+    <a href="/admin" class="botao">⬅️ Voltar</a>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -19,8 +19,10 @@
 
             <h2>👤 Área do Dizimista</h2>
 
+            <p>Olá, {{ user.nome }}</p>
+
             <p class="saudacao-dizimista">
-                Olá, {{ user.nome }}
+                🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
             </p>
 
         </div>
@@ -30,10 +32,10 @@
         ========================= -->
         <div class="card">
 
-            <h3>Total de Contribuições</h3>
+            <h3>Total de Contribuições:</h3>
 
-            <p class="total-contribuicoes">
-                {{ contribuicoes | length }} registo(s)
+            <p>
+                <strong>MZN {{ contribuicoes|sum(attribute='valor') }}</strong>
             </p>
 
         </div>
@@ -68,7 +70,7 @@
                     {% for c in contribuicoes %}
                     <tr>
                         <td>{{ c.data }}</td>
-                        <td class="valor-destaque">{{ c.valor }} MZN</td>
+                        <td>{{ c.valor }} MZN</td>
                     </tr>
                     {% endfor %}
 

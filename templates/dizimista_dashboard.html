@@ -37,7 +37,7 @@
         ========================== -->
         <div class="card">
 
-            <h3>💰 Resumo Financeiro</h3>
+            <h3> Resumo Financeiro</h3>
 
             {% set total = namespace(value=0) %}
             {% for c in contribuicoes %}
@@ -59,13 +59,17 @@
         <!-- =========================
              BOTÃO PDF
         ========================== -->
-        <a href="/export_extrato_pdf" class="botao pdf-btn">
-            📥 Exportar Extrato PDF
-        </a>
+      <div class="card card-pdf">
 
-        <p style="text-align:center; color:white; margin-top:8px;">
-            Pode exportar o seu histórico de contribuições em PDF.
-        </p>
+    <a href="/export_extrato_pdf" class="botao botao-pdf">
+        📥 Exportar Extrato PDF
+    </a>
+
+    <p class="texto-pdf">
+        Exportar histórico em PDF
+    </p>
+
+</div>
 
         <br>
 

@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Meu Espaço</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
@@ -12,80 +18,120 @@
 <div class="container">
 
     <!-- =========================
-         DADOS DO DIZIMISTA
+         SAUDAÇÃO
     ========================== -->
-    <h2>👤 Olá, {{ user.nome }}</h2>
+    <h1 class="titulo-dashboard">
+        👤 Olá, {{ user.nome }}
+    </h1>
 
-    <div class="card">
-        <p><b>Número:</b> {{ user.numero }}</p>
-        <p><b>Email:</b> {{ user.email }}</p>
-        <p><b>Contacto:</b> {{ user.contacto }}</p>
-    </div>
-
-    <br>
+    <p class="frase-biblica">
+        Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
+    </p>
 
     <!-- =========================
-         TOTAL
+         DADOS DO DIZIMISTA
     ========================== -->
     <div class="card">
 
-        <h3>💰 Resumo Financeiro</h3>
+        <h2>👤 Dados do Dizimista</h2>
 
-        {% set total = 0 %}
+        <p><b>Número:</b> {{ user.numero }}</p>
+
+        <p><b>Email:</b> {{ user.email }}</p>
+
+        <p><b>Contacto:</b> {{ user.contacto }}</p>
+
+    </div>
+
+    <!-- =========================
+         RESUMO FINANCEIRO
+    ========================== -->
+    <div class="card">
+
+        <h2>💰 Resumo Financeiro</h2>
+
+        {% set total = namespace(valor=0) %}
 
         {% for c in contribuicoes %}
             {% if c.valor %}
-                {% set total = total + (c.valor | float) %}
+                {% set total.valor = total.valor + (c.valor | float) %}
             {% endif %}
         {% endfor %}
 
-        <h2>💰 Total de Contribuições: {{ total }} MZN</h2>
+        <div style="margin-top:15px;">
 
-        {% if total == 0 %}
-            <p style="color:red; font-weight:bold;">
+            <h1 style="font-size:32px; color:#0a7a32; text-align:center;">
+                {{ total.valor }} MZN
+            </h1>
+
+            <p style="text-align:center; margin-top:10px;">
+                Total de contribuições registadas
+            </p>
+
+        </div>
+
+        <hr>
+
+        {% if total.valor == 0 %}
+
+            <p style="color:red; font-weight:bold; text-align:center;">
                 ⚠️ Sem pagamentos registados
             </p>
+
         {% else %}
-            <p style="color:green;">
+
+            <p style="color:green; font-weight:bold; text-align:center;">
                 🙏 Obrigado pela sua contribuição à comunidade
             </p>
+
         {% endif %}
 
     </div>
 
-    <br>
-
     <!-- =========================
-         TABELA DE CONTRIBUIÇÕES
+         HISTÓRICO
     ========================== -->
     <div class="card">
 
-        <h3>📊 Minhas Contribuições</h3>
+        <h2>📊 Histórico de Contribuições</h2>
 
         {% if contribuicoes %}
 
-        <div style="overflow-x:auto;">
+        <div class="table-responsive">
 
-            <table style="width:100%; border-collapse: collapse;">
+            <table>
 
                 <thead>
-                    <tr style="background:#f2f2f2;">
-                        <th style="padding:8px;">Número</th>
-                        <th style="padding:8px;">Valor (MZN)</th>
-                        <th style="padding:8px;">Data</th>
-                        <th style="padding:8px;">Descrição</th>
+
+                    <tr>
+                        <th>Número</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
+
                     {% for c in contribuicoes %}
-                    <tr style="text-align:center; border-bottom:1px solid #ddd;">
-                        <td style="padding:8px;">{{ c.numero }}</td>
-                        <td style="padding:8px;">{{ c.valor }}</td>
-                        <td style="padding:8px;">{{ c.data }}</td>
-                        <td style="padding:8px;">{{ c.descricao }}</td>
+
+                    <tr>
+
+                        <td>{{ c.numero }}</td>
+
+                        <td>
+                            <b>{{ c.valor }} MZN</b>
+                        </td>
+
+                        <td>{{ c.data }}</td>
+
+                        <td>{{ c.descricao }}</td>
+
                     </tr>
+
                     {% endfor %}
+
                 </tbody>
 
             </table>
@@ -93,17 +139,43 @@
         </div>
 
         {% else %}
-            <p>Sem contribuições registadas.</p>
+
+            <p style="text-align:center;">
+                Sem contribuições registadas.
+            </p>
+
         {% endif %}
 
     </div>
 
-    <br>
+    <!-- =========================
+         EXPORTAR
+    ========================== -->
+    <div class="card">
+
+        <h2>📄 Extrato</h2>
+
+        <p style="margin-bottom:10px;">
+            Pode exportar o seu histórico financeiro em PDF.
+        </p>
+
+        <a href="/exportar_pdf" class="botao pdf-btn">
+            📥 Exportar Extrato PDF
+        </a>
+
+    </div>
 
     <!-- =========================
-         SAIR
+         BOTÕES
     ========================== -->
-    <a href="/dizimista_logout" class="botao">🚪 Sair</a>
+
+    <a href="/" class="botao botao-liturgia">
+        🏠 Voltar ao Início
+    </a>
+
+    <a href="/dizimista_logout" class="botao botao-admin">
+        🚪 Terminar Sessão
+    </a>
 
 </div>
 </div>

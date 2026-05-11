@@ -1,13 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, send_file
+from flask import Flask, render_template, request, redirect, session
 import os
 import json
 import gspread
 from google.oauth2.service_account import Credentials
-
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from io import BytesIO
-from datetime import datetime
 
 # =========================
 # APP INIT
@@ -26,14 +21,11 @@ SCOPES = [
 ]
 
 creds_json = os.environ.get("GOOGLE_CREDENTIALS")
-
 if not creds_json:
-    raise Exception("GOOGLE_CREDENTIALS não encontrada no Render")
-
-creds_dict = json.loads(creds_json)
+    raise Exception("GOOGLE_CREDENTIALS não encontrada")
 
 creds = Credentials.from_service_account_info(
-    creds_dict,
+    json.loads(creds_json),
     scopes=SCOPES
 )
 
@@ -45,56 +37,42 @@ print("✅ Google Sheets ligado com sucesso!")
 # =========================
 # HELPERS
 # =========================
-def get_ws(name):
+def ws(name):
     try:
         return sheet.worksheet(name)
     except:
         return sheet.add_worksheet(title=name, rows="1000", cols="20")
 
-
 def read(name):
     try:
-        return get_ws(name).get_all_records()
+        return ws(name).get_all_records()
     except:
         return []
 
-
 def save(name, data):
-    ws = get_ws(name)
-    ws.clear()
+    w = ws(name)
+    w.clear()
 
     if not data:
         return
 
     headers = list(data[0].keys())
-    ws.append_row(headers)
+    w.append_row(headers)
 
-    for row in data:
-        ws.append_row([row.get(h, "") for h in headers])
+    for r in data:
+        w.append_row([r.get(h, "") for h in headers])
 
-
-def admin_ok():
+def is_admin():
     return session.get("admin")
-
-
-# =========================
-# ADMIN LOGIN
-# =========================
-ADMIN_USER = "Padre"
-ADMIN_PASS = "1234"
-
-
-# =========================
-# HOME
-# =========================
-@app.route("/")
-def index():
-    return render_template("index.html", avisos=read("avisos"))
 
 
 # =========================
 # LOGIN ADMIN
 # =========================
+ADMIN_USER = "Padre"
+ADMIN_PASS = "1234"
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
@@ -110,16 +88,24 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session.pop("admin", None)
+    session.clear()
     return redirect("/")
 
 
 # =========================
-# ADMIN
+# HOME
+# =========================
+@app.route("/")
+def index():
+    return render_template("index.html", avisos=read("avisos"))
+
+
+# =========================
+# ADMIN DASHBOARD
 # =========================
 @app.route("/admin")
 def admin():
-    if not admin_ok():
+    if not is_admin():
         return redirect("/login")
 
     return render_template(
@@ -127,16 +113,36 @@ def admin():
         avisos=read("avisos"),
         leituras=read("leituras"),
         canticos=read("canticos"),
-        acolitos=read("acolitos"),
-        leitores=read("leitores"),
+        pedidos=read("pedidos"),
         calendario=read("calendario"),
-        pedidos=read("pedidos")
+        acolitos=read("acolitos"),
+        leitores=read("leitores")
     )
 
 
 # =========================
-# ESCALAS (FIX DO 404)
+# PÁGINAS PÚBLICAS
 # =========================
+@app.route("/avisos")
+def avisos():
+    return render_template("avisos.html", avisos=read("avisos"))
+
+@app.route("/leituras")
+def leituras():
+    return render_template("leituras.html", leituras=read("leituras"))
+
+@app.route("/canticos")
+def canticos():
+    return render_template("canticos.html", canticos=read("canticos"))
+
+@app.route("/pedido_oracao")
+def pedido_oracao():
+    return render_template("pedido_oracao.html", pedidos=read("pedidos"))
+
+@app.route("/calendario")
+def calendario():
+    return render_template("calendario.html", calendario=read("calendario"))
+
 @app.route("/escalas")
 def escalas():
     return render_template(
@@ -145,9 +151,13 @@ def escalas():
         leitores=read("leitores")
     )
 
+@app.route("/financeiro")
+def financeiro():
+    return render_template("financeiro.html")
+
 
 # =========================
-# DIZIMISTA (FIX DO 404 CRÍTICO)
+# DIZIMISTA (FIX COMPLETO)
 # =========================
 @app.route("/dizimista_login", methods=["GET", "POST"])
 def dizimista_login():
@@ -157,14 +167,12 @@ def dizimista_login():
         numero = request.form["numero"]
         password = request.form["password"]
 
-        diz = read("dizimistas")
-
-        for d in diz:
+        for d in read("dizimistas"):
             if str(d.get("numero")) == str(numero) and str(d.get("password")) == str(password):
                 session["dizimista"] = numero
                 return redirect("/dizimista_dashboard")
 
-        erro = "Dados inválidos"
+        erro = "Credenciais inválidas"
 
     return render_template("dizimista_login.html", erro=erro)
 
@@ -176,17 +184,21 @@ def dizimista_dashboard():
 
     numero = session["dizimista"]
 
-    diz = read("dizimistas")
-    cont = read("contribuicoes")
+    user = None
+    for d in read("dizimistas"):
+        if str(d.get("numero")) == str(numero):
+            user = d
+            break
 
-    user = next((d for d in diz if str(d.get("numero")) == str(numero)), None)
-
-    minhas = [c for c in cont if str(c.get("numero")) == str(numero)]
+    contrib = [
+        c for c in read("contribuicoes")
+        if str(c.get("numero")) == str(numero)
+    ]
 
     return render_template(
         "dizimista_dashboard.html",
         user=user,
-        contribuicoes=minhas
+        contribuicoes=contrib
     )
 
 
@@ -197,40 +209,7 @@ def dizimista_logout():
 
 
 # =========================
-# PÁGINAS PÚBLICAS
-# =========================
-@app.route("/avisos")
-def avisos():
-    return render_template("avisos.html", avisos=read("avisos"))
-
-
-@app.route("/leituras")
-def leituras():
-    return render_template("leituras.html", leituras=read("leituras"))
-
-
-@app.route("/canticos")
-def canticos():
-    return render_template("canticos.html", canticos=read("canticos"))
-
-
-@app.route("/calendario")
-def calendario():
-    return render_template("calendario.html", calendario=read("calendario"))
-
-
-@app.route("/pedido_oracao")
-def pedido_oracao():
-    return render_template("pedido_oracao.html", pedidos=read("pedidos"))
-
-
-@app.route("/financeiro")
-def financeiro():
-    return render_template("financeiro.html")
-
-
-# =========================
-# AVISOS CRUD
+# CRUD AVISOS
 # =========================
 @app.route("/add_aviso", methods=["POST"])
 def add_aviso():
@@ -268,15 +247,12 @@ def edit_aviso(i):
 
 
 # =========================
-# LEITURAS CRUD
+# CRUD LEITURAS
 # =========================
 @app.route("/add_leitura", methods=["POST"])
 def add_leitura():
     data = read("leituras")
-    data.append({
-        "tipo": request.form["tipo"],
-        "texto": request.form["texto"]
-    })
+    data.append(request.form.to_dict())
     save("leituras", data)
     return redirect("/admin")
 
@@ -295,10 +271,7 @@ def edit_leitura(i):
     data = read("leituras")
 
     if request.method == "POST":
-        data[i] = {
-            "tipo": request.form["tipo"],
-            "texto": request.form["texto"]
-        }
+        data[i] = request.form.to_dict()
         save("leituras", data)
         return redirect("/admin")
 
@@ -306,7 +279,7 @@ def edit_leitura(i):
 
 
 # =========================
-# CÂNTICOS CRUD
+# CRUD CÂNTICOS
 # =========================
 @app.route("/add_cantico", methods=["POST"])
 def add_cantico():
@@ -338,7 +311,7 @@ def edit_cantico(i):
 
 
 # =========================
-# PEDIDOS CRUD
+# CRUD PEDIDOS
 # =========================
 @app.route("/add_pedido", methods=["POST"])
 def add_pedido():

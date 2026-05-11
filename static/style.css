@@ -54,7 +54,7 @@ TÍTULOS
 }
 
 /* =====================================================
-HOME MENU (CORRIGIDO)
+HOME MENU
 ===================================================== */
 .home-menu {
     text-align: center;
@@ -183,6 +183,49 @@ CORES ESPECIAIS
 .botao-liturgia { background: rgba(210,220,255,0.95); }
 .botao-espiritual { background: rgba(255,210,240,0.95); }
 
+.botao-pdf {
+    background: #8b0000;
+    color: white;
+}
+
+.botao-sair {
+    background: #2e7d32;
+    color: white;
+}
+
+/* =========================
+DIZIMISTA DASHBOARD
+========================= */
+.mensagem-dizimista {
+    font-size: 14px;
+    text-align: center;
+    opacity: 0.85;
+    margin-bottom: 15px;
+}
+
+.total-label {
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.total-valor {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* =========================
+SAUDAÇÃO DIZIMISTA
+========================= */
+.saudacao-dizimista {
+    color: white !important;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 /* =========================
 RESPONSIVO
 ========================= */
@@ -201,4 +244,8 @@ RESPONSIVO
     .ticker { height: 38px; }
 
     .ticker-content { font-size: 13px; }
+
+    .saudacao-dizimista {
+        font-size: 22px;
+    }
 }

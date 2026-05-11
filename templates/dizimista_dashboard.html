@@ -2,125 +2,107 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Meu Espaço</title>
+    <title>Área do Dizimista</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
 <div class="overlay">
-<div class="container">
 
-    <!-- =========================
-         SAUDAÇÃO (BRANCA)
-    ========================== -->
-    <h2 class="saudacao-dizimista">
-        👤 Olá, {{ user.nome }}
-    </h2>
+    <div class="container">
 
-    <!-- =========================
-         DADOS
-    ========================== -->
-    <div class="card">
+        <!-- =========================
+             TÍTULO
+        ========================= -->
+        <h1 class="titulo-principal">
+            👤 Área do Dizimista
+        </h1>
 
-        <p><b>Número:</b> {{ user.numero }}</p>
-        <p><b>Email:</b> {{ user.email }}</p>
-        <p><b>Contacto:</b> {{ user.contacto }}</p>
+        <!-- =========================
+             SAUDAÇÃO
+        ========================= -->
+        <h2 class="saudacao-dizimista">
+            Olá, {{ user.nome }}
+        </h2>
 
-    </div>
-
-    <br>
-
-    <!-- =========================
-         RESUMO FINANCEIRO
-    ========================== -->
-    <div class="card">
-
-        <h3>💰 Resumo Financeiro</h3>
-
-        {% set total = namespace(value=0) %}
-
-        {% for c in contribuicoes %}
-            {% set total.value = total.value + (c.valor | float) %}
-        {% endfor %}
-
-        <h2>💰 Total de Contribuições: {{ total.value }} MZN</h2>
-
-        <!-- frase restaurada (como tinhas) -->
-        <p style="color:green; font-weight:bold;">
+        <!-- =========================
+             MENSAGEM
+        ========================= -->
+        <p class="mensagem-dizimista">
             🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo 🙏
         </p>
 
-    </div>
+        <!-- =========================
+             TOTAL
+        ========================= -->
+        <div class="card">
 
-    <br>
-
-    <!-- =========================
-         BOTÃO EXPORTAR PDF (ORIGINAL RESTAURADO)
-    ========================== -->
-    <a href="/export_extrato_pdf" class="botao pdf-btn">
-        📥 Exportar Extrato PDF
-    </a>
-
-    <p style="text-align:center; color:white; margin-top:8px;">
-        Pode exportar o seu histórico de contribuições em PDF.
-    </p>
-
-    <br>
-
-    <!-- =========================
-         TABELA
-    ========================== -->
-    <div class="card">
-
-        <h3>📊 Minhas Contribuições</h3>
-
-        {% if contribuicoes %}
-
-        <div class="table-responsive">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Número</th>
-                        <th>Valor (MZN)</th>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for c in contribuicoes %}
-                    <tr>
-                        <td>{{ c.numero }}</td>
-                        <td>{{ c.valor }}</td>
-                        <td>{{ c.data }}</td>
-                        <td>{{ c.descricao }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
+            <p class="total-label">
+                Total de Contribuições:
+                <span class="total-valor">
+                    {{ total }} MZN
+                </span>
+            </p>
 
         </div>
 
-        {% else %}
-            <p>Sem contribuições registadas.</p>
-        {% endif %}
+        <!-- =========================
+             BOTÃO PDF
+        ========================= -->
+        <div class="card">
+
+            <a href="/export_extrato_pdf" class="botao botao-pdf">
+                📄 Baixar Extrato em PDF
+            </a>
+
+        </div>
+
+        <!-- =========================
+             HISTÓRICO
+        ========================= -->
+        <div class="card">
+
+            <h2>📊 Histórico de Contribuições</h2>
+
+            <div class="table-responsive">
+
+                <table>
+
+                    <tr>
+                        <th>Data</th>
+                        <th>Valor</th>
+                    </tr>
+
+                    {% for c in contribuicoes %}
+
+                    <tr>
+                        <td>{{ c.data }}</td>
+                        <td>{{ c.valor }} MZN</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+             LOGOUT
+        ========================= -->
+        <div class="card">
+
+            <a href="/dizimista_logout" class="botao botao-sair">
+                🚪 Sair
+            </a>
+
+        </div>
 
     </div>
 
-    <br>
-
-    <!-- =========================
-         SAIR
-    ========================== -->
-    <a href="/dizimista_logout" class="botao botao-sair">
-        🚪 Sair
-    </a>
-
-</div>
 </div>
 
 </body>

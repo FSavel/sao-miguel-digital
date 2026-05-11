@@ -23,16 +23,18 @@
         <form method="POST">
 
             <input 
-                type="text" 
-                name="nome" 
-                value="{{ acolito.nome }}" 
+                type="text"
+                name="nome"
+                value="{{ acolito['nome'] }}"
+                placeholder="Nome"
                 required
             >
 
             <input 
-                type="text" 
-                name="funcao" 
-                value="{{ acolito.funcao }}" 
+                type="text"
+                name="funcao"
+                value="{{ acolito['funcao'] }}"
+                placeholder="Função"
                 required
             >
 

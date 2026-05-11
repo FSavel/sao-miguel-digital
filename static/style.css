@@ -176,7 +176,6 @@ CORES ESPECIAIS
 .botao-liturgia { background: rgba(210,220,255,0.95); }
 .botao-espiritual { background: rgba(255,210,240,0.95); }
 
-/* BOTÕES IMPORTANTES */
 .botao-voltar {
     background: #1e88e5;
     color: white;
@@ -259,10 +258,10 @@ PASSWORD
 }
 
 /* =========================
-SAUDAÇÃO DIZIMISTA (CORRIGIDO)
+SAUDAÇÃO DIZIMISTA
 ========================= */
 .saudacao-dizimista {
-    color: white;
+    color: white !important;
     text-align: center;
     font-size: 26px;
     font-weight: bold;
@@ -270,7 +269,7 @@ SAUDAÇÃO DIZIMISTA (CORRIGIDO)
 }
 
 /* =========================
-MENU CENTRALIZADO
+MENU CENTRALIZADO (CORREÇÃO PRINCIPAL)
 ========================= */
 .menu-centralizado {
     text-align: center;
@@ -282,8 +281,12 @@ MENU CENTRALIZADO
     text-align: center;
 }
 
+.menu-centralizado .botao {
+    text-align: center;
+}
+
 /* =========================
-TABELA RESPONSIVA (CORRIGIDA)
+TABELA RESPONSIVA
 ========================= */
 .table-responsive {
     width: 100%;

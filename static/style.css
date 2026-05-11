@@ -55,6 +55,17 @@ line-height: 1.5;
 }
 
 /* =========================
+MENU PRINCIPAL CENTRALIZADO
+========================= */
+.menu-centralizado {
+text-align: center;
+}
+
+.menu-centralizado .botao {
+text-align: center;
+}
+
+/* =========================
 TICKER
 ========================= */
 .ticker {
@@ -247,6 +258,18 @@ background: #ec971f;
 }
 
 /* =========================
+BOTÃO PDF
+========================= */
+.botao-pdf {
+background: #b30000;
+color: white;
+}
+
+.botao-pdf:hover {
+background: #d10000;
+}
+
+/* =========================
 DELETE
 ========================= */
 .delete {
@@ -346,6 +369,15 @@ padding: 15px;
 margin-bottom: 15px;
 ```
 
+}
+
+/* =========================
+SAUDAÇÃO DIZIMISTA
+========================= */
+.saudacao-dizimista {
+color: white;
+text-align: center;
+margin-bottom: 15px;
 }
 
 /* =========================

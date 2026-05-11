@@ -1,119 +1,104 @@
 /* =========================
 RESET
 ========================= */
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
 /* =========================
 FUNDO
 ========================= */
 body {
-background: url("../static/igreja.jpg") no-repeat center center fixed;
-background-size: cover;
+    background: url("../static/igreja.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* =========================
 OVERLAY
 ========================= */
 .overlay {
-min-height: 100vh;
-background: rgba(0, 0, 0, 0.55);
-padding: 15px;
-padding-top: 55px;
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 15px;
+    padding-top: 55px;
 }
 
 /* =========================
 CONTAINER
 ========================= */
 .container {
-max-width: 1000px;
-margin: auto;
+    max-width: 1000px;
+    margin: auto;
 }
 
 /* =========================
-TITULOS
+TÍTULOS
 ========================= */
 .titulo-principal {
-color: white;
-text-align: center;
-font-size: 30px;
-font-weight: bold;
-margin-bottom: 8px;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
 .frase-biblica {
-color: white;
-text-align: center;
-margin-bottom: 20px;
-font-style: italic;
-line-height: 1.5;
-}
-
-/* =========================
-MENU PRINCIPAL CENTRALIZADO
-========================= */
-.menu-centralizado {
-text-align: center;
-}
-
-.menu-centralizado .botao {
-text-align: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+    line-height: 1.5;
 }
 
 /* =========================
 TICKER
 ========================= */
 .ticker {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 42px;
-background: #8b0000;
-color: white;
-overflow: hidden;
-z-index: 9999;
-display: flex;
-align-items: center;
-border-bottom: 2px solid rgba(255,255,255,0.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 42px;
+    background: #8b0000;
+    color: white;
+    overflow: hidden;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid rgba(255,255,255,0.15);
 }
 
 .ticker-content {
-white-space: nowrap;
-display: inline-block;
-padding-left: 100%;
-animation: tickerMove 35s linear infinite;
-font-weight: bold;
-font-size: 15px;
+    white-space: nowrap;
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerMove 35s linear infinite;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 @keyframes tickerMove {
-0% {
-transform: translateX(0%);
-}
+    0% {
+        transform: translateX(0%);
+    }
 
-```
-100% {
-    transform: translateX(-100%);
-}
-```
-
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 /* =========================
 CARDS
 ========================= */
 .card {
-background: rgba(255,255,255,0.95);
-border-radius: 14px;
-padding: 20px;
-margin-bottom: 18px;
-box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    background: rgba(255,255,255,0.94);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 }
 
 .card h2,
@@ -121,19 +106,19 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 .card h4,
 .card p,
 .card label {
-color: black;
+    color: black;
 }
 
 .card h2 {
-margin-bottom: 12px;
-border-bottom: 1px solid rgba(0,0,0,0.1);
-padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 8px;
 }
 
 .card hr {
-margin: 14px 0;
-border: none;
-border-top: 1px solid rgba(0,0,0,0.1);
+    margin: 12px 0;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 /* =========================
@@ -142,360 +127,322 @@ INPUTS
 input,
 textarea,
 select {
-width: 100%;
-padding: 12px;
-margin-top: 6px;
-margin-bottom: 10px;
-
-```
-border-radius: 8px;
-border: 1px solid #ccc;
-
-background: white;
-color: black;
-
-font-size: 15px;
-```
-
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: white;
+    color: black;
+    font-size: 15px;
 }
 
 textarea {
-min-height: 120px;
-resize: vertical;
+    min-height: 120px;
+    resize: vertical;
 }
 
 /* =========================
-BOTÕES BASE
+BOTÕES
 ========================= */
 .botao {
-display: block;
-width: 100%;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
 
-```
-text-align: center;
-text-decoration: none;
+    background: rgba(255,255,255,0.94);
+    color: black;
 
-background: rgba(255,255,255,0.94);
-color: black;
+    padding: 12px;
+    margin-top: 10px;
 
-padding: 12px;
-margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
 
-border-radius: 10px;
-border: 1px solid rgba(0,0,0,0.1);
+    font-weight: bold;
+    font-size: 15px;
 
-font-weight: bold;
-font-size: 15px;
-
-transition: 0.3s;
-cursor: pointer;
-```
-
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .botao:hover {
-background: white;
-transform: scale(1.01);
+    background: white;
+    transform: scale(1.01);
 }
 
 /* =========================
-BOTÕES ESPECIAIS
+CORES ESPECIAIS
 ========================= */
 .botao-admin {
-background: rgba(255, 220, 120, 0.95);
+    background: rgba(255, 220, 120, 0.95);
 }
 
 .botao-financas {
-background: rgba(160, 255, 190, 0.95);
+    background: rgba(160, 255, 190, 0.95);
 }
 
 .botao-liturgia {
-background: rgba(210, 220, 255, 0.95);
+    background: rgba(210, 220, 255, 0.95);
 }
 
 .botao-espiritual {
-background: rgba(255, 210, 240, 0.95);
+    background: rgba(255, 210, 240, 0.95);
 }
 
 .botao-voltar {
-background: #007bff;
-color: white;
+    background: #1e88e5;
+    color: white;
 }
 
 .botao-voltar:hover {
-background: #0069d9;
+    background: #1976d2;
 }
 
 .botao-sair {
-background: #28a745;
-color: white;
+    background: #2e7d32;
+    color: white;
 }
 
 .botao-sair:hover {
-background: #218838;
+    background: #1b5e20;
 }
 
-.botao-editar {
-display: inline-block;
-background: #f0ad4e;
-color: white;
-
-```
-padding: 10px 15px;
-
-border-radius: 8px;
-
-text-decoration: none;
-font-weight: bold;
-
-transition: 0.3s;
-```
-
-}
-
-.botao-editar:hover {
-background: #ec971f;
-}
-
-/* =========================
-BOTÃO PDF
-========================= */
 .botao-pdf {
-background: #b30000;
-color: white;
+    background: #8b0000;
+    color: white;
 }
 
 .botao-pdf:hover {
-background: #d10000;
+    background: #a50000;
 }
 
 /* =========================
-DELETE
+LINKS DELETE / EDIT
 ========================= */
 .delete {
-display: inline-block;
-
-```
-background: #dc3545;
-color: white;
-
-padding: 10px 15px;
-
-border-radius: 8px;
-
-text-decoration: none;
-font-weight: bold;
-
-transition: 0.3s;
-```
-
+    color: #c40000;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 15px;
 }
 
-.delete:hover {
-background: #c82333;
+.edit {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.delete:hover,
+.edit:hover {
+    text-decoration: underline;
 }
 
 /* =========================
 LOGIN
 ========================= */
 .login-container {
-max-width: 420px;
-margin: auto;
-
-```
-background: rgba(255,255,255,0.96);
-
-padding: 22px;
-
-border-radius: 12px;
-```
-
+    max-width: 420px;
+    margin: auto;
+    background: rgba(255,255,255,0.95);
+    padding: 20px;
+    border-radius: 12px;
 }
 
 .login-form {
-display: flex;
-flex-direction: column;
-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .erro {
-color: red;
-margin-bottom: 10px;
-font-weight: bold;
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 /* =========================
 PASSWORD BOX
 ========================= */
 .password-box {
-position: relative;
-width: 100%;
+    position: relative;
+    width: 100%;
 }
 
 .password-box input {
-padding-right: 50px;
+    padding-right: 50px;
 }
 
 .toggle-pass {
-position: absolute;
-
-```
-right: 12px;
-top: 50%;
-
-transform: translateY(-50%);
-
-border: none;
-background: none;
-
-cursor: pointer;
-
-font-size: 16px;
-```
-
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 /* =========================
 USER BOX
 ========================= */
 .user-box {
-background: rgba(255,255,255,0.96);
-
-```
-border-radius: 12px;
-
-padding: 15px;
-
-margin-bottom: 15px;
-```
-
+    background: rgba(255,255,255,0.96);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
 /* =========================
 SAUDAÇÃO DIZIMISTA
 ========================= */
 .saudacao-dizimista {
-color: white;
-text-align: center;
-margin-bottom: 15px;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
 }
 
 /* =========================
 TABELAS
 ========================= */
 .table-responsive {
-overflow-x: auto;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 table {
-width: 100%;
-border-collapse: collapse;
-margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    min-width: 600px;
 }
 
 table th {
-background: #f0f0f0;
-
-```
-padding: 10px;
-
-border: 1px solid #ddd;
-
-text-align: center;
-```
-
+    background: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
 }
 
 table td {
-padding: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    background: white;
+    white-space: nowrap;
+}
 
-```
-border: 1px solid #ddd;
+/* =========================
+MENU PRINCIPAL CENTRALIZADO
+========================= */
+.menu-centralizado .botao {
+    text-align: center;
+}
 
-text-align: center;
-
-background: white;
-```
-
+.menu-centralizado h2,
+.menu-centralizado h3,
+.menu-centralizado p {
+    text-align: center;
 }
 
 /* =========================
 MENU SECTION
 ========================= */
 .menu-section {
-margin-top: 20px;
-margin-bottom: 25px;
+    margin-top: 20px;
+    margin-bottom: 25px;
 }
 
 .menu-title {
-color: white;
-font-size: 20px;
-margin-bottom: 10px;
-font-weight: bold;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 /* =========================
 PDF BUTTON
 ========================= */
 .pdf-btn {
-background: #a80000;
-color: white;
+    background: #a80000;
+    color: white;
 }
 
 .pdf-btn:hover {
-background: #c40000;
+    background: #c40000;
 }
 
 /* =========================
-MOBILE
+RESPONSIVO
 ========================= */
 @media (max-width: 600px) {
 
-```
-.overlay {
-    padding-top: 50px;
-}
+    .overlay {
+        padding-top: 50px;
+    }
 
-.titulo-principal {
-    font-size: 22px;
-}
+    .titulo-principal {
+        font-size: 22px;
+    }
 
-.frase-biblica {
-    font-size: 14px;
-}
+    .frase-biblica {
+        font-size: 14px;
+    }
 
-.card {
-    padding: 14px;
-}
+    .card {
+        padding: 14px;
+    }
 
-.botao {
-    font-size: 15px;
-    padding: 11px;
-}
+    .botao {
+        font-size: 15px;
+        padding: 11px;
+    }
 
-.ticker {
-    height: 38px;
-}
+    .ticker {
+        height: 38px;
+    }
 
-.ticker-content {
-    font-size: 13px;
-}
+    .ticker-content {
+        font-size: 13px;
+    }
 
-input,
-textarea,
-select {
-    font-size: 16px;
-}
+    input,
+    textarea,
+    select {
+        font-size: 16px;
+    }
 
-.login-container {
-    width: 100%;
-}
+    .login-container {
+        width: 100%;
+    }
 
-table th,
-table td {
-    font-size: 13px;
-    padding: 8px;
-}
-```
+    table {
+        min-width: 520px;
+    }
 
+    table th,
+    table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .saudacao-dizimista {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.4);
+        border-radius: 10px;
+    }
 }

@@ -54,20 +54,16 @@ TÍTULOS
 }
 
 /* =====================================================
-MENU HOME (CENTRALIZAÇÃO APENAS NA PÁGINA INICIAL)
+HOME MENU (CORRIGIDO)
 ===================================================== */
-.menu-home {
+.home-menu {
     text-align: center;
 }
 
-.menu-home h2,
-.menu-home h3,
-.menu-home p {
+.home-menu h2 {
     text-align: center;
-}
-
-.menu-home .botao {
-    text-align: center;
+    width: 100%;
+    margin-bottom: 12px;
 }
 
 /* =========================
@@ -125,12 +121,6 @@ CARDS
     margin-bottom: 12px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-bottom: 8px;
-}
-
-.card hr {
-    margin: 12px 0;
-    border: none;
-    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 /* =========================
@@ -193,127 +183,6 @@ CORES ESPECIAIS
 .botao-liturgia { background: rgba(210,220,255,0.95); }
 .botao-espiritual { background: rgba(255,210,240,0.95); }
 
-.botao-voltar {
-    background: #1e88e5;
-    color: white;
-}
-
-.botao-sair {
-    background: #2e7d32;
-    color: white;
-}
-
-.botao-pdf {
-    background: #8b0000;
-    color: white;
-}
-
-/* =========================
-LINKS
-========================= */
-.delete {
-    color: #c40000;
-    text-decoration: none;
-    font-weight: bold;
-    margin-right: 15px;
-}
-
-.edit {
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.delete:hover,
-.edit:hover {
-    text-decoration: underline;
-}
-
-/* =========================
-LOGIN
-========================= */
-.login-container {
-    max-width: 420px;
-    margin: auto;
-    background: rgba(255,255,255,0.95);
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.erro {
-    color: red;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* =========================
-PASSWORD
-========================= */
-.password-box {
-    position: relative;
-    width: 100%;
-}
-
-.password-box input {
-    padding-right: 50px;
-}
-
-.toggle-pass {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-
-/* =========================
-SAUDAÇÃO DIZIMISTA
-========================= */
-.saudacao-dizimista {
-    color: white !important;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* =========================
-TABELA RESPONSIVA
-========================= */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    min-width: 600px;
-}
-
-table th,
-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-    background: white;
-    white-space: nowrap;
-}
-
-table th {
-    background: #f0f0f0;
-}
-
 /* =========================
 RESPONSIVO
 ========================= */
@@ -332,28 +201,4 @@ RESPONSIVO
     .ticker { height: 38px; }
 
     .ticker-content { font-size: 13px; }
-
-    input, textarea, select { font-size: 16px; }
-
-    .login-container { width: 100%; }
-
-    table { min-width: 520px; }
-
-    table th, table td {
-        font-size: 13px;
-        padding: 8px;
-    }
-
-    .saudacao-dizimista {
-        font-size: 22px;
-    }
-
-    .table-responsive::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .table-responsive::-webkit-scrollbar-thumb {
-        background: rgba(255,255,255,0.4);
-        border-radius: 10px;
-    }
 }

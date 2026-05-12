@@ -86,7 +86,7 @@ TICKER (MELHORADO)
     white-space: nowrap;
     display: inline-block;
     padding-left: 100%;
-    animation: tickerMove 45s linear infinite;
+    animation: tickerMove 70s linear infinite;
     font-weight: bold;
     font-size: 17px;
     letter-spacing: 0.3px;

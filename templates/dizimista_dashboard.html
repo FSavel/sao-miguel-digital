@@ -2,7 +2,12 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+
+    <!-- MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Meu Espaço</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -16,23 +21,27 @@
 
         <h2>👤 {{ user.nome }}</h2>
 
-        <p>Nº {{ user.numero }} • {{ user.contacto }}</p>
+        <p>
+            Nº {{ user.numero }} • {{ user.contacto }}
+        </p>
 
     </div>
 
-    <!-- RESUMO SIMPLES -->
-    <div class="card" style="text-align:center;">
+    <!-- RESUMO -->
+    <div class="card destaque">
 
         {% set total = namespace(value=0) %}
         {% for c in contribuicoes %}
             {% set total.value = total.value + (c.valor | float) %}
         {% endfor %}
 
-        <p class="total-label">Total acumulado</p>
+        <p class="total-label">
+            💰 Total acumulado
+        </p>
 
-        <h3 class="total-valor">
-    <span class="valor-verde">{{ total.value }} MZN</span>
-</h3>
+        <div class="valor positivo grande">
+            {{ total.value }} MZN
+        </div>
 
         <p class="mensagem-dizimista">
             Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo da Manhiça 🙏
@@ -40,7 +49,7 @@
 
     </div>
 
-    <!-- BOTÃO PDF PEQUENO -->
+    <!-- PDF -->
     <div class="area-pdf">
 
         <a href="/export_extrato_pdf" class="botao-pdf-mini">
@@ -49,7 +58,7 @@
 
     </div>
 
-    <!-- HISTÓRICO (PRINCIPAL) -->
+    <!-- HISTÓRICO -->
     <div class="card">
 
         <h3>📊 Histórico de Contribuições</h3>
@@ -74,7 +83,11 @@
 
                     <tr>
                         <td>{{ c.data }}</td>
-                        <td><b>{{ c.valor }} MZN</b></td>
+                        <td>
+                            <span class="valor-verde">
+                                <b>{{ c.valor }} MZN</b>
+                            </span>
+                        </td>
                         <td>{{ c.descricao }}</td>
                     </tr>
 
@@ -88,16 +101,22 @@
 
         {% else %}
 
-        <p class="sem-registos">Sem contribuições registadas ainda.</p>
+        <p class="sem-registos">
+            Sem contribuições registadas ainda.
+        </p>
 
         {% endif %}
 
     </div>
 
-    <!-- SAIR -->
-    <a href="/dizimista_logout" class="botao botao-sair">
-        🚪 Terminar sessão
-    </a>
+    <!-- BOTÃO SAIR -->
+    <div style="margin-top: 15px;">
+
+        <a href="/dizimista_logout" class="botao botao-sair">
+            🚪 Terminar sessão
+        </a>
+
+    </div>
 
 </div>
 </div>

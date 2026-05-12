@@ -475,3 +475,42 @@ FINANCEIRO MOBILE EXTRA
     }
 
 }
+
+/* =========================
+DASHBOARD DIZIMISTA MOBILE
+========================= */
+
+.sem-registos {
+    text-align: center;
+    color: #555;
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .dashboard-topo h2 {
+        font-size: 22px;
+    }
+
+    .dashboard-topo p {
+        font-size: 13px;
+    }
+
+    .total-label {
+        font-size: 14px;
+    }
+
+    .valor.grande {
+        font-size: 22px !important;
+    }
+
+    .mensagem-dizimista {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    table {
+        min-width: 450px;
+    }
+
+}

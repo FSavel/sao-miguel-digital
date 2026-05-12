@@ -228,15 +228,15 @@ def financeiro():
 
     saldo = total_entradas - total_despesas
 
-   return render_template(
-    "financeiro.html",
-    financeiro=financeiro,
-    total_entradas=total_entradas,
-    total_despesas=total_despesas,
-    saldo=saldo,
-    saldo_bancario=saldo
-)
-
+    return render_template(
+        "financeiro.html",
+        financeiro=financeiro,
+        total_entradas=total_entradas,
+        total_despesas=total_despesas,
+        saldo=saldo,
+        saldo_bancario=saldo
+    )
+    
 
 # =========================
 # DIZIMISTA

@@ -113,6 +113,27 @@ def admin():
     if not is_admin():
         return redirect("/login")
 
+    financeiro = read("financeiro")
+
+    total_dizimos = 0
+    total_ofertorios = 0
+    total_outros = 0
+
+    for item in financeiro:
+        try:
+            valor = float(item.get("valor", 0))
+            tipo = item.get("tipo", "").lower()
+
+            if tipo == "dizimo":
+                total_dizimos += valor
+            elif tipo == "ofertorio":
+                total_ofertorios += valor
+            else:
+                total_outros += valor
+
+        except:
+            pass
+
     return render_template(
         "admin.html",
         avisos=read("avisos"),
@@ -121,7 +142,10 @@ def admin():
         pedidos=read("pedidos"),
         calendario=read("calendario"),
         acolitos=read("acolitos"),
-        leitores=read("leitores")
+        leitores=read("leitores"),
+        total_dizimos=total_dizimos,
+        total_ofertorios=total_ofertorios,
+        total_outros=total_outros
     )
 
 

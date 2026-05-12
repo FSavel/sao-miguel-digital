@@ -1,124 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Meu Espaço</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 </head>
 
 <body>
 
 <div class="overlay">
-
 <div class="container">
 
-    <!-- =========================================
-    TOPO / SAUDAÇÃO
-    ========================================== -->
-    <div class="card" style="text-align:center;">
+    <!-- TOPO -->
+    <div class="dashboard-topo">
 
-        <h1 class="titulo-principal">
-            🙏 Meu Espaço Paroquial
-        </h1>
+        <h2>👤 {{ user.nome }}</h2>
 
-        <p style="color:#555; margin-top:10px;">
-            Bem-vindo(a), <b>{{ user.nome }}</b>
-        </p>
+        <p>Nº {{ user.numero }} • {{ user.contacto }}</p>
 
     </div>
 
-    <!-- =========================================
-    PERFIL
-    ========================================== -->
-    <div class="card">
-
-        <h3>👤 Dados do Dizimista</h3>
-
-        <br>
-
-        <p><b>Número:</b> {{ user.numero }}</p>
-
-        <p><b>Email:</b> {{ user.email }}</p>
-
-        <p><b>Contacto:</b> {{ user.contacto }}</p>
-
-    </div>
-
-    <!-- =========================================
-    RESUMO FINANCEIRO
-    ========================================== -->
+    <!-- RESUMO SIMPLES -->
     <div class="card" style="text-align:center;">
-
-        <h3 style="margin-bottom:15px;">
-            💚 Resumo das Contribuições
-        </h3>
 
         {% set total = namespace(value=0) %}
-
         {% for c in contribuicoes %}
             {% set total.value = total.value + (c.valor | float) %}
         {% endfor %}
 
-        <div style="
-            background:#f5fff5;
-            padding:20px;
-            border-radius:12px;
-            border:1px solid #d8f0d8;
-        ">
+        <p class="total-label">Total acumulado</p>
 
-            <p style="
-                font-size:14px;
-                color:#555;
-                margin-bottom:8px;
-            ">
-                Total já contribuído
-            </p>
+        <h3 class="total-valor">{{ total.value }} MZN</h3>
 
-            <h1 style="
-                color:#2e7d32;
-                font-size:32px;
-                margin-bottom:10px;
-            ">
-                {{ total.value }} MZN
-            </h1>
-
-            <p style="
-                color:#2e7d32;
-                font-size:13px;
-                font-weight:bold;
-            ">
-                🙏 Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo
-            </p>
-
-        </div>
-
-        <!-- BOTÃO PDF PEQUENO -->
-        <div style="margin-top:18px; text-align:left;">
-
-            <a href="/export_extrato_pdf"
-               class="botao-pdf-mini">
-
-               📄 Exportar PDF
-
-            </a>
-
-        </div>
+        <p class="mensagem-dizimista">
+            Obrigado pela sua contribuição 🙏
+        </p>
 
     </div>
 
-    <!-- =========================================
-    HISTÓRICO
-    ========================================== -->
+    <!-- BOTÃO PDF PEQUENO -->
+    <div class="area-pdf">
+
+        <a href="/export_extrato_pdf" class="botao-pdf-mini">
+            📄 Exportar PDF
+        </a>
+
+    </div>
+
+    <!-- HISTÓRICO (PRINCIPAL) -->
     <div class="card">
 
-        <h3 style="margin-bottom:15px;">
-            📊 Histórico de Contribuições
-        </h3>
+        <h3>📊 Histórico de Contribuições</h3>
 
         {% if contribuicoes %}
 
@@ -127,13 +59,11 @@
             <table>
 
                 <thead>
-
                     <tr>
                         <th>Data</th>
                         <th>Valor</th>
                         <th>Descrição</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -141,15 +71,9 @@
                     {% for c in contribuicoes %}
 
                     <tr>
-
                         <td>{{ c.data }}</td>
-
-                        <td style="color:#2e7d32; font-weight:bold;">
-                            {{ c.valor }} MZN
-                        </td>
-
+                        <td><b>{{ c.valor }} MZN</b></td>
                         <td>{{ c.descricao }}</td>
-
                     </tr>
 
                     {% endfor %}
@@ -162,22 +86,15 @@
 
         {% else %}
 
-            <p style="text-align:center; color:#666;">
-                Ainda não existem contribuições registadas.
-            </p>
+        <p class="sem-registos">Sem contribuições registadas ainda.</p>
 
         {% endif %}
 
     </div>
 
-    <!-- =========================================
-    SAIR
-    ========================================== -->
-    <a href="/dizimista_logout"
-       class="botao botao-sair">
-
-       🚪 Terminar Sessão
-
+    <!-- SAIR -->
+    <a href="/dizimista_logout" class="botao botao-sair">
+        🚪 Terminar sessão
     </a>
 
 </div>

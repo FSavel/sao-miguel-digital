@@ -19,43 +19,44 @@
     ========================= -->
     <div class="cards">
 
-        <div class="card">
-            <h2>💵 Dízimos</h2>
-            <div class="valor positivo">
-                {{ total_dizimos if total_dizimos else "0.00" }} MZN
-            </div>
+    <div class="card mini">
+        <h2>💵 Dízimos</h2>
+        <div class="valor positivo">
+            {{ total_dizimos if total_dizimos else "0.00" }} MZN
         </div>
-
-        <div class="card">
-            <h2>⛪ Ofertórios Semanais</h2>
-            <div class="valor positivo">
-                {{ total_ofertorios if total_ofertorios else "0.00" }} MZN
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>🎁 Outros (Doações)</h2>
-            <div class="valor positivo">
-                {{ total_outros if total_outros else "0.00" }} MZN
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>📊 Total de Entradas</h2>
-            <div class="valor positivo">
-                {{ total_entradas if total_entradas else "0.00" }} MZN
-            </div>
-        </div>
-
-        <!-- 🆕 SALDO BANCÁRIO (MANUAL DO EXCEL) -->
-        <div class="card">
-            <h2>🏦 Saldo Bancário</h2>
-            <div class="valor">
-                {{ saldo_bancario if saldo_bancario else "0.00" }} MZN
-            </div>
-        </div>
-
     </div>
+
+    <div class="card mini">
+        <h2>⛪ Ofertórios</h2>
+        <div class="valor positivo">
+            {{ total_ofertorios if total_ofertorios else "0.00" }} MZN
+        </div>
+    </div>
+
+    <div class="card mini">
+        <h2>🎁 Outros</h2>
+        <div class="valor positivo">
+            {{ total_outros if total_outros else "0.00" }} MZN
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔵 destaque médio -->
+<div class="card destaque">
+    <h2>📊 Total de Entradas</h2>
+    <div class="valor positivo grande">
+        {{ total_entradas if total_entradas else "0.00" }} MZN
+    </div>
+</div>
+
+<!-- 🔴 destaque principal -->
+<div class="card destaque-banco">
+    <h2>🏦 Saldo Bancário</h2>
+    <div class="valor grande">
+        {{ saldo_bancario if saldo_bancario else "0.00" }} MZN
+    </div>
+</div>
 
     
 

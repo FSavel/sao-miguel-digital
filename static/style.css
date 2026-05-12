@@ -346,3 +346,10 @@ RESPONSIVO (ÚNICO)
         font-size: 16px;
     }
 }
+/* =========================
+VALOR VERDE (DIZIMISTA)
+========================= */
+.valor-verde {
+    color: #2e7d32;
+    font-weight: bold;
+}

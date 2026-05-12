@@ -449,3 +449,29 @@ FINANCEIRO MODERNO (AJUSTADO)
 .valor.positivo {
     color: #2e7d32;
 }
+
+/* =========================
+FINANCEIRO MOBILE EXTRA
+========================= */
+@media (max-width: 600px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card.mini,
+    .card.destaque,
+    .card.destaque-banco {
+        width: 100%;
+    }
+
+    .card.destaque .valor.grande,
+    .card.destaque-banco .valor.grande {
+        font-size: 22px;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+}

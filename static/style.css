@@ -247,6 +247,178 @@ SAUDAÇÃO DIZIMISTA
     margin-bottom: 20px;
 }
 
+/* =========================================
+DASHBOARD DIZIMISTA - NOVO VISUAL
+========================================= */
+
+.dashboard-topo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-topo h2 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.dashboard-topo p {
+    color: rgba(255,255,255,0.92);
+    font-size: 15px;
+}
+
+/* =========================
+INFO GRID
+========================= */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.info-box h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.info-box p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+}
+
+.info-box .valor {
+    color: #2e7d32;
+}
+
+/* =========================
+MENSAGEM DE GRATIDÃO
+========================= */
+.card-agradecimento {
+    text-align: center;
+    background: rgba(255,255,255,0.96);
+}
+
+.card-agradecimento h3 {
+    color: #8b0000;
+    margin-bottom: 10px;
+}
+
+.card-agradecimento p {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* =========================
+BOTÃO PDF PEQUENO
+========================= */
+.area-pdf {
+    text-align: center;
+    margin: 18px 0;
+}
+
+.botao-pdf-mini {
+    display: inline-block;
+    width: auto;
+
+    background: #8b0000;
+    color: white;
+
+    padding: 9px 14px;
+    border-radius: 8px;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.botao-pdf-mini:hover {
+    transform: scale(1.03);
+    background: #a30000;
+}
+
+/* =========================
+TABELA MODERNA
+========================= */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: white;
+}
+
+table th {
+    background: #8b0000;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: black;
+}
+
+table tr:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+/* =========================
+SEM REGISTOS
+========================= */
+.sem-registos {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* =========================
+RESPONSIVO DASHBOARD
+========================= */
+@media (max-width: 600px) {
+
+    .dashboard-topo h2 {
+        font-size: 23px;
+    }
+
+    .dashboard-topo p {
+        font-size: 14px;
+    }
+
+    .info-box p {
+        font-size: 18px;
+    }
+
+    table th,
+    table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .botao-pdf-mini {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
 /* =========================
 RESPONSIVO
 ========================= */

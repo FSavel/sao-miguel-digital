@@ -85,7 +85,7 @@ TICKER
 .ticker-content {
     white-space: nowrap;
     display: inline-block;
-    animation: tickerMove 80s linear infinite;
+    animation: tickerMove 60s linear infinite;
     font-weight: bold;
     font-size: 18px;
     letter-spacing: 0.5px;

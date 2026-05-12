@@ -65,7 +65,7 @@ HOME MENU
 }
 
 /* =========================
-TICKER (MELHORADO)
+TICKER
 ========================= */
 .ticker {
     position: fixed;
@@ -197,19 +197,12 @@ PDF MINI BUTTON
 
 .botao-pdf-mini {
     display: inline-block;
-    width: auto;
-
     background: #8b0000;
     color: white;
-
-    padding: 9px 14px;
-    border-radius: 8px;
-
-    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
     font-size: 13px;
-    font-weight: bold;
-
-    transition: 0.3s;
+    text-decoration: none;
 }
 
 .botao-pdf-mini:hover {
@@ -249,18 +242,7 @@ table tr:hover {
 }
 
 /* =========================
-SAUDAÇÃO DIZIMISTA
-========================= */
-.saudacao-dizimista {
-    color: white !important;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* =========================
-DASHBOARD DIZIMISTA MODERNO
+DASHBOARD TOPO
 ========================= */
 .dashboard-topo {
     text-align: center;
@@ -277,7 +259,9 @@ DASHBOARD DIZIMISTA MODERNO
     font-size: 14px;
 }
 
-/* INFO BOXES */
+/* =========================
+INFO BOX
+========================= */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -304,55 +288,97 @@ DASHBOARD DIZIMISTA MODERNO
 }
 
 /* =========================
-BOTÃO PDF PEQUENO MODERNO
+DIZIMISTA TEXTOS
 ========================= */
-.botao-pdf-mini {
-    display: inline-block;
-    background: #8b0000;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    text-decoration: none;
+.saudacao-dizimista {
+    color: white !important;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.mensagem-dizimista {
+    font-size: 14px;
+    text-align: center;
+    opacity: 0.85;
+    margin-bottom: 15px;
+}
+
+.total-label {
+    font-size: 14px;
+    text-align: center;
+}
+
+.total-valor {
+    font-size: 20px;
 }
 
 /* =========================
-RESPONSIVO
+VALOR VERDE
+========================= */
+.valor-verde {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* =========================
+RESPONSIVO FINAL
 ========================= */
 @media (max-width: 600px) {
+
+    .container {
+        padding: 0 8px;
+    }
 
     .titulo-principal {
         font-size: 22px;
     }
 
     .card {
-        padding: 14px;
+        padding: 12px;
     }
 
     .botao {
-        font-size: 14px;
+        font-size: 13px;
         padding: 10px;
     }
 
     .dashboard-topo h2 {
-        font-size: 22px;
+        font-size: 20px;
+    }
+
+    .dashboard-topo p {
+        font-size: 13px;
+    }
+
+    .mensagem-dizimista {
+        font-size: 13px;
+    }
+
+    .total-label {
+        font-size: 13px;
+    }
+
+    .total-valor {
+        font-size: 18px;
+    }
+
+    table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        font-size: 12px;
     }
 
     table th,
     table td {
-        font-size: 13px;
-        padding: 8px;
+        padding: 6px;
+        font-size: 12px;
     }
 
-    .info-box p {
-        font-size: 16px;
+    .botao-pdf-mini {
+        font-size: 12px;
+        padding: 7px 10px;
     }
-}
-
-/* =========================
-VALOR VERDE (DIZIMISTA)
-========================= */
-.valor-verde {
-    color: #2e7d32;
-    font-weight: bold;
 }

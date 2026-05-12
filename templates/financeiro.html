@@ -17,6 +17,9 @@
 <div class="overlay">
 <div class="container">
 
+    <!-- =========================
+         TÍTULO
+    ========================= -->
     <h1 class="titulo-principal">💰 Financeiro da Paróquia</h1>
 
     <!-- =========================
@@ -24,49 +27,61 @@
     ========================= -->
     <div class="cards">
 
-    <div class="card mini">
-        <h2>💵 Dízimos</h2>
-        <div class="valor positivo">
-            {{ total_dizimos if total_dizimos else "0.00" }} MZN
+        <div class="card mini">
+            <h2>💵 Dízimos</h2>
+            <div class="valor positivo">
+                {{ total_dizimos }} MZN
+            </div>
         </div>
-    </div>
 
-    <div class="card mini">
-        <h2>⛪ Ofertórios</h2>
-        <div class="valor positivo">
-            {{ total_ofertorios if total_ofertorios else "0.00" }} MZN
+        <div class="card mini">
+            <h2>⛪ Ofertórios</h2>
+            <div class="valor positivo">
+                {{ total_ofertorios }} MZN
+            </div>
         </div>
-    </div>
 
-    <div class="card mini">
-        <h2>🎁 Outros</h2>
-        <div class="valor positivo">
-            {{ total_outros if total_outros else "0.00" }} MZN
+        <div class="card mini">
+            <h2>🎁 Outros</h2>
+            <div class="valor positivo">
+                {{ total_outros }} MZN
+            </div>
         </div>
+
     </div>
-
-</div>
-
-<!-- 🔵 destaque médio -->
-<div class="card destaque">
-    <h2>📊 Total de Entradas</h2>
-    <div class="valor positivo grande">
-        {{ total_entradas if total_entradas else "0.00" }} MZN
-    </div>
-</div>
-
-<!-- 🔴 destaque principal -->
-<div class="card destaque-banco">
-    <h2>🏦 Saldo Bancário</h2>
-    <div class="valor grande">
-        {{ saldo_bancario if saldo_bancario else "0.00" }} MZN
-    </div>
-</div>
-
-    
 
     <!-- =========================
-         TABELA
+         TOTAL DE ENTRADAS
+    ========================= -->
+    <div class="card destaque">
+        <h2>📊 Total de Entradas</h2>
+        <div class="valor positivo grande">
+            {{ total_entradas }} MZN
+        </div>
+    </div>
+
+    <!-- =========================
+         DESPESAS (INFORMATIVO)
+    ========================= -->
+    <div class="card destaque">
+        <h2>💸 Despesas (Informativo)</h2>
+        <div class="valor negativo grande">
+            {{ total_despesas }} MZN
+        </div>
+    </div>
+
+    <!-- =========================
+         SALDO BANCÁRIO
+    ========================= -->
+    <div class="card destaque-banco">
+        <h2>🏦 Saldo Bancário</h2>
+        <div class="valor grande">
+            {{ saldo_bancario }} MZN
+        </div>
+    </div>
+
+    <!-- =========================
+         TABELA DE MOVIMENTOS
     ========================= -->
     <div class="card">
 
@@ -87,25 +102,43 @@
 
                 <tbody>
 
-                {% for item in financeiro %}
+                {% if financeiro %}
+
+                    {% for item in financeiro %}
+                        <tr>
+                            <td>{{ item.tipo }}</td>
+                            <td>{{ item.descricao }}</td>
+                            <td>{{ item.valor }} MZN</td>
+                            <td>{{ item.data }}</td>
+                        </tr>
+                    {% endfor %}
+
+                {% else %}
+
                     <tr>
-                        <td>{{ item.tipo }}</td>
-                        <td>{{ item.descricao }}</td>
-                        <td>{{ item.valor }} MZN</td>
-                        <td>{{ item.data }}</td>
+                        <td colspan="4" style="text-align:center;">
+                            Nenhum registo financeiro encontrado
+                        </td>
                     </tr>
-                {% endfor %}
+
+                {% endif %}
 
                 </tbody>
 
             </table>
 
         </div>
-        
-<div style="margin-top: 15px;">
-   <a href="/dizimista_logout" class="botao botao-sair">
-        🚪 Sair
-    </a>
+
+        <!-- =========================
+             BOTÃO SAIR
+        ========================= -->
+        <div style="margin-top: 15px;">
+
+            <a href="/dizimista_logout" class="botao botao-sair">
+                🚪 Sair
+            </a>
+
+        </div>
 
     </div>
 

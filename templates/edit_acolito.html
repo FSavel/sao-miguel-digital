@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Escala de Acólitos</title>
+    <title>Editar Escala de Acólitos</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
@@ -16,45 +16,104 @@
 <div class="overlay">
 <div class="container">
 
-    <h1 class="titulo-principal">⛪ Escala de Acólitos</h1>
+    <!-- TÍTULO -->
+    <h1 class="titulo-principal">
+        ⛪ Editar Escala de Acólitos
+    </h1>
 
+    <p class="frase-biblica">
+        “Servi ao Senhor com alegria.” — Salmo 100
+    </p>
+
+    <!-- CARD -->
     <div class="card">
 
         <form method="POST">
 
-            {% for a in acolitos %}
+            <!-- CRUCIFERÁRIO -->
+            <label><b>Cruciferário</b></label>
 
-                <div style="margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+            <input 
+                type="text"
+                name="cruciferario"
+                value="{{ acolito.cruciferario }}"
+                placeholder="Cruciferário"
+                required
+            >
 
-                    <p><b>Função:</b> {{ a.funcao }}</p>
+            <!-- TURIFERÁRIO -->
+            <label><b>Turiferário</b></label>
 
-                    <input 
-                        type="text"
-                        name="nome_{{ loop.index }}"
-                        value="{{ a.nome }}"
-                        placeholder="Nome do acólito"
-                        required
-                    >
+            <input 
+                type="text"
+                name="turiferario"
+                value="{{ acolito.turiferario }}"
+                placeholder="Turiferário"
+            >
 
-                    <input 
-                        type="hidden"
-                        name="funcao_{{ loop.index }}"
-                        value="{{ a.funcao }}"
-                    >
+            <!-- NAVETEIRO -->
+            <label><b>Naveteiro</b></label>
 
-                </div>
+            <input 
+                type="text"
+                name="naveteiro"
+                value="{{ acolito.naveteiro }}"
+                placeholder="Naveteiro"
+            >
 
-            {% endfor %}
+            <!-- CERIMONIÁRIO -->
+            <label><b>Cerimoniário</b></label>
 
+            <input 
+                type="text"
+                name="cerimoniario"
+                value="{{ acolito.cerimoniario }}"
+                placeholder="Cerimoniário"
+            >
+
+            <!-- VELAS -->
+            <label><b>Velas</b></label>
+
+            <input 
+                type="text"
+                name="velas"
+                value="{{ acolito.velas }}"
+                placeholder="Velas"
+            >
+
+            <!-- MISSAL -->
+            <label><b>Missal</b></label>
+
+            <input 
+                type="text"
+                name="missal"
+                value="{{ acolito.missal }}"
+                placeholder="Missal"
+            >
+
+            <!-- CAMPAINHA -->
+            <label><b>Campainha</b></label>
+
+            <input 
+                type="text"
+                name="campainha"
+                value="{{ acolito.campainha }}"
+                placeholder="Campainha"
+            >
+
+            <!-- BOTÃO -->
             <button class="botao" type="submit">
-                💾 Guardar Escala
+                💾 Guardar Alterações
             </button>
 
         </form>
 
     </div>
 
-    <a href="/admin" class="botao">⬅️ Voltar</a>
+    <!-- VOLTAR -->
+    <a href="/admin" class="botao">
+        ⬅️ Voltar
+    </a>
 
 </div>
 </div>

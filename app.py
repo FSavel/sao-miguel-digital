@@ -122,11 +122,12 @@ def admin():
     for item in financeiro:
         try:
             valor = float(item.get("valor", 0))
-            tipo = item.get("tipo", "").lower()
+            tipo = item.get("tipo", "").lower().strip()
 
-            if tipo == "dizimo":
+            # 💡 classificação flexível (evita erros de Excel)
+            if "diz" in tipo:
                 total_dizimos += valor
-            elif tipo == "ofertorio":
+            elif "ofert" in tipo:
                 total_ofertorios += valor
             else:
                 total_outros += valor
@@ -136,6 +137,8 @@ def admin():
 
     return render_template(
         "admin.html",
+
+        # dados principais
         avisos=read("avisos"),
         leituras=read("leituras"),
         canticos=read("canticos"),
@@ -143,6 +146,8 @@ def admin():
         calendario=read("calendario"),
         acolitos=read("acolitos"),
         leitores=read("leitores"),
+
+        # 💰 finanças (para dashboard admin)
         total_dizimos=total_dizimos,
         total_ofertorios=total_ofertorios,
         total_outros=total_outros

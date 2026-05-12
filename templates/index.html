@@ -117,36 +117,25 @@
 </div>
 
 <!-- =========================
-     SCRIPT DO TICKER
+     TICKER DE AVISOS
 ========================= -->
-<script>
+<div class="ticker">
 
-let avisos = {{ avisos | tojson | safe }};
+    <div class="ticker-content">
 
-let textoFinal = "";
+        {% for aviso in avisos %}
 
-if (avisos && avisos.length > 0) {
+            📢 {{ aviso.titulo }} - {{ aviso.descricao }} ✨ &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
 
-    avisos.forEach(aviso => {
+        {% endfor %}
 
-        textoFinal +=
-        " ✨ 📢 " +
-        aviso.titulo +
-        " - " +
-        aviso.descricao +
-        " ✨ • ";
+        {% if not avisos %}
+            Sem avisos no momento.
+        {% endif %}
 
-    });
+    </div>
 
-} else {
-
-    textoFinal = "Sem avisos no momento.";
-
-}
-
-document.getElementById("ticker-content").innerText = textoFinal;
-
-</script>
+</div>
 
 </body>
 </html>

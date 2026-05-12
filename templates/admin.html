@@ -361,32 +361,33 @@
 
     </div>
 
-<!-- ===================== FINANÇAS ===================== -->
-<div class="card" id="financas">
+    <!-- ===================== FINANÇAS ===================== -->
+    <div class="card" id="financas">
 
-    <h2>💰 Finanças</h2>
+        <h2>💰 Finanças</h2>
 
-    <a href="/dizimista_login" class="botao">
-        👤 Área do Dizimista
-    </a>
+        <a href="/dizimista_login" class="botao">
+            👤 Área do Dizimista
+        </a>
 
-    <hr>
+        <hr>
 
-    <h3>📊 Situação Financeira da Paróquia</h3>
+        <h3>📊 Situação Financeira da Paróquia</h3>
 
-    <p><b>💵 Dízimos:</b> {{ total_dizimos if total_dizimos else "0.00" }} MZN</p>
+        <p><b>💵 Dízimos:</b> {{ total_dizimos if total_dizimos else "0.00" }} MZN</p>
 
-    <p><b>💒 Ofertórios Semanais:</b> {{ total_ofertorios if total_ofertorios else "0.00" }} MZN</p>
+        <p><b>💒 Ofertórios Semanais:</b> {{ total_ofertorios if total_ofertorios else "0.00" }} MZN</p>
 
-    <p><b>🎁 Outros (Doações):</b> {{ total_outros if total_outros else "0.00" }} MZN</p>
+        <p><b>🎁 Outros (Doações):</b> {{ total_outros if total_outros else "0.00" }} MZN</p>
 
-    <hr>
+        <hr>
 
-    <p><b>📊 Total Entradas:</b> 
-        {{ (total_dizimos + total_ofertorios + total_outros) if total_dizimos is defined else "0.00" }} MZN
-    </p>
+        <!-- ✔ CORRIGIDO -->
+        <p><b>📊 Total Entradas:</b> 
+            {{ total_dizimos + total_ofertorios + total_outros }} MZN
+        </p>
 
-</div>
+    </div>
 
     <!-- ===================== ADMINISTRAÇÃO ===================== -->
     <div class="card" id="administracao">

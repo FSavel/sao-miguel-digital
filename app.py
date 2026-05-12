@@ -118,17 +118,34 @@ def admin():
     total_dizimos = 0
     total_ofertorios = 0
     total_outros = 0
+    total_despesas = 0   # ✅ ADICIONADO
 
     for item in financeiro:
         try:
             valor = float(item.get("valor", 0))
             tipo = item.get("tipo", "").lower().strip()
 
-            # 💡 classificação flexível (evita erros de Excel)
+            # =========================
+            # ENTRADAS
+            # =========================
             if "diz" in tipo:
                 total_dizimos += valor
+
             elif "ofert" in tipo:
                 total_ofertorios += valor
+
+            elif tipo == "entrada":
+                total_outros += valor
+
+            # =========================
+            # DESPESAS
+            # =========================
+            elif tipo == "despesa":
+                total_despesas += valor
+
+            # =========================
+            # OUTROS CASOS
+            # =========================
             else:
                 total_outros += valor
 
@@ -138,7 +155,9 @@ def admin():
     return render_template(
         "admin.html",
 
-        # dados principais
+        # =========================
+        # DADOS PRINCIPAIS
+        # =========================
         avisos=read("avisos"),
         leituras=read("leituras"),
         canticos=read("canticos"),
@@ -147,10 +166,13 @@ def admin():
         acolitos=read("acolitos"),
         leitores=read("leitores"),
 
-        # 💰 finanças (para dashboard admin)
+        # =========================
+        # FINANÇAS
+        # =========================
         total_dizimos=total_dizimos,
         total_ofertorios=total_ofertorios,
-        total_outros=total_outros
+        total_outros=total_outros,
+        total_despesas=total_despesas
     )
 
 

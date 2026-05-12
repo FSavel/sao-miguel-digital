@@ -53,16 +53,14 @@ TÍTULOS
     line-height: 1.5;
 }
 
-/* =====================================================
+/* =========================
 HOME MENU
-===================================================== */
+========================= */
 .home-menu {
     text-align: center;
 }
 
 .home-menu h2 {
-    text-align: center;
-    width: 100%;
     margin-bottom: 12px;
 }
 
@@ -136,13 +134,7 @@ select {
     border-radius: 8px;
     border: 1px solid #ccc;
     background: white;
-    color: black;
     font-size: 15px;
-}
-
-textarea {
-    min-height: 120px;
-    resize: vertical;
 }
 
 /* =========================
@@ -176,7 +168,7 @@ BOTÕES
 }
 
 /* =========================
-CORES ESPECIAIS
+CORES BOTÕES
 ========================= */
 .botao-admin { background: rgba(255,220,120,0.95); }
 .botao-financas { background: rgba(160,255,190,0.95); }
@@ -194,133 +186,7 @@ CORES ESPECIAIS
 }
 
 /* =========================
-CARD PDF (NOVO AJUSTE)
-========================= */
-.card-pdf {
-    background: #8b0000;
-    padding: 10px 12px;
-    border-radius: 10px;
-    width: fit-content;
-    margin: 15px auto;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-}
-
-.card-pdf .botao-pdf {
-    background: white;
-    color: #8b0000;
-    font-weight: bold;
-    padding: 10px 14px;
-    font-size: 14px;
-}
-
-/* =========================
-DIZIMISTA DASHBOARD
-========================= */
-.mensagem-dizimista {
-    font-size: 14px;
-    text-align: center;
-    opacity: 0.85;
-    margin-bottom: 15px;
-}
-
-.total-label {
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-}
-
-.total-valor {
-    color: #2e7d32;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-/* =========================
-SAUDAÇÃO DIZIMISTA
-========================= */
-.saudacao-dizimista {
-    color: white !important;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* =========================================
-DASHBOARD DIZIMISTA - NOVO VISUAL
-========================================= */
-
-.dashboard-topo {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.dashboard-topo h2 {
-    color: white;
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-
-.dashboard-topo p {
-    color: rgba(255,255,255,0.92);
-    font-size: 15px;
-}
-
-/* =========================
-INFO GRID
-========================= */
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.info-box {
-    background: rgba(255,255,255,0.95);
-    border-radius: 12px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-
-.info-box h3 {
-    font-size: 15px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.info-box p {
-    font-size: 20px;
-    font-weight: bold;
-    color: #222;
-}
-
-.info-box .valor {
-    color: #2e7d32;
-}
-
-/* =========================
-MENSAGEM DE GRATIDÃO
-========================= */
-.card-agradecimento {
-    text-align: center;
-    background: rgba(255,255,255,0.96);
-}
-
-.card-agradecimento h3 {
-    color: #8b0000;
-    margin-bottom: 10px;
-}
-
-.card-agradecimento p {
-    line-height: 1.6;
-    font-size: 15px;
-}
-
-/* =========================
-BOTÃO PDF PEQUENO
+PDF MINI BUTTON
 ========================= */
 .area-pdf {
     text-align: center;
@@ -350,7 +216,7 @@ BOTÃO PDF PEQUENO
 }
 
 /* =========================
-TABELA MODERNA
+TABELA
 ========================= */
 .table-responsive {
     overflow-x: auto;
@@ -374,7 +240,6 @@ table td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     font-size: 14px;
-    color: black;
 }
 
 table tr:hover {
@@ -382,30 +247,93 @@ table tr:hover {
 }
 
 /* =========================
-SEM REGISTOS
+SAUDAÇÃO DIZIMISTA
 ========================= */
-.sem-registos {
+.saudacao-dizimista {
+    color: white !important;
     text-align: center;
-    padding: 20px;
-    color: #666;
-    font-style: italic;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 /* =========================
-RESPONSIVO DASHBOARD
+DASHBOARD DIZIMISTA MODERNO
+========================= */
+.dashboard-topo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.dashboard-topo h2 {
+    color: white;
+    font-size: 26px;
+}
+
+.dashboard-topo p {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+}
+
+/* INFO BOXES */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.info-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.info-box h3 {
+    font-size: 14px;
+    color: #555;
+}
+
+.info-box p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+/* =========================
+BOTÃO PDF PEQUENO MODERNO
+========================= */
+.botao-pdf-mini {
+    display: inline-block;
+    background: #8b0000;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+/* =========================
+RESPONSIVO (ÚNICO)
 ========================= */
 @media (max-width: 600px) {
 
-    .dashboard-topo h2 {
-        font-size: 23px;
+    .titulo-principal {
+        font-size: 22px;
     }
 
-    .dashboard-topo p {
+    .card {
+        padding: 14px;
+    }
+
+    .botao {
         font-size: 14px;
+        padding: 10px;
     }
 
-    .info-box p {
-        font-size: 18px;
+    .dashboard-topo h2 {
+        font-size: 22px;
     }
 
     table th,
@@ -414,31 +342,7 @@ RESPONSIVO DASHBOARD
         padding: 8px;
     }
 
-    .botao-pdf-mini {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-}
-/* =========================
-RESPONSIVO
-========================= */
-@media (max-width: 600px) {
-
-    .overlay { padding-top: 50px; }
-
-    .titulo-principal { font-size: 22px; }
-
-    .frase-biblica { font-size: 14px; }
-
-    .card { padding: 14px; }
-
-    .botao { font-size: 15px; padding: 11px; }
-
-    .ticker { height: 38px; }
-
-    .ticker-content { font-size: 13px; }
-
-    .saudacao-dizimista {
-        font-size: 22px;
+    .info-box p {
+        font-size: 16px;
     }
 }

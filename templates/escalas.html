@@ -113,24 +113,35 @@
     </div>
 
 
-    <!-- ===================== ACOLHIMENTO ===================== -->
+   <!-- ===================== OUTROS SERVIÇOS ===================== -->
 
-    <div class="card">
+<div class="card">
 
-        <h2>🤝 Acolhimento</h2>
+    <h2>⛪ Outros Serviços</h2>
+
+    {% if outros_servicos %}
+
+        {% for s in outros_servicos %}
+
+            <p><b>Serviço:</b> {{ s.tipo }}</p>
+            <hr>
+
+            <p><b>Local:</b> {{ s.local }}</p>
+            <hr>
+
+            <p><b>Responsáveis:</b> {{ s.nomes }}</p>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
 
         <p>Escala ainda não configurada.</p>
 
-    </div>
+    {% endif %}
 
-
-    <!-- ===================== OUTROS SERVIÇOS ===================== -->
-
-    <div class="card">
-
-        <h2>⛪ Outros Serviços</h2>
-
-        <p>Escala ainda não configurada.</p>
+</div>
 
     </div>
 

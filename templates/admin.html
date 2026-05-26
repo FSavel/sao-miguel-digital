@@ -1,359 +1,243 @@
-<!-- ===================================================== -->
+<!DOCTYPE html>
+<html lang="pt">
 
-<!-- 📖 LITURGIA -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin</title>
 
-<!-- ===================================================== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-<div class="card" id="liturgia">
+<body>
 
-```
-<h2>📖 Liturgia</h2>
+<div class="overlay">
+<div class="container">
 
-<a href="#leituras-area" class="botao">📖 Leituras</a>
+    <!-- ========================= TÍTULO ========================= -->
+    <h1 class="titulo-principal">⚙️ Painel Administrativo</h1>
 
-<a href="#canticos-area" class="botao">🎵 Cânticos</a>
+    <p class="frase-biblica">
+        Gestão da Paróquia São Miguel Arcanjo
+    </p>
 
-<a href="#acolitos-area" class="botao">👦 Escala dos Acólitos</a>
+    <!-- ========================= NAVEGAÇÃO ========================= -->
+    <div class="card menu-centralizado">
+        <h2>📂 Navegação Rápida</h2>
 
-<a href="#leitores-area" class="botao">📚 Escala de Leitores</a>
+        <a href="#liturgia" class="botao">📖 Liturgia</a>
+        <a href="#espiritual" class="botao">🙏 Espiritual</a>
+        <a href="#administracao" class="botao">⚙️ Administração</a>
+    </div>
 
-<!-- NOVO -->
-<a href="#outros-servicos-area" class="botao">
-    ⛪ Outros Serviços
-</a>
-```
+    <!-- ===================================================== -->
+    <!-- 📖 LITURGIA -->
+    <!-- ===================================================== -->
+    <div class="card" id="liturgia">
 
-</div>
+        <h2>📖 Liturgia</h2>
 
-<!-- ===================== AVISOS ===================== -->
-
-<div class="card">
-
-```
-<h2>📢 Avisos Semanais</h2>
-
-<form action="/add_aviso" method="POST">
-
-    <input type="text" name="titulo" placeholder="Título" required>
-
-    <textarea name="descricao" placeholder="Descrição" required></textarea>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Aviso
-    </button>
-
-</form>
-
-<hr>
-
-{% for a in avisos %}
-
-    <p><b>{{ a.titulo }}</b></p>
-
-    <p>{{ a.descricao }}</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-        <a class="botao" href="/edit_aviso/{{ loop.index0 }}">
-            ✏️ Editar
-        </a>
-
-        <a class="delete" href="/delete_aviso/{{ loop.index0 }}">
-            ❌ Apagar
-        </a>
+        <a href="#leituras-area" class="botao">📖 Leituras</a>
+        <a href="#canticos-area" class="botao">🎵 Cânticos</a>
+        <a href="#acolitos-area" class="botao">👦 Escala dos Acólitos</a>
+        <a href="#leitores-area" class="botao">📚 Escala de Leitores</a>
+        <a href="#outros-servicos-area" class="botao">⛪ Outros Serviços</a>
 
     </div>
 
-    <hr>
+    <!-- ===================== AVISOS ===================== -->
+    <div class="card">
 
-{% endfor %}
-```
+        <h2>📢 Avisos Semanais</h2>
 
-</div>
+        <form action="/add_aviso" method="POST">
+            <input type="text" name="titulo" placeholder="Título" required>
+            <textarea name="descricao" placeholder="Descrição" required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Aviso</button>
+        </form>
 
-<!-- ===================== LEITURAS ===================== -->
+        <hr>
 
-<div class="card" id="leituras-area">
+        {% for a in avisos %}
+            <p><b>{{ a.titulo }}</b></p>
+            <p>{{ a.descricao }}</p>
 
-```
-<h2>📖 Leituras</h2>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_aviso/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
 
-<form action="/add_leitura" method="POST">
-
-    <input type="text" name="tipo" placeholder="Tipo de leitura" required>
-
-    <textarea name="texto" placeholder="Texto da leitura" required></textarea>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Leitura
-    </button>
-
-</form>
-
-<hr>
-
-{% for l in leituras %}
-
-    <p><b>{{ l.tipo }}</b></p>
-
-    <p>{{ l.texto }}</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-        <a class="botao" href="/edit_leitura/{{ loop.index0 }}">
-            ✏️ Editar
-        </a>
-
-        <a class="delete" href="/delete_leitura/{{ loop.index0 }}">
-            ❌ Apagar
-        </a>
+            <hr>
+        {% endfor %}
 
     </div>
 
-    <hr>
+    <!-- ===================== LEITURAS ===================== -->
+    <div class="card" id="leituras-area">
 
-{% endfor %}
-```
+        <h2>📖 Leituras</h2>
 
-</div>
+        <form action="/add_leitura" method="POST">
+            <input type="text" name="tipo" placeholder="Tipo de leitura" required>
+            <textarea name="texto" placeholder="Texto da leitura" required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Leitura</button>
+        </form>
 
-<!-- ===================== CÂNTICOS ===================== -->
+        <hr>
 
-<div class="card" id="canticos-area">
+        {% for l in leituras %}
+            <p><b>{{ l.tipo }}</b></p>
+            <p>{{ l.texto }}</p>
 
-```
-<h2>🎵 Cânticos</h2>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_leitura/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_leitura/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
 
-<form action="/add_cantico" method="POST">
-
-    <input type="text" name="momento" placeholder="Momento" required>
-
-    <input type="text" name="cantico" placeholder="Nome do cântico" required>
-
-    <textarea name="letra" placeholder="Letra" required></textarea>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Cântico
-    </button>
-
-</form>
-
-<hr>
-
-{% for c in canticos %}
-
-    <p><b>{{ c.momento }}</b> - {{ c.cantico }}</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-        <a class="botao" href="/edit_cantico/{{ loop.index0 }}">
-            ✏️ Editar
-        </a>
-
-        <a class="delete" href="/delete_cantico/{{ loop.index0 }}">
-            ❌ Apagar
-        </a>
+            <hr>
+        {% endfor %}
 
     </div>
 
-    <hr>
+    <!-- ===================== CÂNTICOS ===================== -->
+    <div class="card" id="canticos-area">
 
-{% endfor %}
-```
+        <h2>🎵 Cânticos</h2>
 
-</div>
+        <form action="/add_cantico" method="POST">
+            <input type="text" name="momento" placeholder="Momento" required>
+            <input type="text" name="cantico" placeholder="Nome do cântico" required>
+            <textarea name="letra" placeholder="Letra" required></textarea>
 
-<!-- ===================== ACÓLITOS ===================== -->
+            <button class="botao" type="submit">➕ Adicionar Cântico</button>
+        </form>
 
-<div class="card" id="acolitos-area">
+        <hr>
 
-```
-<h2>👦 Escala dos Acólitos</h2>
+        {% for c in canticos %}
+            <p><b>{{ c.momento }}</b> - {{ c.cantico }}</p>
 
-<form action="/add_acolito" method="POST">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_cantico/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_cantico/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
 
-    <input type="text" name="cruciferario" placeholder="Cruciferário" required>
-
-    <input type="text" name="turiferario" placeholder="Turiferário" required>
-
-    <input type="text" name="naveteiro" placeholder="Naveteiro" required>
-
-    <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
-
-    <input type="text" name="velas" placeholder="Velas" required>
-
-    <input type="text" name="missal" placeholder="Missal" required>
-
-    <input type="text" name="campainha" placeholder="Campainha" required>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Escala
-    </button>
-
-</form>
-
-<hr>
-
-{% for a in acolitos %}
-
-    <p><b>Cruciferário:</b> {{ a.cruciferario }}</p>
-    <p><b>Turiferário:</b> {{ a.turiferario }}</p>
-    <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
-    <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-        <a class="botao" href="/edit_acolito/{{ loop.index0 }}">
-            ✏️ Editar
-        </a>
-
-        <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
-            ❌ Apagar
-        </a>
+            <hr>
+        {% endfor %}
 
     </div>
 
-    <hr>
+    <!-- ===================== ACÓLITOS ===================== -->
+    <div class="card" id="acolitos-area">
 
-{% endfor %}
-```
+        <h2>👦 Escala dos Acólitos</h2>
 
-</div>
+        <form action="/add_acolito" method="POST">
 
-<!-- ===================== LEITORES ===================== -->
+            <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+            <input type="text" name="turiferario" placeholder="Turiferário" required>
+            <input type="text" name="naveteiro" placeholder="Naveteiro" required>
+            <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
+            <input type="text" name="velas" placeholder="Velas" required>
+            <input type="text" name="missal" placeholder="Missal" required>
+            <input type="text" name="campainha" placeholder="Campainha" required>
 
-<div class="card" id="leitores-area">
+            <button class="botao" type="submit">➕ Adicionar Escala</button>
 
-```
-<h2>📚 Escala de Leitores</h2>
+        </form>
 
-<form action="/add_leitor" method="POST">
+        <hr>
 
-    <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
+        {% for a in acolitos %}
+            <p><b>Cruciferário:</b> {{ a.cruciferario }}</p>
+            <p><b>Turiferário:</b> {{ a.turiferario }}</p>
+            <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
+            <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
 
-    <input type="text" name="primeira_ch" placeholder="1ª Leitura CH/Ronga" required>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_acolito/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
 
-    <input type="text" name="salmo" placeholder="Salmo" required>
-
-    <input type="text" name="segunda_pt" placeholder="2ª Leitura PT" required>
-
-    <input type="text" name="segunda_ch" placeholder="2ª Leitura CH/Ronga" required>
-
-    <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Escala
-    </button>
-
-</form>
-
-<hr>
-
-{% for l in leitores %}
-
-    <p><b>1ª PT:</b> {{ l.primeira_pt }}</p>
-    <p><b>1ª CH:</b> {{ l.primeira_ch }}</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-        <a class="botao" href="/edit_leitor/{{ loop.index0 }}">
-            ✏️ Editar
-        </a>
-
-        <a class="delete" href="/delete_leitor/{{ loop.index0 }}">
-            ❌ Apagar
-        </a>
+            <hr>
+        {% endfor %}
 
     </div>
 
-    <hr>
+    <!-- ===================== LEITORES ===================== -->
+    <div class="card" id="leitores-area">
 
-{% endfor %}
-```
+        <h2>📚 Escala de Leitores</h2>
 
-</div>
+        <form action="/add_leitor" method="POST">
 
-<!-- ===================== OUTROS SERVIÇOS ===================== -->
+            <input type="text" name="primeira_pt" required>
+            <input type="text" name="primeira_ch" required>
+            <input type="text" name="salmo" required>
+            <input type="text" name="segunda_pt" required>
+            <input type="text" name="segunda_ch" required>
+            <input type="text" name="oracao_fieis" required>
 
-<div class="card" id="outros-servicos-area">
+            <button class="botao" type="submit">➕ Adicionar Escala</button>
 
-```
-<h2>⛪ Outros Serviços</h2>
+        </form>
 
-<form action="/add_outro_servico" method="POST">
+        <hr>
 
-    <select name="tipo" required>
+        {% for l in leitores %}
+            <p><b>1ª PT:</b> {{ l.primeira_pt }}</p>
+            <p><b>1ª CH:</b> {{ l.primeira_ch }}</p>
 
-        <option value="">Selecionar Serviço</option>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_leitor/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
 
-        <option value="Acolhimento">
-            🤝 Acolhimento
-        </option>
-
-        <option value="Limpezas">
-            🧹 Limpezas
-        </option>
-
-        <option value="Visitas">
-            🏠 Visitas
-        </option>
-
-    </select>
-
-    <input
-        type="text"
-        name="local"
-        placeholder="Local"
-        required
-    >
-
-    <textarea
-        name="nomes"
-        placeholder="Nomes das pessoas ou grupos responsáveis"
-        required
-    ></textarea>
-
-    <button class="botao" type="submit">
-        ➕ Adicionar Serviço
-    </button>
-
-</form>
-
-<hr>
-
-{% for s in outros_servicos %}
-
-    <div class="card mini">
-
-        <h3>{{ s.tipo }}</h3>
-
-        <p>
-            <b>📍 Local:</b>
-            {{ s.local }}
-        </p>
-
-        <p>
-            <b>👥 Responsáveis:</b>
-            {{ s.nomes }}
-        </p>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-
-            <a class="botao" href="/edit_outro_servico/{{ loop.index0 }}">
-                ✏️ Editar
-            </a>
-
-            <a class="delete" href="/delete_outro_servico/{{ loop.index0 }}">
-                ❌ Apagar
-            </a>
-
-        </div>
+            <hr>
+        {% endfor %}
 
     </div>
 
-    <hr>
+    <!-- ===================== OUTROS SERVIÇOS ===================== -->
+    <div class="card" id="outros-servicos-area">
 
-{% endfor %}
-```
+        <h2>⛪ Outros Serviços</h2>
+
+        <form action="/add_outro_servico" method="POST">
+
+            <input type="text" name="tipo" placeholder="Serviço" required>
+            <input type="text" name="local" placeholder="Local" required>
+            <textarea name="nomes" placeholder="Responsáveis" required></textarea>
+
+            <button class="botao" type="submit">➕ Adicionar Serviço</button>
+
+        </form>
+
+        <hr>
+
+        {% for s in outros_servicos %}
+
+            <p><b>{{ s.tipo }}</b></p>
+            <p>📍 {{ s.local }}</p>
+            <p>👥 {{ s.nomes }}</p>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="botao" href="/edit_outro_servico/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="delete" href="/delete_outro_servico/{{ loop.index0 }}">❌ Apagar</a>
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- ========================= BOTÕES FINAIS ========================= -->
+    <a href="/" class="botao">🏠 Voltar ao Início</a>
+    <a href="/logout" class="botao">🚪 Terminar Sessão</a>
 
 </div>
+</div>
+
+</body>
+</html>

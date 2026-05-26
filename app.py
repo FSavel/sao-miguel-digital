@@ -165,6 +165,7 @@ def admin():
         calendario=read("calendario"),
         acolitos=read("acolitos"),
         leitores=read("leitores"),
+        outros_servicos=read("outros_servicos"),
 
         # =========================
         # FINANÇAS
@@ -221,11 +222,12 @@ def calendario():
 
 @app.route("/escalas")
 def escalas():
-    return render_template(
-        "escalas.html",
-        acolitos=read("acolitos"),
-        leitores=read("leitores")
-    )
+return render_template(
+"escalas.html",
+acolitos=read("acolitos"),
+leitores=read("leitores"),
+outros_servicos=read("outros_servicos")
+)
 
 
 @app.route("/financeiro")
@@ -751,6 +753,57 @@ def add_financeiro():
     save("financeiro", data)
 
     return redirect("/financeiro")
+
+
+# =========================
+# OUTROS SERVIÇOS
+# =========================
+
+@app.route("/add_outro_servico", methods=["POST"])
+def add_outro_servico():
+
+```
+data = read("outros_servicos")
+
+data.append(request.form.to_dict())
+
+save("outros_servicos", data)
+
+return redirect("/admin")
+```
+
+@app.route("/delete_outro_servico/[int:i](int:i)")
+def delete_outro_servico(i):
+
+```
+data = read("outros_servicos")
+
+if i < len(data):
+    data.pop(i)
+    save("outros_servicos", data)
+
+return redirect("/admin")
+```
+
+@app.route("/edit_outro_servico/[int:i](int:i)", methods=["GET", "POST"])
+def edit_outro_servico(i):
+
+```
+data = read("outros_servicos")
+
+if request.method == "POST":
+
+    data[i] = request.form.to_dict()
+
+    save("outros_servicos", data)
+
+    return redirect("/admin")
+
+return render_template(
+    "edit_outro_servico.html",
+    servico=data[i],
+    index=i
+)
 
 
 # =========================

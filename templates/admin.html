@@ -165,38 +165,52 @@
     </div>
 
     <!-- ===================== LEITORES ===================== -->
-    <div class="card" id="leitores-area">
+<div class="card" id="leitores-area">
 
-        <h2>📚 Escala de Leitores</h2>
+    <h2>📚 Escala de Leitores</h2>
 
-        <form action="/add_leitor" method="POST">
+    <form action="/add_leitor" method="POST">
 
-            <input type="text" name="primeira_pt" required>
-            <input type="text" name="primeira_ch" required>
-            <input type="text" name="salmo" required>
-            <input type="text" name="segunda_pt" required>
-            <input type="text" name="segunda_ch" required>
-            <input type="text" name="oracao_fieis" required>
+        <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
 
-            <button class="botao" type="submit">➕ Adicionar Escala</button>
+        <input type="text" name="primeira_ch" placeholder="1ª Leitura CH/Ronga" required>
 
-        </form>
+        <input type="text" name="salmo" placeholder="Salmo" required>
+
+        <input type="text" name="segunda_pt" placeholder="2ª Leitura PT" required>
+
+        <input type="text" name="segunda_ch" placeholder="2ª Leitura CH/Ronga" required>
+
+        <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
+
+        <button class="botao" type="submit">
+            ➕ Adicionar Escala
+        </button>
+
+    </form>
+
+    <hr>
+
+    {% for l in leitores %}
+
+        <p><b>1ª PT:</b> {{ l.primeira_pt }}</p>
+        <p><b>1ª CH:</b> {{ l.primeira_ch }}</p>
+
+        <p><b>Salmo:</b> {{ l.salmo }}</p>
+        <p><b>2ª PT:</b> {{ l.segunda_pt }}</p>
+        <p><b>2ª CH:</b> {{ l.segunda_ch }}</p>
+        <p><b>Oração dos Fiéis:</b> {{ l.oracao_fieis }}</p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="botao" href="/edit_leitor/{{ loop.index0 }}">✏️ Editar</a>
+            <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
+        </div>
 
         <hr>
 
-        {% for l in leitores %}
-            <p><b>1ª PT:</b> {{ l.primeira_pt }}</p>
-            <p><b>1ª CH:</b> {{ l.primeira_ch }}</p>
+    {% endfor %}
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <a class="botao" href="/edit_leitor/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="delete" href="/delete_leitor/{{ loop.index0 }}">❌ Apagar</a>
-            </div>
-
-            <hr>
-        {% endfor %}
-
-    </div>
+</div>
 
     <!-- ===================== OUTROS SERVIÇOS ===================== -->
     <div class="card" id="outros-servicos-area">

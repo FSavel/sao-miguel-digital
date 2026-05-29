@@ -292,17 +292,28 @@ def quiz_resultado():
 
     data = read("quiz_resultados")
 
+    nome = dados.get("nome")
+    pontos = dados.get("pontos")
+    total = dados.get("total")
+    percentagem = dados.get("percentagem")
+
     data.append({
-        "nome": dados.get("nome"),
-        "pontos": dados.get("pontos"),
-        "total": dados.get("total"),
-        "percentagem": dados.get("percentagem"),
+        "nome": nome,
+        "pontos": pontos,
+        "total": total,
+        "percentagem": percentagem,
         "data": datetime.now().strftime("%d/%m/%Y %H:%M")
     })
 
     save("quiz_resultados", data)
 
-    return {"status": "ok"}
+    return render_template(
+        "quiz_resultado.html",
+        nome=nome,
+        pontos=pontos,
+        total=total,
+        percentagem=percentagem
+    )
     
 @app.route("/financeiro")
 def financeiro():

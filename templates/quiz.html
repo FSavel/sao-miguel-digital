@@ -24,7 +24,9 @@
 }
 
 .opcao.selected {
-    border:2px solid #333;
+    border:2px solid #8b0000;
+    transform: scale(1.02);
+    background:#fff3f3;
 }
 
 .opcao.correct {
@@ -66,7 +68,6 @@ input.nome {
 <body>
 
 <div class="overlay">
-
 <div class="container">
 
 <h1 class="titulo-principal">🧠 Quiz Catequético</h1>
@@ -107,14 +108,16 @@ Ver Resultado
 <div id="resultado" class="resultado"></div>
 
 </div>
-
 </div>
 
 <script>
 
 let respostas = {};
+let bloqueado = false;
 
 function selecionar(el, i) {
+
+    if (bloqueado) return;
 
     let card = el.parentElement;
     let opcoes = card.querySelectorAll(".opcao");
@@ -128,6 +131,9 @@ function selecionar(el, i) {
 
 function corrigir() {
 
+    if (bloqueado) return;
+    bloqueado = true;
+
     let cards = document.querySelectorAll(".card");
 
     let pontos = 0;
@@ -135,6 +141,7 @@ function corrigir() {
 
     if (!nome) {
         alert("Por favor, insira o seu nome!");
+        bloqueado = false;
         return;
     }
 
@@ -147,6 +154,8 @@ function corrigir() {
         opcoes.forEach(op => {
 
             let texto = op.innerText.trim();
+
+            op.classList.remove("correct", "wrong");
 
             if (texto === correta) {
                 op.classList.add("correct");
@@ -172,7 +181,7 @@ function corrigir() {
         `🎉 Parabéns ${nome}!<br><br>` +
         `Pontuação: ${pontos}/${total} (${percent}%)`;
 
-    // ENVIO PARA BACKEND (CORRIGIDO PARA FLASK FORM)
+    // ENVIO PARA FLASK
     fetch("/quiz_resultado", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -184,6 +193,7 @@ function corrigir() {
         })
     });
 
+    bloqueado = false;
 }
 
 </script>

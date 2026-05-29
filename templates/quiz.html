@@ -181,7 +181,9 @@ function corrigir() {
         `🎉 Parabéns ${nome}!<br><br>` +
         `Pontuação: ${pontos}/${total} (${percent}%)`;
 
-    // ✔️ AGORA ENVIO VIA FORM (NÃO FETCH)
+    // =========================
+    // ENVIO VIA FORM (CORRETO)
+    // =========================
     let form = document.createElement("form");
     form.method = "POST";
     form.action = "/quiz_resultado";
@@ -189,7 +191,6 @@ function corrigir() {
     let input = document.createElement("input");
     input.type = "hidden";
     input.name = "data";
-
     input.value = JSON.stringify({
         nome: nome,
         pontos: pontos,

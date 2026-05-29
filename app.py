@@ -244,9 +244,7 @@ def escalas():
 # =========================
 # CATEQUESE
 # =========================
-
 import random
-
 
 @app.route("/listas_nominais")
 def listas_nominais():
@@ -274,45 +272,36 @@ def material_estudo():
     )
 
 
-# =========================
-# QUIZ CATEQUÉTICO (ATUALIZADO)
-# =========================
 @app.route("/quiz")
 def quiz():
 
     perguntas = read("quiz")
 
-    # embaralhar perguntas
+    # =========================
+    # LIMPEZA + SEGURANÇA
+    # =========================
+    for p in perguntas:
+        p["pergunta"] = str(p.get("pergunta", "")).strip()
+        p["opcao1"] = str(p.get("opcao1", "")).strip()
+        p["opcao2"] = str(p.get("opcao2", "")).strip()
+        p["opcao3"] = str(p.get("opcao3", "")).strip()
+        p["resposta_correta"] = str(p.get("resposta_correta", "")).strip()
+        p["explicacao"] = str(p.get("explicacao", "")).strip()
+
+    # =========================
+    # EMBARALHAR PERGUNTAS
+    # =========================
     random.shuffle(perguntas)
 
-    # limitar a 20 perguntas
+    # =========================
+    # LIMITAR A 20 QUESTÕES
+    # =========================
     perguntas = perguntas[:20]
-
-    perguntas_processadas = []
-
-    for p in perguntas:
-
-        opcoes = [
-            p.get("opcao1"),
-            p.get("opcao2"),
-            p.get("opcao3")
-        ]
-
-        # embaralhar opções
-        random.shuffle(opcoes)
-
-        perguntas_processadas.append({
-            "pergunta": p.get("pergunta"),
-            "opcoes": opcoes,
-            "resposta_correta": p.get("resposta_correta"),
-            "explicacao": p.get("explicacao")
-        })
 
     return render_template(
         "quiz.html",
-        perguntas=perguntas_processadas
+        perguntas=perguntas
     )
-
 
 # =========================
 # QUIZ RESULTADO

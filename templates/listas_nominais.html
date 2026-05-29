@@ -1,4 +1,4 @@
-html
+```html
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -26,19 +26,103 @@ html
             Organização das turmas e catequizandos
         </p>
 
+        <!-- =========================
+             FASES
+        ========================= -->
         {% for fase in fases %}
 
         <div class="card">
 
-            <h2>📚 {{ fase.fase }}</h2>
+            <h2>
+                📚 {{ fase.fase }}
+            </h2>
 
-            <p>
-                Aqui poderão aparecer os catequistas e catequizandos desta fase.
-            </p>
+            <!-- =========================
+                 CATEQUISTAS
+            ========================= -->
+            <h3>👨‍🏫 Catequistas</h3>
 
-            <p>
-                🚧 Área em desenvolvimento.
-            </p>
+            {% set encontrou_catequista = false %}
+
+            {% for c in catequistas %}
+
+                {% if c.fase == fase.fase %}
+
+                    {% set encontrou_catequista = true %}
+
+                    <p>
+                        👤 <b>{{ c.nome }}</b>
+                    </p>
+
+                    <p>
+                        📞 {{ c.contacto }}
+                    </p>
+
+                    <hr>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if not encontrou_catequista %}
+
+                <p>
+                    Nenhum catequista registado.
+                </p>
+
+            {% endif %}
+
+            <br>
+
+            <!-- =========================
+                 CATEQUIZANDOS
+            ========================= -->
+            <h3>👦 Catequizandos</h3>
+
+            {% set encontrou = false %}
+
+            {% for q in catequizandos %}
+
+                {% if q.fase == fase.fase %}
+
+                    {% set encontrou = true %}
+
+                    <div style="margin-bottom:15px;">
+
+                        <p>
+                            👤 <b>{{ q.nome }}</b>
+                        </p>
+
+                        <p>
+                            👨‍👩‍👦 Encarregado:
+                            {{ q.encarregado }}
+                        </p>
+
+                        <p>
+                            📞 Contacto:
+                            {{ q.contacto }}
+                        </p>
+
+                        <p>
+                            📌 Status:
+                            <b>{{ q.status }}</b>
+                        </p>
+
+                    </div>
+
+                    <hr>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if not encontrou %}
+
+                <p>
+                    Nenhum catequizando registado nesta fase.
+                </p>
+
+            {% endif %}
 
         </div>
 
@@ -68,3 +152,4 @@ html
 
 </body>
 </html>
+```

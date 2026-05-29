@@ -186,7 +186,7 @@ function corrigir() {
     cards.forEach((card, i) => {
 
         let correta =
-            card.getAttribute("data-resposta").trim();
+            card.getAttribute("data-resposta");
 
         let explicacao =
             card.querySelector(".explicacao");
@@ -197,34 +197,50 @@ function corrigir() {
         opcoes.forEach(op => {
 
             let texto =
-                op.textContent.trim();
+                op.textContent
+                .trim()
+                .toLowerCase();
+
+            let respostaCorreta =
+                correta
+                .trim()
+                .toLowerCase();
+
+            let respostaUser =
+                respostas[i]
+                ? respostas[i].trim().toLowerCase()
+                : "";
 
             op.classList.remove(
                 "correct",
                 "wrong"
             );
 
-            // RESPOSTA CORRETA
-            if (texto === correta) {
+            // VERDE
+            if (texto === respostaCorreta) {
                 op.classList.add("correct");
             }
 
-            // RESPOSTA ERRADA ESCOLHIDA
+            // VERMELHO
             if (
-                respostas[i] &&
-                respostas[i].trim() === texto &&
-                texto !== correta
+                respostaUser === texto &&
+                texto !== respostaCorreta
             ) {
                 op.classList.add("wrong");
             }
 
         });
 
-        // SOMA PONTOS
-        if (
-            respostas[i] &&
-            respostas[i].trim() === correta
-        ) {
+        // CALCULAR PONTOS
+        let respostaUser =
+            respostas[i]
+            ? respostas[i].trim().toLowerCase()
+            : "";
+
+        let respostaCorreta =
+            correta.trim().toLowerCase();
+
+        if (respostaUser === respostaCorreta) {
             pontos++;
         }
 

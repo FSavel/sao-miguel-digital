@@ -244,8 +244,10 @@ function corrigir() {
             pontos++;
         }
 
-        // MOSTRA EXPLICAÇÃO
-        explicacao.style.display = "block";
+        // MOSTRA EXPLICAÇÃO APENAS SE ERRAR
+        if (respostaUser !== respostaCorreta) {
+            explicacao.style.display = "block";
+        }
 
     });
 

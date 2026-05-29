@@ -514,3 +514,37 @@ DASHBOARD DIZIMISTA MOBILE
     }
 
 }
+
+/* =========================
+ACCORDION MENU
+========================= */
+
+.accordion {
+    margin-bottom: 15px;
+}
+
+.accordion-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.95);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.accordion-btn:hover {
+    transform: scale(1.01);
+    background: white;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 0 0 12px 12px;
+    margin-top: -5px;
+}

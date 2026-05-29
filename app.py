@@ -230,6 +230,41 @@ def escalas():
         outros_servicos=read("outros_servicos")
     )
 
+# =========================
+# CATEQUESE
+# =========================
+
+@app.route("/listas_nominais")
+def listas_nominais():
+
+    fases = read("catequese_fases")
+
+    return render_template(
+        "listas_nominais.html",
+        fases=fases
+    )
+
+
+@app.route("/material_estudo")
+def material_estudo():
+
+    materiais = read("material_estudo")
+
+    return render_template(
+        "material_estudo.html",
+        materiais=materiais
+    )
+
+
+@app.route("/quiz")
+def quiz():
+
+    perguntas = read("quiz")
+
+    return render_template(
+        "quiz.html",
+        perguntas=perguntas
+    )
 
 @app.route("/financeiro")
 def financeiro():

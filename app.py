@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, jsonify
 from datetime import datetime
 import os
-dados = request.json
+import json
+dados = json.loads(request.form["data"])
 import gspread
 from google.oauth2.service_account import Credentials
 

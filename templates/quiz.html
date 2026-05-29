@@ -46,6 +46,10 @@
     color: #333;
     display: none;
     line-height: 1.5;
+    background: rgba(255,255,255,0.9);
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #8b0000;
 }
 
 .resultado {
@@ -53,6 +57,11 @@
     font-size: 22px;
     font-weight: bold;
     margin-top: 20px;
+}
+
+/* 🔥 RESULTADO EM BRANCO (corrigido como pediste antes) */
+.resultado div {
+    color: white;
 }
 
 input.nome {
@@ -99,23 +108,23 @@ input.nome {
 
 <div class="card"
      data-index="{{ loop.index0 }}"
-     data-resposta="{{ q.resposta_correta | trim }}">
+     data-resposta="{{ q.resposta_correta | trim | lower }}">
 
     <h3>
         ❓ {{ q.pergunta }}
     </h3>
 
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao1 }}
+    <!-- OPÇÕES DINÂMICAS (NOVO SISTEMA) -->
+    {% for op in q.opcoes %}
+
+    <div class="opcao"
+         onclick="selecionar(this, {{ loop.parent.index0 }})">
+
+        {{ op }}
+
     </div>
 
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao2 }}
-    </div>
-
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao3 }}
-    </div>
+    {% endfor %}
 
     <div class="explicacao">
         💡 {{ q.explicacao }}
@@ -153,13 +162,11 @@ function selecionar(el, i) {
 
     let opcoes = card.querySelectorAll(".opcao");
 
-    opcoes.forEach(o => {
-        o.classList.remove("selected");
-    });
+    opcoes.forEach(o => o.classList.remove("selected"));
 
     el.classList.add("selected");
 
-    respostas[i] = el.textContent.trim();
+    respostas[i] = el.textContent.trim().toLowerCase();
 }
 
 function corrigir() {
@@ -175,77 +182,42 @@ function corrigir() {
     let nome = document.getElementById("nome").value.trim();
 
     if (!nome) {
-
         alert("Por favor, insira o seu nome!");
-
         bloqueado = false;
-
         return;
     }
 
     cards.forEach((card, i) => {
 
-        let correta =
-            card.getAttribute("data-resposta");
+        let correta = card.getAttribute("data-resposta").trim().toLowerCase();
 
-        let explicacao =
-            card.querySelector(".explicacao");
+        let explicacao = card.querySelector(".explicacao");
 
-        let opcoes =
-            card.querySelectorAll(".opcao");
+        let opcoes = card.querySelectorAll(".opcao");
+
+        let respostaUser = respostas[i] || "";
 
         opcoes.forEach(op => {
 
-            let texto =
-                op.textContent
-                .trim()
-                .toLowerCase();
+            let texto = op.textContent.trim().toLowerCase();
 
-            let respostaCorreta =
-                correta
-                .trim()
-                .toLowerCase();
+            op.classList.remove("correct", "wrong");
 
-            let respostaUser =
-                respostas[i]
-                ? respostas[i].trim().toLowerCase()
-                : "";
-
-            op.classList.remove(
-                "correct",
-                "wrong"
-            );
-
-            // VERDE
-            if (texto === respostaCorreta) {
+            // VERDE (correta)
+            if (texto === correta) {
                 op.classList.add("correct");
             }
 
-            // VERMELHO
-            if (
-                respostaUser === texto &&
-                texto !== respostaCorreta
-            ) {
+            // VERMELHO (errada escolhida)
+            if (respostaUser === texto && texto !== correta) {
                 op.classList.add("wrong");
             }
-
         });
 
-        // CALCULAR PONTOS
-        let respostaUser =
-            respostas[i]
-            ? respostas[i].trim().toLowerCase()
-            : "";
-
-        let respostaCorreta =
-            correta.trim().toLowerCase();
-
-        if (respostaUser === respostaCorreta) {
+        // pontuação
+        if (respostaUser === correta) {
             pontos++;
-        }
-
-        // MOSTRA EXPLICAÇÃO APENAS SE ERRAR
-        if (respostaUser !== respostaCorreta) {
+        } else {
             explicacao.style.display = "block";
         }
 
@@ -253,59 +225,36 @@ function corrigir() {
 
     let total = cards.length;
 
-    let percent = Math.round(
-        (pontos / total) * 100
-    );
+    let percent = Math.round((pontos / total) * 100);
 
-    let resultadoDiv =
-        document.getElementById("resultado");
+    document.getElementById("resultado").innerHTML = `
+        <div>
 
-   resultadoDiv.innerHTML = `
-    <div style="color:white;">
+            🎉 Parabéns ${nome}!<br><br>
 
-        🎉 Parabéns ${nome}!<br><br>
+            Pontuação: ${pontos}/${total}<br>
 
-        Pontuação: ${pontos}/${total}<br>
+            Percentagem: ${percent}%<br><br>
 
-        Percentagem: ${percent}%<br><br>
+        </div>
 
-    </div>
-
-    <button
-        class="botao botao-resultado"
-        onclick='enviarResultado(
-            "${nome}",
-            ${pontos},
-            ${total},
-            ${percent}
-        )'
-    >
-        📊 Ver Resultado Final
-    </button>
-`;
-
-    bloqueado = false;
+        <button
+            class="botao botao-resultado"
+            onclick='enviarResultado("${nome}", ${pontos}, ${total}, ${percent})'
+        >
+            📊 Ver Resultado Final
+        </button>
+    `;
 }
 
-function enviarResultado(
-    nome,
-    pontos,
-    total,
-    percent
-) {
+function enviarResultado(nome, pontos, total, percent) {
 
-    let form =
-        document.createElement("form");
-
+    let form = document.createElement("form");
     form.method = "POST";
-
     form.action = "/quiz_resultado";
 
-    let input =
-        document.createElement("input");
-
+    let input = document.createElement("input");
     input.type = "hidden";
-
     input.name = "data";
 
     input.value = JSON.stringify({
@@ -316,9 +265,7 @@ function enviarResultado(
     });
 
     form.appendChild(input);
-
     document.body.appendChild(form);
-
     form.submit();
 }
 

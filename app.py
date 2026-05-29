@@ -307,7 +307,9 @@ def quiz_resultado():
         "pontos": pontos,
         "total": total,
         "percentagem": percentagem,
-        "data": datetime.now().strftime("%d/%m/%Y %H:%M")
+        datetime.now(
+    ZoneInfo("Africa/Maputo")
+).strftime("%d/%m/%Y %H:%M")
     })
 
     save("quiz_resultados", data)

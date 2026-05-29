@@ -99,7 +99,7 @@ input.nome {
 
 <div class="card"
      data-index="{{ loop.index0 }}"
-     data-resposta="{{ q.resposta_correta }}">
+     data-resposta="{{ q.resposta_correta | trim }}">
 
     <h3>
         ❓ {{ q.pergunta }}
@@ -159,7 +159,7 @@ function selecionar(el, i) {
 
     el.classList.add("selected");
 
-    respostas[i] = el.innerText.trim();
+    respostas[i] = el.textContent.trim();
 }
 
 function corrigir() {
@@ -185,15 +185,19 @@ function corrigir() {
 
     cards.forEach((card, i) => {
 
-        let correta = card.getAttribute("data-resposta");
+        let correta =
+            card.getAttribute("data-resposta").trim();
 
-        let explicacao = card.querySelector(".explicacao");
+        let explicacao =
+            card.querySelector(".explicacao");
 
-        let opcoes = card.querySelectorAll(".opcao");
+        let opcoes =
+            card.querySelectorAll(".opcao");
 
         opcoes.forEach(op => {
 
-            let texto = op.innerText.trim();
+            let texto =
+                op.textContent.trim();
 
             op.classList.remove(
                 "correct",
@@ -208,7 +212,7 @@ function corrigir() {
             // RESPOSTA ERRADA ESCOLHIDA
             if (
                 respostas[i] &&
-                texto === respostas[i] &&
+                respostas[i].trim() === texto &&
                 texto !== correta
             ) {
                 op.classList.add("wrong");
@@ -217,7 +221,10 @@ function corrigir() {
         });
 
         // SOMA PONTOS
-        if (respostas[i] === correta) {
+        if (
+            respostas[i] &&
+            respostas[i].trim() === correta
+        ) {
             pontos++;
         }
 
@@ -254,6 +261,8 @@ function corrigir() {
             📊 Ver Resultado Final
         </button>
     `;
+
+    bloqueado = false;
 }
 
 function enviarResultado(

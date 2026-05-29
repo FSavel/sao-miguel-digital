@@ -181,17 +181,25 @@ function corrigir() {
         `🎉 Parabéns ${nome}!<br><br>` +
         `Pontuação: ${pontos}/${total} (${percent}%)`;
 
-    // ENVIO PARA FLASK
-    fetch("/quiz_resultado", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            nome: nome,
-            pontos: pontos,
-            total: total,
-            percentagem: percent
-        })
+    // ✔️ AGORA ENVIO VIA FORM (NÃO FETCH)
+    let form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/quiz_resultado";
+
+    let input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "data";
+
+    input.value = JSON.stringify({
+        nome: nome,
+        pontos: pontos,
+        total: total,
+        percentagem: percent
     });
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
 
     bloqueado = false;
 }

@@ -13,17 +13,6 @@
 
 <body>
 
-<!-- =========================
-     TICKER DE AVISOS
-========================= -->
-<div class="ticker">
-
-    <div class="ticker-content" id="ticker-content">
-        Carregando avisos...
-    </div>
-
-</div>
-
 <div class="overlay">
 
     <div class="container home-menu">
@@ -51,15 +40,25 @@
 
             <h2 style="text-align:center;">📖 Liturgia</h2>
 
-            <a href="/avisos" class="botao botao-liturgia">📢 Avisos Semanais</a>
+            <a href="/avisos" class="botao botao-liturgia">
+                📢 Avisos Semanais
+            </a>
 
-            <a href="/leituras" class="botao botao-liturgia">📖 Leituras</a>
+            <a href="/leituras" class="botao botao-liturgia">
+                📖 Leituras
+            </a>
 
-            <a href="/canticos" class="botao botao-liturgia">🎵 Cânticos</a>
+            <a href="/canticos" class="botao botao-liturgia">
+                🎵 Cânticos
+            </a>
 
-            <a href="/escalas" class="botao botao-liturgia">👥 Escalas de Serviço</a>
+            <a href="/escalas" class="botao botao-liturgia">
+                👥 Escalas de Serviço
+            </a>
 
-            <a href="/calendario" class="botao botao-liturgia">📅 Calendário Pastoral</a>
+            <a href="/calendario" class="botao botao-liturgia">
+                📅 Calendário Pastoral
+            </a>
 
         </div>
 
@@ -80,29 +79,33 @@
 
         <br>
 
-<!-- =========================
-     CATEQUESE
-========================= -->
-<div class="card">
+        <!-- =========================
+             CATEQUESE
+        ========================= -->
+        <div class="card">
 
-    <h2 style="text-align:center;">📚 Catequese</h2>
+            <h2 style="text-align:center;">📚 Catequese</h2>
 
-    <a href="/listas_nominais" class="botao botao-liturgia">
-        📋 Listas Nominais
-    </a>
+            <p style="text-align:center; margin-bottom:10px;">
+                Formação cristã e acompanhamento catequético
+            </p>
 
-    <a href="/material_estudo" class="botao botao-liturgia">
-        📖 Material de Estudo
-    </a>
+            <a href="/listas_nominais" class="botao botao-catequese">
+                📋 Listas Nominais
+            </a>
 
-    <a href="/quiz" class="botao botao-liturgia">
-        🧠 Quiz Catequético
-    </a>
+            <a href="/material_estudo" class="botao botao-catequese">
+                📖 Material de Estudo
+            </a>
 
-</div>
+            <a href="/quiz" class="botao botao-catequese">
+                🧠 Quiz Catequético
+            </a>
 
-<br>
-        
+        </div>
+
+        <br>
+
         <!-- =========================
              FINANÇAS
         ========================= -->
@@ -148,7 +151,8 @@
 
         {% for aviso in avisos %}
 
-            📢 {{ aviso.titulo }} - {{ aviso.descricao }} ✨ &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
+            📢 {{ aviso.titulo }} - {{ aviso.descricao }} ✨
+            &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
 
         {% endfor %}
 
@@ -160,7 +164,7 @@
 
 </div>
 
-    <script>
+<script>
     setInterval(function() {
         location.reload();
     }, 120000);

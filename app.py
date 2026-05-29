@@ -278,7 +278,13 @@ def quiz():
         "quiz.html",
         perguntas=perguntas
     )
-    @app.route("/quiz_resultado", methods=["POST"])
+
+
+# =========================
+# QUIZ RESULTADO
+# =========================
+
+@app.route("/quiz_resultado", methods=["POST"])
 def quiz_resultado():
 
     dados = request.json

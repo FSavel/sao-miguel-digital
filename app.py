@@ -244,7 +244,9 @@ def escalas():
 # =========================
 # CATEQUESE
 # =========================
+
 import random
+
 
 @app.route("/listas_nominais")
 def listas_nominais():
@@ -303,9 +305,6 @@ def quiz():
         perguntas=perguntas
     )
 
-# =========================
-# QUIZ RESULTADO
-# =========================
 
 @app.route("/quiz_resultado", methods=["POST"])
 def quiz_resultado():
@@ -318,34 +317,27 @@ def quiz_resultado():
     pontos = dados.get("pontos")
     total = dados.get("total")
     percentagem = dados.get("percentagem")
-    
-    perguntas = dados.get("perguntas", [])
-    respostas = dados.get("respostas", {})
-    corretas = dados.get("corretas", {})
 
+    # ✅ apenas guardar resultado final (sem dados desnecessários)
     data.append({
-    "nome": nome,
-    "pontos": pontos,
-    "total": total,
-    "percentagem": percentagem,
-    "data": datetime.now(
-        ZoneInfo("Africa/Maputo")
-    ).strftime("%d/%m/%Y %H:%M")
-})
+        "nome": nome,
+        "pontos": pontos,
+        "total": total,
+        "percentagem": percentagem,
+        "data": datetime.now(
+            ZoneInfo("Africa/Maputo")
+        ).strftime("%d/%m/%Y %H:%M")
+    })
 
     save("quiz_resultados", data)
 
     return render_template(
-    "quiz_resultado.html",
-    nome=nome,
-    pontos=pontos,
-    total=total,
-    percentagem=percentagem,
-    perguntas=perguntas,
-    respostas=respostas,
-    corretas=corretas
-)
-    
+        "quiz_resultado.html",
+        nome=nome,
+        pontos=pontos,
+        total=total,
+        percentagem=percentagem
+    )    
 @app.route("/financeiro")
 def financeiro():
 

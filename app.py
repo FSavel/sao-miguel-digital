@@ -303,14 +303,14 @@ def quiz_resultado():
     corretas = dados.get("corretas", {})
 
     data.append({
-        "nome": nome,
-        "pontos": pontos,
-        "total": total,
-        "percentagem": percentagem,
-        datetime.now(
-    ZoneInfo("Africa/Maputo")
-).strftime("%d/%m/%Y %H:%M")
-    })
+    "nome": nome,
+    "pontos": pontos,
+    "total": total,
+    "percentagem": percentagem,
+    "data": datetime.now(
+        ZoneInfo("Africa/Maputo")
+    ).strftime("%d/%m/%Y %H:%M")
+})
 
     save("quiz_resultados", data)
 

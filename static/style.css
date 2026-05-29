@@ -568,3 +568,15 @@ QUIZ (CORREÇÃO)
     background: #e74c3c !important;
     color: white !important;
 }
+
+.explicacao {
+    margin-top: 12px;
+    padding: 10px;
+    border-left: 4px solid #8b0000;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    font-style: italic;
+    color: #333;
+    display: none;
+    line-height: 1.5;
+}

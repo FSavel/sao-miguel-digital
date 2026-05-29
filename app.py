@@ -153,28 +153,37 @@ def admin():
             pass
 
     return render_template(
-        "admin.html",
+    "admin.html",
 
-        # =========================
-        # DADOS PRINCIPAIS
-        # =========================
-        avisos=read("avisos"),
-        leituras=read("leituras"),
-        canticos=read("canticos"),
-        pedidos=read("pedidos"),
-        calendario=read("calendario"),
-        acolitos=read("acolitos"),
-        leitores=read("leitores"),
-        outros_servicos=read("outros_servicos"),
+    # =========================
+    # DADOS PRINCIPAIS
+    # =========================
+    avisos=read("avisos"),
+    leituras=read("leituras"),
+    canticos=read("canticos"),
+    pedidos=read("pedidos"),
+    calendario=read("calendario"),
+    acolitos=read("acolitos"),
+    leitores=read("leitores"),
+    outros_servicos=read("outros_servicos"),
 
-        # =========================
-        # FINANÇAS
-        # =========================
-        total_dizimos=total_dizimos,
-        total_ofertorios=total_ofertorios,
-        total_outros=total_outros,
-        total_despesas=total_despesas
-    )
+    # =========================
+    # CATEQUESE
+    # =========================
+    fases_catequese=read("catequese_fases"),
+    catequizandos=read("catequizandos"),
+    catequistas=read("catequistas"),
+    materiais=read("material_estudo"),
+    quiz=read("quiz"),
+
+    # =========================
+    # FINANÇAS
+    # =========================
+    total_dizimos=total_dizimos,
+    total_ofertorios=total_ofertorios,
+    total_outros=total_outros,
+    total_despesas=total_despesas
+)
 
 
 # =========================

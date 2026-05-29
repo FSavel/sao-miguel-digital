@@ -289,7 +289,7 @@ def quiz():
 @app.route("/quiz_resultado", methods=["POST"])
 def quiz_resultado():
 
-    dados = request.json
+    dados = json.loads(request.form["data"])
 
     data = read("quiz_resultados")
 

@@ -247,10 +247,14 @@ def escalas():
 def listas_nominais():
 
     fases = read("catequese_fases")
+    catequistas = read("catequistas")
+    catequizandos = read("catequizandos")
 
     return render_template(
         "listas_nominais.html",
-        fases=fases
+        fases=fases,
+        catequistas=catequistas,
+        catequizandos=catequizandos
     )
 
 
@@ -274,7 +278,6 @@ def quiz():
         "quiz.html",
         perguntas=perguntas
     )
-
 @app.route("/financeiro")
 def financeiro():
 

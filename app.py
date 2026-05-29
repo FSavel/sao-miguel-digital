@@ -288,21 +288,31 @@ def quiz():
 @app.route("/quiz_resultado", methods=["POST"])
 def quiz_resultado():
 
-    dados = request.json
+    nome = request.form.get("nome", "Anonimo")
+    pontuacao = int(request.form.get("pontuacao", 0))
+    total = int(request.form.get("total", 1))
+
+    percentagem = round((pontuacao / total) * 100, 2)
 
     data = read("quiz_resultados")
 
     data.append({
-        "nome": dados.get("nome"),
-        "pontuacao": dados.get("pontos"),
-        "total": dados.get("total"),
-        "percentagem": dados.get("percentagem"),
+        "nome": nome,
+        "pontuacao": pontuacao,
+        "total": total,
+        "percentagem": percentagem,
         "data": datetime.now().strftime("%d/%m/%Y %H:%M")
     })
 
     save("quiz_resultados", data)
 
-    return {"status": "ok"}
+    return render_template(
+        "quiz_resultado.html",
+        nome=nome,
+        pontuacao=pontuacao,
+        total=total,
+        percentagem=percentagem
+    )
     
 @app.route("/financeiro")
 def financeiro():

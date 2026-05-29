@@ -16,10 +16,15 @@
     border-radius:8px;
     background:#f2f2f2;
     cursor:pointer;
+    transition:0.2s;
 }
 
 .opcao:hover {
     background:#ddd;
+}
+
+.opcao.selected {
+    border:2px solid #333;
 }
 
 .opcao.correct {
@@ -66,11 +71,12 @@ input.nome {
 
 <h1 class="titulo-principal">🧠 Quiz Catequético</h1>
 
-<p class="frase-biblica">Teste os seus conhecimentos</p>
+<p class="frase-biblica">Teste os seus conhecimentos sobre a fé católica</p>
 
-<!-- NOME DO PARTICIPANTE -->
-<input id="nome" class="nome" placeholder="Digite o seu nome">
+<!-- NOME -->
+<input id="nome" class="nome" placeholder="Digite o seu nome" required>
 
+<!-- QUIZ -->
 <form id="quizForm">
 
 {% for q in perguntas %}
@@ -123,15 +129,19 @@ function selecionar(el, i) {
 function corrigir() {
 
     let cards = document.querySelectorAll(".card");
-    let pontos = 0;
 
-    let nome = document.getElementById("nome").value || "Anónimo";
+    let pontos = 0;
+    let nome = document.getElementById("nome").value.trim();
+
+    if (!nome) {
+        alert("Por favor, insira o seu nome!");
+        return;
+    }
 
     cards.forEach((card, i) => {
 
         let correta = card.getAttribute("data-resposta");
         let explicacao = card.querySelector(".explicacao");
-
         let opcoes = card.querySelectorAll(".opcao");
 
         opcoes.forEach(op => {
@@ -159,9 +169,10 @@ function corrigir() {
     let percent = Math.round((pontos / total) * 100);
 
     document.getElementById("resultado").innerHTML =
-        `Parabéns ${nome}! 🎉<br>Pontuação: ${pontos}/${total} (${percent}%)`;
+        `🎉 Parabéns ${nome}!<br><br>` +
+        `Pontuação: ${pontos}/${total} (${percent}%)`;
 
-    // enviar para backend
+    // ENVIO PARA BACKEND (CORRIGIDO PARA FLASK FORM)
     fetch("/quiz_resultado", {
         method: "POST",
         headers: {"Content-Type": "application/json"},

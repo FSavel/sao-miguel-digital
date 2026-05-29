@@ -258,25 +258,29 @@ function corrigir() {
     let resultadoDiv =
         document.getElementById("resultado");
 
-    resultadoDiv.innerHTML = `
+   resultadoDiv.innerHTML = `
+    <div style="color:white;">
+
         🎉 Parabéns ${nome}!<br><br>
 
         Pontuação: ${pontos}/${total}<br>
 
         Percentagem: ${percent}%<br><br>
 
-        <button
-            class="botao botao-resultado"
-            onclick='enviarResultado(
-                "${nome}",
-                ${pontos},
-                ${total},
-                ${percent}
-            )'
-        >
-            📊 Ver Resultado Final
-        </button>
-    `;
+    </div>
+
+    <button
+        class="botao botao-resultado"
+        onclick='enviarResultado(
+            "${nome}",
+            ${pontos},
+            ${total},
+            ${percent}
+        )'
+    >
+        📊 Ver Resultado Final
+    </button>
+`;
 
     bloqueado = false;
 }

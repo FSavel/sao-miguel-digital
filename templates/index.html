@@ -38,27 +38,17 @@
         ========================= -->
         <div class="card">
 
-            <h2 style="text-align:center;">📖 Liturgia</h2>
+            <button class="accordion-btn">📖 Liturgia</button>
 
-            <a href="/avisos" class="botao botao-liturgia">
-                📢 Avisos Semanais
-            </a>
+            <div class="accordion-content">
 
-            <a href="/leituras" class="botao botao-liturgia">
-                📖 Leituras
-            </a>
+                <a href="/avisos" class="botao botao-liturgia">📢 Avisos Semanais</a>
+                <a href="/leituras" class="botao botao-liturgia">📖 Leituras</a>
+                <a href="/canticos" class="botao botao-liturgia">🎵 Cânticos</a>
+                <a href="/escalas" class="botao botao-liturgia">👥 Escalas de Serviço</a>
+                <a href="/calendario" class="botao botao-liturgia">📅 Calendário Pastoral</a>
 
-            <a href="/canticos" class="botao botao-liturgia">
-                🎵 Cânticos
-            </a>
-
-            <a href="/escalas" class="botao botao-liturgia">
-                👥 Escalas de Serviço
-            </a>
-
-            <a href="/calendario" class="botao botao-liturgia">
-                📅 Calendário Pastoral
-            </a>
+            </div>
 
         </div>
 
@@ -69,11 +59,15 @@
         ========================= -->
         <div class="card">
 
-            <h2 style="text-align:center;">🙏 Espiritual</h2>
+            <button class="accordion-btn">🙏 Espiritual</button>
 
-            <a href="/pedido_oracao" class="botao botao-espiritual">
-                🙏 Pedido de Oração
-            </a>
+            <div class="accordion-content">
+
+                <a href="/pedido_oracao" class="botao botao-espiritual">
+                    🙏 Pedido de Oração
+                </a>
+
+            </div>
 
         </div>
 
@@ -84,23 +78,23 @@
         ========================= -->
         <div class="card">
 
-            <h2 style="text-align:center;">📚 Catequese</h2>
+            <button class="accordion-btn">📚 Catequese</button>
 
-            <p style="text-align:center; margin-bottom:10px;">
-                Formação cristã e acompanhamento catequético
-            </p>
+            <div class="accordion-content">
 
-            <a href="/listas_nominais" class="botao botao-catequese">
-                📋 Listas Nominais
-            </a>
+                <a href="/listas_nominais" class="botao botao-liturgia">
+                    📋 Listas Nominais
+                </a>
 
-            <a href="/material_estudo" class="botao botao-catequese">
-                📖 Material de Estudo
-            </a>
+                <a href="/material_estudo" class="botao botao-liturgia">
+                    📖 Material de Estudo
+                </a>
 
-            <a href="/quiz" class="botao botao-catequese">
-                🧠 Quiz Catequético
-            </a>
+                <a href="/quiz" class="botao botao-liturgia">
+                    🧠 Quiz Catequético
+                </a>
+
+            </div>
 
         </div>
 
@@ -111,15 +105,19 @@
         ========================= -->
         <div class="card">
 
-            <h2 style="text-align:center;">💰 Finanças</h2>
+            <button class="accordion-btn">💰 Finanças</button>
 
-            <a href="/dizimista_login" class="botao botao-financas">
-                👤 Área do Dizimista
-            </a>
+            <div class="accordion-content">
 
-            <a href="/financeiro" class="botao botao-financas">
-                📊 Situação Financeira da Paróquia
-            </a>
+                <a href="/dizimista_login" class="botao botao-financas">
+                    👤 Área do Dizimista
+                </a>
+
+                <a href="/financeiro" class="botao botao-financas">
+                    📊 Situação Financeira da Paróquia
+                </a>
+
+            </div>
 
         </div>
 
@@ -130,11 +128,15 @@
         ========================= -->
         <div class="card">
 
-            <h2 style="text-align:center;">⚙️ Administração</h2>
+            <button class="accordion-btn">⚙️ Administração</button>
 
-            <a href="/login" class="botao botao-admin">
-                ⚙️ Painel Administrativo
-            </a>
+            <div class="accordion-content">
+
+                <a href="/login" class="botao botao-admin">
+                    ⚙️ Painel Administrativo
+                </a>
+
+            </div>
 
         </div>
 
@@ -163,6 +165,23 @@
     </div>
 
 </div>
+
+<!-- =========================
+     ACCORDION SCRIPT
+========================= -->
+<script>
+document.querySelectorAll(".accordion-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+        const content = this.nextElementSibling;
+
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    });
+});
+</script>
 
 <script>
     setInterval(function() {

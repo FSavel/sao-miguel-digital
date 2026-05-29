@@ -451,7 +451,9 @@ def export_extrato_pdf():
     # =========================
     # DATA E HORA DO DOWNLOAD
     # =========================
-    agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    agora = datetime.now(
+        ZoneInfo("Africa/Maputo")
+    ).strftime("%d/%m/%Y %H:%M:%S")
 
     # =========================
     # NOME DO FICHEIRO (F.Savel)

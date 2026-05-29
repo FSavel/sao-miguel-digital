@@ -278,6 +278,25 @@ def quiz():
         "quiz.html",
         perguntas=perguntas
     )
+    @app.route("/quiz_resultado", methods=["POST"])
+def quiz_resultado():
+
+    dados = request.json
+
+    data = read("quiz_resultados")
+
+    data.append({
+        "nome": dados.get("nome"),
+        "pontuacao": dados.get("pontos"),
+        "total": dados.get("total"),
+        "percentagem": dados.get("percentagem"),
+        "data": datetime.now().strftime("%d/%m/%Y %H:%M")
+    })
+
+    save("quiz_resultados", data)
+
+    return {"status": "ok"}
+    
 @app.route("/financeiro")
 def financeiro():
 

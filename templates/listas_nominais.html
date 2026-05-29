@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -18,130 +17,118 @@ html
 
     <div class="container">
 
+        <!-- =========================
+             TÍTULO
+        ========================= -->
         <h1 class="titulo-principal">
             📋 Listas Nominais da Catequese
         </h1>
 
         <p class="frase-biblica">
-            Organização das turmas e catequizandos
+            Organização das fases, catequistas e catequizandos
         </p>
 
         <!-- =========================
-             FASES
+             LOOP DAS FASES
         ========================= -->
-        {% for fase in fases %}
+        {% if fases %}
 
-        <div class="card">
+            {% for fase in fases %}
 
-            <h2>
-                📚 {{ fase.fase }}
-            </h2>
+            <div class="card">
 
-            <!-- =========================
-                 CATEQUISTAS
-            ========================= -->
-            <h3>👨‍🏫 Catequistas</h3>
+                <h2>📚 {{ fase.fase }}</h2>
 
-            {% set encontrou_catequista = false %}
+                <!-- =========================
+                     CATEQUISTAS DA FASE
+                ========================= -->
+                <h3>👨‍🏫 Catequistas</h3>
 
-            {% for c in catequistas %}
+                {% set encontrou_catequista = false %}
 
-                {% if c.fase == fase.fase %}
+                {% for c in catequistas %}
 
-                    {% set encontrou_catequista = true %}
+                    {% if c.fase == fase.fase %}
 
-                    <p>
-                        👤 <b>{{ c.nome }}</b>
-                    </p>
+                        {% set encontrou_catequista = true %}
 
-                    <p>
-                        📞 {{ c.contacto }}
-                    </p>
+                        <p>
+                            <b>{{ c.nome }}</b> — {{ c.contacto }}
+                        </p>
 
-                    <hr>
+                    {% endif %}
 
+                {% endfor %}
+
+                {% if not encontrou_catequista %}
+                    <p>Sem catequistas atribuídos.</p>
                 {% endif %}
+
+                <hr>
+
+                <!-- =========================
+                     CATEQUIZANDOS DA FASE
+                ========================= -->
+                <h3>👦 Catequizandos</h3>
+
+                {% set encontrou_catequizando = false %}
+
+                {% for k in catequizandos %}
+
+                    {% if k.fase == fase.fase %}
+
+                        {% set encontrou_catequizando = true %}
+
+                        <p>
+                            <b>{{ k.nome }}</b>
+                            — {{ k.encarregado }}
+                            — {{ k.contacto }}
+                        </p>
+
+                        <p>
+                            Status:
+                            {% if k.status == "Activo" %}
+                                🟢 Activo
+                            {% elif k.status == "Inactivo" %}
+                                🔴 Inactivo
+                            {% elif k.status == "Transferido" %}
+                                🟡 Transferido
+                            {% elif k.status == "Desistente" %}
+                                ⚫ Desistente
+                            {% else %}
+                                ⚪ Indefinido
+                            {% endif %}
+                        </p>
+
+                        <hr>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if not encontrou_catequizando %}
+                    <p>Sem catequizandos nesta fase.</p>
+                {% endif %}
+
+            </div>
 
             {% endfor %}
 
-            {% if not encontrou_catequista %}
+        {% else %}
 
-                <p>
-                    Nenhum catequista registado.
-                </p>
+            <div class="card">
 
-            {% endif %}
+                <h2>Sem fases registadas</h2>
 
-            <br>
+                <p>Ainda não existem fases cadastradas no sistema.</p>
 
-            <!-- =========================
-                 CATEQUIZANDOS
-            ========================= -->
-            <h3>👦 Catequizandos</h3>
-
-            {% set encontrou = false %}
-
-            {% for q in catequizandos %}
-
-                {% if q.fase == fase.fase %}
-
-                    {% set encontrou = true %}
-
-                    <div style="margin-bottom:15px;">
-
-                        <p>
-                            👤 <b>{{ q.nome }}</b>
-                        </p>
-
-                        <p>
-                            👨‍👩‍👦 Encarregado:
-                            {{ q.encarregado }}
-                        </p>
-
-                        <p>
-                            📞 Contacto:
-                            {{ q.contacto }}
-                        </p>
-
-                        <p>
-                            📌 Status:
-                            <b>{{ q.status }}</b>
-                        </p>
-
-                    </div>
-
-                    <hr>
-
-                {% endif %}
-
-            {% endfor %}
-
-            {% if not encontrou %}
-
-                <p>
-                    Nenhum catequizando registado nesta fase.
-                </p>
-
-            {% endif %}
-
-        </div>
-
-        {% endfor %}
-
-        {% if not fases %}
-
-        <div class="card">
-
-            <h2>Sem fases registadas</h2>
-
-            <p>
-                Ainda não existem fases cadastradas.
-            </p>
-
-        </div>
+            </div>
 
         {% endif %}
 
+        <!-- =========================
+             BOTÃO VOLTAR
+        ========================= -->
         <a href="/" class="botao">
             🏠 Voltar ao Início
         </a>

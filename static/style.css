@@ -548,3 +548,23 @@ ACCORDION MENU
     border-radius: 0 0 12px 12px;
     margin-top: -5px;
 }
+
+/* =========================
+QUIZ (CORREÇÃO)
+========================= */
+
+.opcao.selected {
+    border: 2px solid #8b0000;
+    transform: scale(1.03);
+    background: #fff3f3;
+}
+
+.opcao.correct {
+    background: #2ecc71 !important;
+    color: white !important;
+}
+
+.opcao.wrong {
+    background: #e74c3c !important;
+    color: white !important;
+}

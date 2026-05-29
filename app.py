@@ -245,6 +245,9 @@ def escalas():
 # CATEQUESE
 # =========================
 
+import random
+
+
 @app.route("/listas_nominais")
 def listas_nominais():
 
@@ -271,14 +274,43 @@ def material_estudo():
     )
 
 
+# =========================
+# QUIZ CATEQUÉTICO (ATUALIZADO)
+# =========================
 @app.route("/quiz")
 def quiz():
 
     perguntas = read("quiz")
 
+    # embaralhar perguntas
+    random.shuffle(perguntas)
+
+    # limitar a 20 perguntas
+    perguntas = perguntas[:20]
+
+    perguntas_processadas = []
+
+    for p in perguntas:
+
+        opcoes = [
+            p.get("opcao1"),
+            p.get("opcao2"),
+            p.get("opcao3")
+        ]
+
+        # embaralhar opções
+        random.shuffle(opcoes)
+
+        perguntas_processadas.append({
+            "pergunta": p.get("pergunta"),
+            "opcoes": opcoes,
+            "resposta_correta": p.get("resposta_correta"),
+            "explicacao": p.get("explicacao")
+        })
+
     return render_template(
         "quiz.html",
-        perguntas=perguntas
+        perguntas=perguntas_processadas
     )
 
 

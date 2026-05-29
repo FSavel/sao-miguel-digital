@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Quiz Catequético</title>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -10,55 +11,60 @@
 <style>
 
 .opcao {
-    display:block;
-    margin:8px 0;
-    padding:10px;
-    border-radius:8px;
-    background:#f2f2f2;
-    cursor:pointer;
-    transition:0.2s;
+    display: block;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f2f2f2;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .opcao:hover {
-    background:#ddd;
+    background: #ddd;
 }
 
 .opcao.selected {
-    border:2px solid #8b0000;
+    border: 2px solid #8b0000;
     transform: scale(1.02);
-    background:#fff3f3;
+    background: #fff3f3;
 }
 
 .opcao.correct {
-    background:#2ecc71 !important;
-    color:white;
+    background: #2ecc71 !important;
+    color: white !important;
 }
 
 .opcao.wrong {
-    background:#e74c3c !important;
-    color:white;
+    background: #e74c3c !important;
+    color: white !important;
 }
 
 .explicacao {
-    margin-top:10px;
-    font-style:italic;
-    color:#333;
-    display:none;
+    margin-top: 10px;
+    font-style: italic;
+    color: #333;
+    display: none;
+    line-height: 1.5;
 }
 
 .resultado {
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    margin-top:20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 input.nome {
-    width:100%;
-    padding:10px;
-    margin-bottom:15px;
-    border-radius:8px;
-    border:1px solid #ccc;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.botao-resultado {
+    margin-top: 20px;
 }
 
 </style>
@@ -70,12 +76,21 @@ input.nome {
 <div class="overlay">
 <div class="container">
 
-<h1 class="titulo-principal">🧠 Quiz Catequético</h1>
+<h1 class="titulo-principal">
+    🧠 Quiz Catequético
+</h1>
 
-<p class="frase-biblica">Teste os seus conhecimentos sobre a fé católica</p>
+<p class="frase-biblica">
+    Teste os seus conhecimentos sobre a fé católica
+</p>
 
 <!-- NOME -->
-<input id="nome" class="nome" placeholder="Digite o seu nome" required>
+<input
+    id="nome"
+    class="nome"
+    placeholder="Digite o seu nome"
+    required
+>
 
 <!-- QUIZ -->
 <form id="quizForm">
@@ -84,23 +99,38 @@ input.nome {
 
 <div class="card"
      data-index="{{ loop.index0 }}"
-     data-resposta="{{ q.resposta_correta }}"
-     data-explicacao="{{ q.explicacao }}">
+     data-resposta="{{ q.resposta_correta }}">
 
-<h3>❓ {{ q.pergunta }}</h3>
+    <h3>
+        ❓ {{ q.pergunta }}
+    </h3>
 
-<div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">{{ q.opcao1 }}</div>
-<div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">{{ q.opcao2 }}</div>
-<div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">{{ q.opcao3 }}</div>
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao1 }}
+    </div>
 
-<div class="explicacao">💡 {{ q.explicacao }}</div>
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao2 }}
+    </div>
+
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao3 }}
+    </div>
+
+    <div class="explicacao">
+        💡 {{ q.explicacao }}
+    </div>
 
 </div>
 
 {% endfor %}
 
-<button type="button" class="botao" onclick="corrigir()">
-Ver Resultado
+<button
+    type="button"
+    class="botao"
+    onclick="corrigir()"
+>
+    ✔ Ver Resultado
 </button>
 
 </form>
@@ -120,9 +150,12 @@ function selecionar(el, i) {
     if (bloqueado) return;
 
     let card = el.parentElement;
+
     let opcoes = card.querySelectorAll(".opcao");
 
-    opcoes.forEach(o => o.classList.remove("selected"));
+    opcoes.forEach(o => {
+        o.classList.remove("selected");
+    });
 
     el.classList.add("selected");
 
@@ -132,65 +165,118 @@ function selecionar(el, i) {
 function corrigir() {
 
     if (bloqueado) return;
+
     bloqueado = true;
 
     let cards = document.querySelectorAll(".card");
 
     let pontos = 0;
+
     let nome = document.getElementById("nome").value.trim();
 
     if (!nome) {
+
         alert("Por favor, insira o seu nome!");
+
         bloqueado = false;
+
         return;
     }
 
     cards.forEach((card, i) => {
 
         let correta = card.getAttribute("data-resposta");
+
         let explicacao = card.querySelector(".explicacao");
+
         let opcoes = card.querySelectorAll(".opcao");
 
         opcoes.forEach(op => {
 
             let texto = op.innerText.trim();
 
-            op.classList.remove("correct", "wrong");
+            op.classList.remove(
+                "correct",
+                "wrong"
+            );
 
+            // RESPOSTA CORRETA
             if (texto === correta) {
                 op.classList.add("correct");
             }
 
-            if (respostas[i] && texto === respostas[i] && texto !== correta) {
+            // RESPOSTA ERRADA ESCOLHIDA
+            if (
+                respostas[i] &&
+                texto === respostas[i] &&
+                texto !== correta
+            ) {
                 op.classList.add("wrong");
             }
 
         });
 
+        // SOMA PONTOS
         if (respostas[i] === correta) {
             pontos++;
         }
 
+        // MOSTRA EXPLICAÇÃO
         explicacao.style.display = "block";
+
     });
 
     let total = cards.length;
-    let percent = Math.round((pontos / total) * 100);
 
-    document.getElementById("resultado").innerHTML =
-        `🎉 Parabéns ${nome}!<br><br>` +
-        `Pontuação: ${pontos}/${total} (${percent}%)`;
+    let percent = Math.round(
+        (pontos / total) * 100
+    );
 
-    // =========================
-    // ENVIO VIA FORM (CORRETO)
-    // =========================
-    let form = document.createElement("form");
+    let resultadoDiv =
+        document.getElementById("resultado");
+
+    resultadoDiv.innerHTML = `
+        🎉 Parabéns ${nome}!<br><br>
+
+        Pontuação: ${pontos}/${total}<br>
+
+        Percentagem: ${percent}%<br><br>
+
+        <button
+            class="botao botao-resultado"
+            onclick='enviarResultado(
+                "${nome}",
+                ${pontos},
+                ${total},
+                ${percent}
+            )'
+        >
+            📊 Ver Resultado Final
+        </button>
+    `;
+}
+
+function enviarResultado(
+    nome,
+    pontos,
+    total,
+    percent
+) {
+
+    let form =
+        document.createElement("form");
+
     form.method = "POST";
+
     form.action = "/quiz_resultado";
 
-    let input = document.createElement("input");
+    let input =
+        document.createElement("input");
+
     input.type = "hidden";
+
     input.name = "data";
+
     input.value = JSON.stringify({
         nome: nome,
         pontos: pontos,
@@ -199,10 +285,10 @@ function corrigir() {
     });
 
     form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
 
-    bloqueado = false;
+    document.body.appendChild(form);
+
+    form.submit();
 }
 
 </script>

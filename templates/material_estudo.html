@@ -1,0 +1,66 @@
+html
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Material de Estudo</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="container">
+
+        <h1 class="titulo-principal">
+            📖 Material de Estudo
+        </h1>
+
+        <p class="frase-biblica">
+            Planos e conteúdos catequéticos
+        </p>
+
+        {% for m in materiais %}
+
+        <div class="card">
+
+            <h2>{{ m.titulo }}</h2>
+
+            <p><b>Fase:</b> {{ m.fase }}</p>
+
+            <p>{{ m.descricao }}</p>
+
+        </div>
+
+        {% endfor %}
+
+        {% if not materiais %}
+
+        <div class="card">
+
+            <h2>Sem materiais disponíveis</h2>
+
+            <p>
+                Ainda não existem materiais cadastrados.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+        <a href="/" class="botao">
+            🏠 Voltar ao Início
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

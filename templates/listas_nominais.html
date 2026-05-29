@@ -1,0 +1,70 @@
+html
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Listas Nominais</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="container">
+
+        <h1 class="titulo-principal">
+            📋 Listas Nominais da Catequese
+        </h1>
+
+        <p class="frase-biblica">
+            Organização das turmas e catequizandos
+        </p>
+
+        {% for fase in fases %}
+
+        <div class="card">
+
+            <h2>📚 {{ fase.fase }}</h2>
+
+            <p>
+                Aqui poderão aparecer os catequistas e catequizandos desta fase.
+            </p>
+
+            <p>
+                🚧 Área em desenvolvimento.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+        {% if not fases %}
+
+        <div class="card">
+
+            <h2>Sem fases registadas</h2>
+
+            <p>
+                Ainda não existem fases cadastradas.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+        <a href="/" class="botao">
+            🏠 Voltar ao Início
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

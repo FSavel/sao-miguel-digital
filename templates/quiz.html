@@ -1,0 +1,66 @@
+html
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Catequético</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="container">
+
+        <h1 class="titulo-principal">
+            🧠 Quiz Catequético
+        </h1>
+
+        <p class="frase-biblica">
+            Teste os seus conhecimentos sobre a fé católica
+        </p>
+
+        {% for q in perguntas %}
+
+        <div class="card">
+
+            <h2>❓ {{ q.pergunta }}</h2>
+
+            <p>🔹 {{ q.opcao1 }}</p>
+            <p>🔹 {{ q.opcao2 }}</p>
+            <p>🔹 {{ q.opcao3 }}</p>
+
+        </div>
+
+        {% endfor %}
+
+        {% if not perguntas %}
+
+        <div class="card">
+
+            <h2>Sem perguntas disponíveis</h2>
+
+            <p>
+                Ainda não existem quizzes cadastrados.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+        <a href="/" class="botao">
+            🏠 Voltar ao Início
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

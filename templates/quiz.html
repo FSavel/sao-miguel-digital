@@ -46,10 +46,6 @@
     color: #333;
     display: none;
     line-height: 1.5;
-    background: rgba(255,255,255,0.9);
-    padding: 10px;
-    border-radius: 8px;
-    border-left: 4px solid #8b0000;
 }
 
 .resultado {
@@ -57,10 +53,6 @@
     font-size: 22px;
     font-weight: bold;
     margin-top: 20px;
-}
-
-/* 🔥 RESULTADO EM BRANCO (corrigido como pediste antes) */
-.resultado div {
     color: white;
 }
 
@@ -93,38 +85,29 @@ input.nome {
     Teste os seus conhecimentos sobre a fé católica
 </p>
 
-<!-- NOME -->
-<input
-    id="nome"
-    class="nome"
-    placeholder="Digite o seu nome"
-    required
->
+<input id="nome" class="nome" placeholder="Digite o seu nome">
 
-<!-- QUIZ -->
 <form id="quizForm">
 
 {% for q in perguntas %}
 
 <div class="card"
      data-index="{{ loop.index0 }}"
-     data-resposta="{{ q.resposta_correta | trim | lower }}">
+     data-resposta="{{ q.resposta_correta | trim }}">
 
-    <h3>
-        ❓ {{ q.pergunta }}
-    </h3>
+    <h3>❓ {{ q.pergunta }}</h3>
 
-    <!-- OPÇÕES DINÂMICAS (NOVO SISTEMA) -->
-    {% for op in q.opcoes %}
-
-    <div class="opcao"
-         onclick="selecionar(this, {{ loop.parent.index0 }})">
-
-        {{ op }}
-
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao1 }}
     </div>
 
-    {% endfor %}
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao2 }}
+    </div>
+
+    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+        {{ q.opcao3 }}
+    </div>
 
     <div class="explicacao">
         💡 {{ q.explicacao }}
@@ -134,11 +117,7 @@ input.nome {
 
 {% endfor %}
 
-<button
-    type="button"
-    class="botao"
-    onclick="corrigir()"
->
+<button type="button" class="botao" onclick="corrigir()">
     ✔ Ver Resultado
 </button>
 
@@ -159,14 +138,13 @@ function selecionar(el, i) {
     if (bloqueado) return;
 
     let card = el.parentElement;
-
     let opcoes = card.querySelectorAll(".opcao");
 
     opcoes.forEach(o => o.classList.remove("selected"));
 
     el.classList.add("selected");
 
-    respostas[i] = el.textContent.trim().toLowerCase();
+    respostas[i] = el.innerText.trim();
 }
 
 function corrigir() {
@@ -176,7 +154,6 @@ function corrigir() {
     bloqueado = true;
 
     let cards = document.querySelectorAll(".card");
-
     let pontos = 0;
 
     let nome = document.getElementById("nome").value.trim();
@@ -190,58 +167,46 @@ function corrigir() {
     cards.forEach((card, i) => {
 
         let correta = card.getAttribute("data-resposta").trim().toLowerCase();
-
         let explicacao = card.querySelector(".explicacao");
-
         let opcoes = card.querySelectorAll(".opcao");
 
-        let respostaUser = respostas[i] || "";
+        let respostaUser = respostas[i]
+            ? respostas[i].trim().toLowerCase()
+            : "";
 
         opcoes.forEach(op => {
 
-            let texto = op.textContent.trim().toLowerCase();
+            let texto = op.innerText.trim().toLowerCase();
 
             op.classList.remove("correct", "wrong");
 
-            // VERDE (correta)
             if (texto === correta) {
                 op.classList.add("correct");
             }
 
-            // VERMELHO (errada escolhida)
             if (respostaUser === texto && texto !== correta) {
                 op.classList.add("wrong");
             }
         });
 
-        // pontuação
         if (respostaUser === correta) {
             pontos++;
         } else {
             explicacao.style.display = "block";
         }
-
     });
 
     let total = cards.length;
-
     let percent = Math.round((pontos / total) * 100);
 
     document.getElementById("resultado").innerHTML = `
-        <div>
+        🎉 Parabéns ${nome}!<br><br>
 
-            🎉 Parabéns ${nome}!<br><br>
+        Pontuação: ${pontos}/${total}<br>
+        Percentagem: ${percent}%<br><br>
 
-            Pontuação: ${pontos}/${total}<br>
-
-            Percentagem: ${percent}%<br><br>
-
-        </div>
-
-        <button
-            class="botao botao-resultado"
-            onclick='enviarResultado("${nome}", ${pontos}, ${total}, ${percent})'
-        >
+        <button class="botao botao-resultado"
+            onclick='enviarResultado("${nome}",${pontos},${total},${percent})'>
             📊 Ver Resultado Final
         </button>
     `;

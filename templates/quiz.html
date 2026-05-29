@@ -25,25 +25,51 @@
             Teste os seus conhecimentos sobre a fé católica
         </p>
 
+        <!-- =========================
+             QUIZ
+        ========================= -->
         {% for q in perguntas %}
 
         <div class="card">
 
-            <h2>❓ {{ q.pergunta }}</h2>
+            <h2>
+                ❓ {{ q.pergunta }}
+            </h2>
 
+            <!-- OPÇÕES -->
             <p>🔹 {{ q.opcao1 }}</p>
             <p>🔹 {{ q.opcao2 }}</p>
             <p>🔹 {{ q.opcao3 }}</p>
+
+            <br>
+
+            <!-- FUTURO: RESPOSTA -->
+            <form method="POST" action="/quiz_responder">
+
+                <input type="hidden" name="pergunta" value="{{ q.pergunta }}">
+
+                <input type="text" name="resposta" placeholder="Escreva a resposta ou escolha uma opção">
+
+                <button class="botao" type="submit">
+                    📩 Responder
+                </button>
+
+            </form>
 
         </div>
 
         {% endfor %}
 
+        <!-- =========================
+             SEM PERGUNTAS
+        ========================= -->
         {% if not perguntas %}
 
         <div class="card">
 
-            <h2>Sem perguntas disponíveis</h2>
+            <h2>
+                Sem perguntas disponíveis
+            </h2>
 
             <p>
                 Ainda não existem quizzes cadastrados.
@@ -53,6 +79,9 @@
 
         {% endif %}
 
+        <!-- =========================
+             VOLTAR
+        ========================= -->
         <a href="/" class="botao">
             🏠 Voltar ao Início
         </a>

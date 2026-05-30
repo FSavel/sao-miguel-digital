@@ -38,8 +38,8 @@
             <input type="text" name="naveteiro" placeholder="Naveteiro">
             <input type="text" name="cerimoniario" placeholder="Cerimoniário">
             <input type="text" name="velas" placeholder="Velas">
-            <input type="text" name="missal" placeholder="Missal">
-            <input type="text" name="campainha" placeholder="Campainha">
+            <input type="text" name="livro" placeholder="Livro">
+            <input type="text" name="altar" placeholder="Altar">
 
             <button class="botao" type="submit">
                 Guardar Escala
@@ -63,8 +63,8 @@
                 <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
                 <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
                 <p><b>Velas:</b> {{ a.velas }}</p>
-                <p><b>Missal:</b> {{ a.missal }}</p>
-                <p><b>Campainha:</b> {{ a.campainha }}</p>
+                <p><b>Livro:</b> {{ a.livro }}</p>
+                <p><b>Altar:</b> {{ a.altar }}</p>
 
                 <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
                     ❌ Apagar

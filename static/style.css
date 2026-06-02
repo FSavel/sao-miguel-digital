@@ -580,3 +580,29 @@ QUIZ (CORREÇÃO)
     display: none;
     line-height: 1.5;
 }
+
+.area-editar-perfil {
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+/* BOTÃO EDITAR PERFIL (estilo PDF branco) */
+.botao-editar-perfil {
+    background: #ffffff;
+    color: #1f3b57;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
+    font-size: 14px;
+}
+
+/* hover bonito */
+.botao-editar-perfil:hover {
+    background: #f2f6fb;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0,0,0,0.2);
+}

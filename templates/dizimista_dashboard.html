@@ -17,15 +17,21 @@
 <div class="container">
 
     <!-- TOPO -->
-    <div class="dashboard-topo">
+<div class="dashboard-topo">
 
+    <div class="topo-linha">
         <h2>👤 {{ user.nome }}</h2>
 
-        <p>
-            Nº {{ user.numero }} • {{ user.contacto }}
-        </p>
-
+        <a href="/editar_perfil" class="botao-editar-topo">
+            ✏️ Editar
+        </a>
     </div>
+
+    <p>
+        Nº {{ user.numero }} • {{ user.contacto }}
+    </p>
+
+</div>
 
     <!-- RESUMO -->
     <div class="card destaque">
@@ -108,16 +114,6 @@
         {% endif %}
 
     </div>
-
-    <div style="margin-top: 15px;">
-
-<a href="/editar_perfil" class="botao">
-
-    ✏️ Editar Perfil
-
-</a>
-
-</div>
 
     <!-- BOTÃO SAIR -->
     <div style="margin-top: 15px;">

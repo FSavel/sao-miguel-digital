@@ -913,6 +913,13 @@ def edit_outro_servico(i):
     )
 
 # =========================
+# REDES SOCIAIS
+# =========================
+@app.route("/redes_sociais")
+def redes_sociais():
+    return render_template("redes_sociais.html")
+    
+# =========================
 # RUN
 # =========================
 if __name__ == "__main__":

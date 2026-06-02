@@ -61,9 +61,10 @@ def save(name, data):
     for r in data:
         rows.append([r.get(h, "") for h in headers])
 
-    # ⚡ UMA SÓ ESCRITA (muito mais rápido)
     w.clear()
-    w.update(rows)
+
+    # ⚡ escreve a partir da célula A1 explicitamente
+    w.update("A1", rows)
 
 
 def is_admin():

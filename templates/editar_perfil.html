@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Editar Perfil</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+```
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="container">
+
+```
+<!-- TÍTULO -->
+<h1 class="titulo-principal">
+    ✏️ Editar Perfil
+</h1>
+
+<!-- ERRO -->
+{% if erro %}
+    <div class="card" style="border-left: 5px solid #e53935;">
+        <p>
+            <b>⚠️ {{ erro }}</b>
+        </p>
+    </div>
+{% endif %}
+
+<!-- SUCESSO -->
+{% if sucesso %}
+    <div class="card" style="border-left: 5px solid #2e7d32;">
+        <p>
+            <b>✅ {{ sucesso }}</b>
+        </p>
+    </div>
+{% endif %}
+
+<!-- FORMULÁRIO -->
+<div class="card">
+
+    <form method="POST">
+
+        <!-- NOME -->
+        <label>
+            👤 Nome Completo
+        </label>
+
+        <input
+            type="text"
+            name="nome"
+            value="{{ user.nome }}"
+            required
+            autocomplete="name"
+        >
+
+        <!-- CONTACTO -->
+        <label>
+            📱 Contacto
+        </label>
+
+        <input
+            type="text"
+            name="contacto"
+            value="{{ user.contacto }}"
+            autocomplete="tel"
+        >
+
+        <!-- EMAIL -->
+        <label>
+            📧 Email
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ user.email }}"
+            autocomplete="email"
+        >
+
+        <hr style="margin: 25px 0;">
+
+        <!-- PASSWORD -->
+        <h3 style="margin-bottom: 10px;">
+            🔐 Alterar Palavra-passe
+        </h3>
+
+        <p style="margin-bottom: 15px; line-height: 1.5;">
+
+            Por segurança, introduza a password actual
+            antes de definir uma nova password.
+
+        </p>
+
+        <!-- PASSWORD ACTUAL -->
+        <label>
+            Password Actual
+        </label>
+
+        <div class="password-box">
+
+            <input
+                type="password"
+                name="password_actual"
+                id="password_actual"
+                autocomplete="current-password"
+            >
+
+            <button
+                type="button"
+                class="toggle-pass"
+                onclick="togglePassword('password_actual')"
+            >
+                👁️
+            </button>
+
+        </div>
+
+        <!-- NOVA PASSWORD -->
+        <label>
+            Nova Password
+        </label>
+
+        <div class="password-box">
+
+            <input
+                type="password"
+                name="nova_password"
+                id="nova_password"
+                autocomplete="new-password"
+            >
+
+            <button
+                type="button"
+                class="toggle-pass"
+                onclick="togglePassword('nova_password')"
+            >
+                👁️
+            </button>
+
+        </div>
+
+        <!-- CONFIRMAR PASSWORD -->
+        <label>
+            Confirmar Nova Password
+        </label>
+
+        <div class="password-box">
+
+            <input
+                type="password"
+                name="confirmar_password"
+                id="confirmar_password"
+                autocomplete="new-password"
+            >
+
+            <button
+                type="button"
+                class="toggle-pass"
+                onclick="togglePassword('confirmar_password')"
+            >
+                👁️
+            </button>
+
+        </div>
+
+        <!-- BOTÃO -->
+        <button type="submit" class="botao">
+
+            💾 Guardar Alterações
+
+        </button>
+
+    </form>
+
+</div>
+
+<!-- VOLTAR -->
+<a href="/dizimista_dashboard" class="botao">
+
+    ⬅️ Voltar ao Painel
+
+</a>
+```
+
+</div>
+
+</div>
+
+<!-- SCRIPT PASSWORD -->
+
+<script>
+
+function togglePassword(id) {
+
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+
+</script>
+
+</body>
+</html>

@@ -928,132 +928,79 @@ def redes_sociais():
 @app.route("/editar_perfil", methods=["GET", "POST"])
 def editar_perfil():
 
-# =========================
-# VERIFICAR LOGIN
-# =========================
-if not session.get("dizimista"):
-    return redirect("/dizimista_login")
+    # =========================
+    # VERIFICAR LOGIN
+    # =========================
+    if not session.get("dizimista"):
+        return redirect("/dizimista_login")
 
-numero = session["dizimista"]
+    numero = session["dizimista"]
 
-data = read("dizimistas")
+    data = read("dizimistas")
 
-user = None
-index = None
-
-# =========================
-# LOCALIZAR DIZIMISTA
-# =========================
-for i, d in enumerate(data):
-
-    if str(d.get("numero")) == str(numero):
-
-        user = d
-        index = i
-        break
-
-if not user:
-    return redirect("/dizimista_logout")
-
-erro = None
-sucesso = None
-
-# =========================
-# GUARDAR ALTERAÇÕES
-# =========================
-if request.method == "POST":
-
-    # DADOS
-    nome = request.form.get("nome", "").strip()
-    contacto = request.form.get("contacto", "").strip()
-    email = request.form.get("email", "").strip()
-
-    # PASSWORDS
-    password_actual = request.form.get(
-        "password_actual", ""
-    ).strip()
-
-    nova_password = request.form.get(
-        "nova_password", ""
-    ).strip()
-
-    confirmar_password = request.form.get(
-        "confirmar_password", ""
-    ).strip()
+    user = None
+    index = None
 
     # =========================
-    # ACTUALIZAR DADOS BASE
+    # LOCALIZAR DIZIMISTA
     # =========================
-    user["nome"] = nome
-    user["contacto"] = contacto
-    user["email"] = email
+    for i, d in enumerate(data):
 
-    # =========================
-    # ALTERAR PASSWORD
-    # =========================
-    if (
-        password_actual
-        or nova_password
-        or confirmar_password
-    ):
+        if str(d.get("numero")) == str(numero):
+            user = d
+            index = i
+            break
 
-        # PASSWORD ACTUAL ERRADA
-        if str(user.get("password")) != password_actual:
+    if not user:
+        return redirect("/dizimista_logout")
 
-            erro = "Password actual incorrecta."
-
-            return render_template(
-                "editar_perfil.html",
-                user=user,
-                erro=erro
-            )
-
-        # PASSWORDS DIFERENTES
-        if nova_password != confirmar_password:
-
-            erro = "As novas passwords não coincidem."
-
-            return render_template(
-                "editar_perfil.html",
-                user=user,
-                erro=erro
-            )
-
-        # PASSWORD CURTA
-        if len(nova_password) < 4:
-
-            erro = (
-                "A nova password deve ter "
-                "pelo menos 4 caracteres."
-            )
-
-            return render_template(
-                "editar_perfil.html",
-                user=user,
-                erro=erro
-            )
-
-        # GUARDAR NOVA PASSWORD
-        user["password"] = nova_password
+    erro = None
+    sucesso = None
 
     # =========================
-    # GUARDAR NO GOOGLE SHEETS
+    # GUARDAR ALTERAÇÕES
     # =========================
-    data[index] = user
+    if request.method == "POST":
 
-    save("dizimistas", data)
+        nome = request.form.get("nome", "").strip()
+        contacto = request.form.get("contacto", "").strip()
+        email = request.form.get("email", "").strip()
 
-    sucesso = "Perfil actualizado com sucesso."
+        password_actual = request.form.get("password_actual", "").strip()
+        nova_password = request.form.get("nova_password", "").strip()
+        confirmar_password = request.form.get("confirmar_password", "").strip()
 
-# =========================
-# ABRIR PÁGINA
-# =========================
-return render_template(
-    "editar_perfil.html",
-    user=user,
-    erro=erro,
-    sucesso=sucesso
-)
+        user["nome"] = nome
+        user["contacto"] = contacto
+        user["email"] = email
+
+        if password_actual or nova_password or confirmar_password:
+
+            if str(user.get("password")) != password_actual:
+                erro = "Password actual incorrecta."
+                return render_template("editar_perfil.html", user=user, erro=erro)
+
+            if nova_password != confirmar_password:
+                erro = "As novas passwords não coincidem."
+                return render_template("editar_perfil.html", user=user, erro=erro)
+
+            if len(nova_password) < 4:
+                erro = "A nova password deve ter pelo menos 4 caracteres."
+                return render_template("editar_perfil.html", user=user, erro=erro)
+
+            user["password"] = nova_password
+
+        data[index] = user
+        save("dizimistas", data)
+
+        sucesso = "Perfil actualizado com sucesso."
+
+    return render_template(
+        "editar_perfil.html",
+        user=user,
+        erro=erro,
+        sucesso=sucesso
+    )
 
 # =========================
 # RUN

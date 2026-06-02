@@ -50,16 +50,20 @@ def read(name):
 
 def save(name, data):
     w = ws(name)
-    w.clear()
 
     if not data:
         return
 
     headers = list(data[0].keys())
-    w.append_row(headers)
+
+    rows = [headers]
 
     for r in data:
-        w.append_row([r.get(h, "") for h in headers])
+        rows.append([r.get(h, "") for h in headers])
+
+    # ⚡ UMA SÓ ESCRITA (muito mais rápido)
+    w.clear()
+    w.update(rows)
 
 
 def is_admin():

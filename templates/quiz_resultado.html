@@ -209,69 +209,50 @@
 <!-- =========================
      CONFETTI
 ========================= -->
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
-const percentagem = {{ percentagem|float }};
+window.onload = function () {
 
-if (percentagem >= 80) {
+    const percentagem = Number("{{ percentagem }}");
 
-    // 🎉 CONFETTI 1
-    confetti({
-        particleCount: 220,
-        spread: 120,
-        origin: { y: 0.6 }
-    });
+    if (percentagem >= 80) {
 
-    // 🎉 CONFETTI 2
-    setTimeout(() => {
-
+        // 🎉 CONFETTI 1
         confetti({
-            particleCount: 180,
-            spread: 100,
-            origin: { y: 0.5 }
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 0.6 }
         });
 
-    }, 700);
+        // ✨ CONFETTI 2
+        setTimeout(() => {
 
-    // ✨ BRILHOS
-    for (let i = 0; i < 35; i++) {
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.5 }
+            });
 
-        const brilho = document.createElement("div");
+        }, 800);
 
-        brilho.classList.add("brilho");
-
-        brilho.style.left = Math.random() * 100 + "vw";
-
-        brilho.style.animationDuration =
-            (Math.random() * 3 + 2) + "s";
-
-        brilho.style.width =
-            brilho.style.height =
-            (Math.random() * 8 + 5) + "px";
-
-        document.body.appendChild(brilho);
-
-    }
-
-    // 🔊 SOM
-    window.addEventListener("click", function tocarAudio() {
-
-        const audio = new Audio("/static/aplausos.mp3");
+        // 🔊 ÁUDIO
+        const audio = new Audio("{{ url_for('static', filename='aplausos.mp3') }}");
 
         audio.volume = 1.0;
 
-        audio.play();
+        audio.play().catch(error => {
 
-        window.removeEventListener("click", tocarAudio);
+            console.log("Autoplay bloqueado:", error);
 
-    });
+        });
 
-}
+    }
+
+};
 
 </script>
-
+    
 </body>
 </html>

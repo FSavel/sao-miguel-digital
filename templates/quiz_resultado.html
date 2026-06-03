@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Resultado do Quiz</title>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -84,6 +86,36 @@
 
 .baixa {
     color: #c0392b;
+}
+
+/* =========================
+   BRILHO ANIMADO
+========================= */
+
+.brilho {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: gold;
+    border-radius: 50%;
+    top: -10px;
+    animation: cair 4s linear infinite;
+    opacity: 0.8;
+    z-index: 9999;
+}
+
+@keyframes cair {
+
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -177,6 +209,7 @@
 <!-- =========================
      CONFETTI
 ========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
@@ -185,27 +218,56 @@ const percentagem = {{ percentagem|float }};
 
 if (percentagem >= 80) {
 
-    // 🎉 PRIMEIRO EFEITO
+    // 🎉 CONFETTI 1
     confetti({
-        particleCount: 200,
+        particleCount: 220,
         spread: 120,
         origin: { y: 0.6 }
     });
 
-    // ✨ SEGUNDO EFEITO
+    // 🎉 CONFETTI 2
     setTimeout(() => {
 
         confetti({
-            particleCount: 150,
+            particleCount: 180,
             spread: 100,
             origin: { y: 0.5 }
         });
 
-    }, 800);
+    }, 700);
+
+    // ✨ BRILHOS
+    for (let i = 0; i < 35; i++) {
+
+        const brilho = document.createElement("div");
+
+        brilho.classList.add("brilho");
+
+        brilho.style.left = Math.random() * 100 + "vw";
+
+        brilho.style.animationDuration =
+            (Math.random() * 3 + 2) + "s";
+
+        brilho.style.width =
+            brilho.style.height =
+            (Math.random() * 8 + 5) + "px";
+
+        document.body.appendChild(brilho);
+
+    }
 
     // 🔊 SOM
-    const audio = new Audio("/static/aplausos.mp3");
-    audio.play();
+    window.addEventListener("click", function tocarAudio() {
+
+        const audio = new Audio("/static/aplausos.mp3");
+
+        audio.volume = 1.0;
+
+        audio.play();
+
+        window.removeEventListener("click", tocarAudio);
+
+    });
 
 }
 

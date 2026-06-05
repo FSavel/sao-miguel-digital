@@ -3,11 +3,75 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Material de Estudo</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+.material-card {
+    animation: fadeIn 0.4s ease;
+}
+
+.material-descricao {
+    line-height: 1.8;
+    margin-top: 10px;
+    color: #333;
+}
+
+.material-fase {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #555;
+}
+
+.area-material {
+    margin-top: 20px;
+}
+
+.botao-download {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #2e7d32;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.botao-download:hover {
+    transform: scale(1.03);
+    background: #256628;
+}
+
+.sem-pdf {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #999;
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -17,12 +81,13 @@
 
     <div class="container">
 
+        <!-- TÍTULO -->
         <h1 class="titulo-principal">
             📖 Material de Estudo
         </h1>
 
         <p class="frase-biblica">
-            Planos e conteúdos catequéticos
+            Planos, conteúdos e materiais catequéticos
         </p>
 
         <!-- =========================
@@ -30,33 +95,46 @@
         ========================= -->
         {% for m in materiais %}
 
-        <div class="card">
+        <div class="card material-card">
 
+            <!-- TÍTULO -->
             <h2>
                 📘 {{ m.titulo }}
             </h2>
 
-            <p>
+            <!-- FASE -->
+            <p class="material-fase">
                 <b>📚 Fase:</b>
                 {{ m.fase }}
             </p>
 
-            <br>
-
-            <p style="line-height:1.7;">
+            <!-- DESCRIÇÃO -->
+            <div class="material-descricao">
                 {{ m.descricao }}
-            </p>
+            </div>
 
-            <!-- FUTURO PDF -->
-            <!--
-            <div class="area-pdf">
+            <!-- PDF -->
+            <div class="area-material">
 
-                <a href="#" class="botao-pdf-mini">
-                    📄 Exportar PDF
+                {% if m.pdf %}
+
+                <a
+                    href="{{ m.pdf }}"
+                    target="_blank"
+                    class="botao-download"
+                >
+                    📥 Baixar PDF
                 </a>
 
+                {% else %}
+
+                <p class="sem-pdf">
+                    📄 PDF ainda não disponível.
+                </p>
+
+                {% endif %}
+
             </div>
-            -->
 
         </div>
 
@@ -70,7 +148,7 @@
         <div class="card">
 
             <h2>
-                Sem materiais disponíveis
+                📚 Sem materiais disponíveis
             </h2>
 
             <p>
@@ -81,9 +159,7 @@
 
         {% endif %}
 
-        <!-- =========================
-             VOLTAR
-        ========================= -->
+        <!-- VOLTAR -->
         <a href="/" class="botao">
             🏠 Voltar ao Início
         </a>

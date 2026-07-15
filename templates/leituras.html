@@ -1,66 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Leituras</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
+        <!-- =========================
+             TÍTULO E INSPIRAÇÃO
+        ========================= -->
+        <h1 class="titulo-principal">📖 Leituras</h1>
+        <p class="frase-biblica">
+            “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
+        </p>
 
-    <h1 class="titulo-principal">
-        📖 Leituras
-    </h1>
-
-    <p class="frase-biblica">
-        “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
-    </p>
-
-    <!-- CONTEÚDO -->
-
-    {% if leituras %}
-
-        {% for leitura in leituras %}
-
+        <!-- =========================
+             CONTEÚDO DAS LEITURAS
+        ========================= -->
+        {% if leituras %}
+            {% for leitura in leituras %}
+                <div class="card">
+                    <h2>
+                        {% if leitura is mapping %}{{ leitura.tipo }}{% else %}{{ leitura[0] }}{% endif %}
+                    </h2>
+                    
+                    {# Classe utilitária implícita para preservar quebras de versículos #}
+                    <p style="white-space: pre-line; line-height: 1.6; color: #333;">
+                        {% if leitura is mapping %}{{ leitura.texto }}{% else %}{{ leitura[1] }}{% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
             <div class="card">
-
-                <h2>{{ leitura.tipo }}</h2>
-
-                <p style="white-space: pre-line;">
-                    {{ leitura.texto }}
-                </p>
-
+                <p class="sem-registos">Nenhuma leitura disponível para a celebração de hoje.</p>
             </div>
+        {% endif %}
 
-        {% endfor %}
+        <!-- =========================
+             NAVEGAÇÃO
+        ========================= -->
+        <a href="/" class="botao">⬅️ Voltar ao início</a>
 
-    {% else %}
-
-        <div class="card">
-            <p>Nenhuma leitura disponível.</p>
-        </div>
-
-    {% endif %}
-
-    <!-- VOLTAR -->
-
-    <a href="/" class="botao">
-        ⬅️ Voltar ao início
-    </a>
-
-</div>
+    </div>
 
 </div>
 

@@ -1,53 +1,44 @@
 <!DOCTYPE html>
-
 <html lang="pt">
 <head>
-
-```
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Editar Leitura</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-```
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Leitura</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 <div class="container">
 
-```
-<h1 class="titulo-principal">📖 Editar Leitura</h1>
+    <h1 class="titulo-principal">📖 Editar Leitura</h1>
 
-<div class="card">
+    {% set l_tipo = leitura.tipo if leitura is mapping else leitura[0] %}
+    {% set l_texto = leitura.texto if leitura is mapping else leitura[1] %}
 
-    <form method="POST">
+    <div class="card" style="padding: 20px;">
+        <form method="POST">
 
-        <input 
-            type="text" 
-            name="tipo" 
-            value="{{ leitura.tipo }}" 
-            required
-        >
+            <label>📖 Tipo de Leitura (ex: Primeira Leitura, Evangelho)</label>
+            <input type="text" name="tipo" value="{{ l_tipo if l_tipo is not none else '' }}" required placeholder="Ex: Primeira Leitura">
 
-        <textarea 
-            name="texto" 
-            required
-        >{{ leitura.texto }}</textarea>
+            <label style="margin-top: 15px;">📜 Texto da Leitura / Citação Bíblica</label>
+            <textarea name="texto" rows="10" required placeholder="Escreva o trecho ou as referências das passagens bíblicas...">{{ l_texto if l_texto is not none else '' }}</textarea>
 
-        <button class="botao" type="submit">
-            💾 Guardar Alterações
-        </button>
+            <button class="botao" type="submit" style="margin-top: 15px;">💾 Guardar Alterações</button>
+        </form>
+    </div>
 
-    </form>
-
-</div>
-
-<a href="/admin" class="botao">⬅️ Voltar</a>
-```
+    <a href="/admin" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>

@@ -3,8 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cânticos</title>
+    <title>Cânticos Litúrgicos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .cantico-card {
+            margin-bottom: 25px;
+            padding: 24px;
+            border-left: 3px solid #8b0000; /* Linha de destaque para separar os momentos da Missa */
+            animation: slideUp 0.4s ease;
+        }
+
+        .momento-tag {
+            display: inline-block;
+            background: rgba(139, 0, 0, 0.08);
+            color: #8b0000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cantico-titulo {
+            border: none;
+            padding-bottom: 0;
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .divisor {
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            margin: 14px 0;
+        }
+
+        .letra-rotulo {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: bold;
+        }
+
+        .letra-texto {
+            white-space: pre-line;
+            line-height: 1.7; /* Espaçamento de leitura otimizado para cantares */
+            color: #2c3e50;
+            font-size: 17px; /* Letra confortável para ler de pé na igreja */
+            margin: 0;
+        }
+
+        .sem-registos {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -23,31 +94,37 @@
                 {% set name = c.cantico if c is mapping else c[1] %}
                 {% set lyrics = c.letra if c is mapping else c[2] %}
                 
-                <div class="card" style="margin-bottom: 22px;">
-                    <span style="display: inline-block; background: rgba(139, 0, 0, 0.1); color: #8b0000; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+                <div class="card cantico-card">
+                    
+                    <span class="momento-tag">
                         🎼 {{ moment }}
                     </span>
                     
-                    <h2 style="border: none; padding-bottom: 0; margin-bottom: 5px; font-size: 20px;">
+                    <h2 class="cantico-titulo">
                         {{ name }}
                     </h2>
                     
-                    <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 12px 0 14px 0;"></div>
+                    <div class="divisor"></div>
 
-                    <h3 style="font-size: 14px; color: #555; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">📜 Letra</h3>
+                    <h3 class="letra-rotulo">📜 Letra</h3>
                     
-                    <p style="white-space: pre-line; line-height: 1.6; color: #222; font-size: 16px;">
+                    <p class="letra-texto">
                         {{ lyrics }}
                     </p>
+
                 </div>
             {% endfor %}
         {% else %}
-            <div class="card">
-                <p class="sem-registos">Nenhum cântico selecionado para as celebrações de hoje.</p>
+            <div class="card" style="padding: 30px 20px;">
+                <p class="sem-registos">
+                    🕊️ Nenhum cântico selecionado para as celebrações de hoje.
+                </p>
             </div>
         {% endif %}
 
-        <a href="/" class="botao">🏠 Voltar ao Início</a>
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
+            🏠 Voltar ao Início
+        </a>
 
     </div>
 

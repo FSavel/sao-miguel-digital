@@ -6,37 +6,61 @@
     <title>São Miguel Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Garante que os acordeões começam fechados e têm uma transição suave */
+        /* Melhorias visuais para os botões e acordeão */
+        .accordion-btn {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-btn:hover {
+            background: #f9f9f9;
+            border-color: #ddd;
+        }
+
         .accordion-content {
             display: none;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
+            padding: 10px 0;
+            animation: fadeIn 0.3s ease;
         }
-        
-        /* Indicador visual de abertura no botão */
-        .accordion-btn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+
+        /* Estilo para os links dentro dos acordeões */
+        .accordion-content .botao {
+            margin: 5px 0;
+            display: block;
             text-align: left;
+            background: #f4f4f4;
+            color: #333 !important;
+            border: none;
         }
         
+        .accordion-content .botao:hover {
+            background: #e8e8e8;
+        }
+
         .accordion-btn::after {
             content: '▼';
             font-size: 10px;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s ease;
         }
         
         .accordion-btn.active::after {
             transform: rotate(180deg);
         }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="overlay">
-
     <div class="container home-menu">
 
         <h1 class="titulo-principal">
@@ -47,140 +71,86 @@
             “Eu sou o caminho, a verdade e a vida.” — João 14:6
         </p>
 
-        <br>
-
-        <div class="card">
+        <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
+            
             <button class="accordion-btn">📖 Liturgia</button>
             <div class="accordion-content">
-                <a href="/avisos" class="botao botao-liturgia">📢 Avisos Semanais</a>
-                <a href="/leituras" class="botao botao-liturgia">📖 Leituras</a>
-                <a href="/canticos" class="botao botao-liturgia">🎵 Cânticos</a>
-                <a href="/escalas" class="botao botao-liturgia">👥 Escalas de Serviço</a>
-                <a href="/calendario" class="botao botao-liturgia">📅 Calendário Pastoral</a>
+                <a href="/avisos" class="botao">📢 Avisos Semanais</a>
+                <a href="/leituras" class="botao">📖 Leituras</a>
+                <a href="/canticos" class="botao">🎵 Cânticos</a>
+                <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
+                <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
             </div>
-        </div>
 
-        <br>
-
-        <div class="card">
             <button class="accordion-btn">🙏 Espiritual</button>
             <div class="accordion-content">
-                <a href="/pedido_oracao" class="botao botao-espiritual">
-                    🙏 Pedido de Oração
-                </a>
+                <a href="/pedido_oracao" class="botao">🙏 Pedido de Oração</a>
             </div>
-        </div>
 
-        <br>
-
-        <div class="card">
             <button class="accordion-btn">📚 Catequese</button>
             <div class="accordion-content">
-                <a href="/listas_nominais" class="botao botao-espiritual">
-                    📋 Listas Nominais
-                </a>
-                <a href="/material_estudo" class="botao botao-espiritual">
-                    📖 Material de Estudo
-                </a>
-                <a href="/quiz" class="botao botao-espiritual">
-                    🧠 Quiz Catequético
-                </a>
+                <a href="/listas_nominais" class="botao">📋 Listas Nominais</a>
+                <a href="/material_estudo" class="botao">📖 Material de Estudo</a>
+                <a href="/quiz" class="botao">🧠 Quiz Catequético</a>
             </div>
-        </div>
 
-        <br>
-
-        <div class="card">
             <button class="accordion-btn">💰 Finanças</button>
             <div class="accordion-content">
-                <a href="/dizimista_login" class="botao botao-financas">
-                    👤 Área do Dizimista
-                </a>
-                <a href="/financeiro" class="botao botao-financas">
-                    📊 Situação Financeira da Paróquia
-                </a>
+                <a href="/dizimista_login" class="botao">👤 Área do Dizimista</a>
+                <a href="/financeiro" class="botao">📊 Situação Financeira</a>
             </div>
-        </div>
 
-        <br>
+            <a href="/redes_sociais" class="accordion-btn" style="text-decoration: none; display: flex;">🌐 Redes Sociais</a>
 
-        <div class="card">
-            <a href="/redes_sociais" class="botao" style="margin: 0; text-align: left; display: block; width: 100%; box-sizing: border-box;">
-                🌐 Redes Sociais
-            </a>
-        </div>
-
-        <br>
-        
-        <div class="card">
             <button class="accordion-btn">⚙️ Administração</button>
             <div class="accordion-content">
-                <a href="/login" class="botao botao-admin">
-                    ⚙️ Painel Administrativo
-                </a>
+                <a href="/login" class="botao" style="background: #8b0000; color: white !important;">⚙️ Painel Administrativo</a>
             </div>
         </div>
 
     </div>
-
 </div>
 
 <div class="ticker">
     <div class="ticker-content">
         {% if avisos %}
             {% for aviso in avisos %}
-                {# Suporta dicionários (aviso.titulo) ou listas de listas (aviso[0]) #}
-                📢 
-                {% if aviso is mapping %}
-                    <b>{{ aviso.titulo }}:</b> {{ aviso.descricao }}
-                {% else %}
-                    {{ aviso[0] if aviso[0] is defined else aviso }}
-                {% endif %}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                📢 {{ aviso.titulo if aviso is mapping else aviso[0] }}: {{ aviso.descricao if aviso is mapping else aviso[1] }} 
+                &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;
             {% endfor %}
         {% else %}
-            ✨ Bem-vindos à Paróquia São Miguel Arcanjo da Manhiça! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            ✨ Bem-vindos à Paróquia São Miguel Arcanjo da Manhiça!
         {% endif %}
     </div>
 </div>
 
 <script>
-// Accordion com efeito de fechamento inteligente e animação de setas
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
+        // Se já estiver ativo, apenas fecha
         const content = this.nextElementSibling;
-        const isOpen = content.style.display === "block";
-        
-        // Fecha todos os outros acordeões e remove a classe ativa dos botões
-        document.querySelectorAll(".accordion-content").forEach(el => {
-            el.style.display = "none";
-        });
-        document.querySelectorAll(".accordion-btn").forEach(b => {
-            b.classList.remove("active");
-        });
+        if (content && content.classList.contains("accordion-content")) {
+            const isOpen = content.style.display === "block";
+            
+            // Fecha todos
+            document.querySelectorAll(".accordion-content").forEach(el => el.style.display = "none");
+            document.querySelectorAll(".accordion-btn").forEach(b => b.classList.remove("active"));
 
-        // Alterna o estado do acordeão clicado
-        if (!isOpen) {
-            content.style.display = "block";
-            this.classList.add("active");
+            // Abre apenas se estava fechado
+            if (!isOpen) {
+                content.style.display = "block";
+                this.classList.add("active");
+            }
         }
     });
 });
 
-// Atualização inteligente da página: só recarrega se o utilizador não estiver com nenhum menu aberto
-setInterval(function() {
-    let algumAberto = false;
-    document.querySelectorAll(".accordion-content").forEach(el => {
-        if (el.style.display === "block") {
-            algumAberto = true;
-        }
-    });
-    
-    // Se nenhum menu estiver aberto para leitura, atualiza silenciosamente os dados/avisos
-    if (!algumAberto) {
+// Refresh inteligente (3 minutos)
+setInterval(() => {
+    if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) {
         location.reload();
     }
-}, 180000); // 3 minutos
+}, 180000);
 </script>
 
 </body>

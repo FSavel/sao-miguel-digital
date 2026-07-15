@@ -1,158 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escalas de Serviço</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilo local específico para deixar as listas de escalas impecáveis */
+        .escala-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .escala-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .escala-item:first-child {
+            padding-top: 5px;
+        }
+        .escala-funcao {
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+        .escala-nome {
+            color: #222;
+            font-weight: 600;
+            font-size: 15px;
+            text-align: right;
+        }
+        @media (max-width: 600px) {
+            .escala-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .escala-nome {
+                text-align: left;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1 class="titulo-principal">
-        👥 Escalas de Serviço
-    </h1>
+        <h1 class="titulo-principal">👥 Escalas de Serviço</h1>
+        <p class="frase-biblica">
+            “Servi ao Senhor com alegria.” — Salmo 100
+        </p>
 
-    <p class="frase-biblica">
-        “Servi ao Senhor com alegria.” — Salmo 100
-    </p>
+        <div class="card">
+            <h2>👦 Escala dos Acólitos</h2>
+            {% if acolitos %}
+                {% for a in acolitos %}
+                    {% set cruciferario = a.cruciferario if a is mapping else a[0] %}
+                    {% set turiferario = a.turiferario if a is mapping else a[1] %}
+                    {% set naveteiro = a.naveteiro if a is mapping else a[2] %}
+                    {% set cerimoniario = a.cerimoniario if a is mapping else a[3] %}
+                    {% set velas = a.velas if a is mapping else a[4] %}
+                    {% set livro = a.livro if a is mapping else a[5] %}
+                    {% set altar = a.altar if a is mapping else a[6] %}
 
+                    <div class="escala-item">
+                        <span class="escala-funcao">Cruciferário:</span>
+                        <span class="escala-nome">{{ cruciferario }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Turiferário:</span>
+                        <span class="escala-nome">{{ turiferario }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Naveteiro:</span>
+                        <span class="escala-nome">{{ naveteiro }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Cerimoniário:</span>
+                        <span class="escala-nome">{{ cerimoniario }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Velas:</span>
+                        <span class="escala-nome">{{ velas }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Livro:</span>
+                        <span class="escala-nome">{{ livro }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Altar:</span>
+                        <span class="escala-nome">{{ altar }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-registos">Nenhuma escala de acólitos disponível para a próxima celebração.</p>
+            {% endif %}
+        </div>
 
-    <!-- ===================== ACÓLITOS ===================== -->
+        <div class="card">
+            <h2>📖 Escala de Leitores</h2>
+            {% if leitores %}
+                {% for l in leitores %}
+                    {% set primeira_pt = l.primeira_pt if l is mapping else l[0] %}
+                    {% set primeira_ch = l.primeira_ch if l is mapping else l[1] %}
+                    {% set salmo = l.salmo if l is mapping else l[2] %}
+                    {% set segunda_pt = l.segunda_pt if l is mapping else l[3] %}
+                    {% set segunda_ch = l.segunda_ch if l is mapping else l[4] %}
+                    {% set oracao_fieis = l.oracao_fieis if l is mapping else l[5] %}
 
-    <div class="card">
+                    <div class="escala-item">
+                        <span class="escala-funcao">1ª Leitura (Português):</span>
+                        <span class="escala-nome">{{ primeira_pt }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">1ª Leitura (Changana/Ronga):</span>
+                        <span class="escala-nome">{{ primeira_ch }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Salmo Responsorial:</span>
+                        <span class="escala-nome">{{ salmo }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">2ª Leitura (Português):</span>
+                        <span class="escala-nome">{{ segunda_pt }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">2ª Leitura (Changana/Ronga):</span>
+                        <span class="escala-nome">{{ segunda_ch }}</span>
+                    </div>
+                    <div class="escala-item">
+                        <span class="escala-funcao">Oração dos Fiéis:</span>
+                        <span class="escala-nome">{{ oracao_fieis }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-registos">Nenhuma escala de leitores disponível para a próxima celebração.</p>
+            {% endif %}
+        </div>
 
-        <h2>👦 Escala dos Acólitos</h2>
+        <div class="card">
+            <h2>⛪ Outros Serviços e Equipes</h2>
+            {% if outros_servicos %}
+                {% for s in outros_servicos %}
+                    {% set tipo = s.tipo if s is mapping else s[0] %}
+                    {% set local = s.local if s is mapping else s[1] %}
+                    {% set nomes = s.nomes if s is mapping else s[2] %}
 
-        {% if acolitos %}
-
-            {% for a in acolitos %}
-
-                <p><b>Cruciferário:</b> {{ a.cruciferario }}</p>
-                <hr>
-
-                <p><b>Turiferário:</b> {{ a.turiferario }}</p>
-                <hr>
-
-                <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
-                <hr>
-
-                <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
-                <hr>
-
-                <p><b>Velas:</b> {{ a.velas }}</p>
-                <hr>
-
-                <p><b>Livro:</b> {{ a.livro }}</p>
-                <hr>
-
-                <p><b>Altar:</b> {{ a.altar }}</p>
-
-                <hr>
-
-            {% endfor %}
-
-        {% else %}
-
-            <p>Nenhuma escala de acólitos disponível.</p>
-
-        {% endif %}
-
-    </div>
-
-
-    <!-- ===================== LEITORES ===================== -->
-
-    <div class="card">
-
-        <h2>📖 Escala de Leitores</h2>
-
-        {% if leitores %}
-
-            {% for l in leitores %}
-
-                <p><b>1ª Leitura PT:</b> {{ l.primeira_pt }}</p>
-                <hr>
-
-                <p><b>1ª Leitura CH/Ronga:</b> {{ l.primeira_ch }}</p>
-                <hr>
-
-                <p><b>Salmo:</b> {{ l.salmo }}</p>
-                <hr>
-
-                <p><b>2ª Leitura PT:</b> {{ l.segunda_pt }}</p>
-                <hr>
-
-                <p><b>2ª Leitura CH/Ronga:</b> {{ l.segunda_ch }}</p>
-                <hr>
-
-                <p><b>Oração dos Fiéis:</b> {{ l.oracao_fieis }}</p>
-
-                <hr>
-
-            {% endfor %}
-
-        {% else %}
-
-            <p>Nenhuma escala de leitores disponível.</p>
-
-        {% endif %}
-
-    </div>
-
-
-   <!-- ===================== OUTROS SERVIÇOS ===================== -->
-
-<div class="card">
-
-    <h2>⛪ Outros Serviços</h2>
-
-    {% if outros_servicos %}
-
-        {% for s in outros_servicos %}
-
-            <p><b>Serviço:</b> {{ s.tipo }}</p>
-            <hr>
-
-            <p><b>Local:</b> {{ s.local }}</p>
-            <hr>
-
-            <p><b>Responsáveis:</b> {{ s.nomes }}</p>
-
-            <hr>
-
-        {% endfor %}
-
-    {% else %}
-
-        <p>Escala ainda não configurada.</p>
-
-    {% endif %}
-
-
-</div>
-
-<!-- BOTÃO VOLTAR -->
-
-<a href="/" class="botao">
-    🏠 Voltar ao Início
-</a>
-
-</div>
-
-</div>
-
-</body>
-</html>
+                    <div style="padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">
+                        <p style="font-size: 16px;

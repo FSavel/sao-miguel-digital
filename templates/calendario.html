@@ -1,65 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendário Pastoral</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1 class="titulo-principal">
-        📅 Calendário Pastoral
-    </h1>
+        <h1 class="titulo-principal">📅 Calendário Pastoral</h1>
+        <p class="frase-biblica">
+            “Para tudo há um tempo determinado.” — Eclesiastes 3:1
+        </p>
 
-    <p class="frase-biblica">
-        “Para tudo há um tempo determinado.” — Eclesiastes 3:1
-    </p>
+        {% if calendario %}
+            {% for c in calendario %}
+                {% set evento = c.evento if c is mapping else c[0] %}
+                {% set data = c.data if c is mapping else c[1] %}
+                {% set descricao = c.descricao if c is mapping else c[2] %}
 
-    <!-- LISTA DE EVENTOS -->
-    {% if calendario %}
+                <div class="card" style="margin-bottom: 20px;">
+                    <h2 style="border: none; padding-bottom: 0; margin-bottom: 8px; font-size: 20px;">
+                        📌 {{ evento }}
+                    </h2>
+                    
+                    <div style="display: inline-flex; align-items: center; background: rgba(139, 0, 0, 0.08); color: #8b0000; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; margin-bottom: 12px;">
+                        📆 {{ data }}
+                    </div>
 
-        {% for c in calendario %}
+                    <div style="border-bottom: 1px solid rgba(0,0,0,0.06); margin-bottom: 12px;"></div>
 
-        <div class="card">
+                    <p style="color: #333; line-height: 1.5; font-size: 15px;">
+                        {{ descricao }}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <p class="sem-registos">Nenhum evento agendado no calendário pastoral de momento.</p>
+            </div>
+        {% endif %}
 
-            <h2>📌 {{ c.evento }}</h2>
+        <a href="/" class="botao">🏠 Voltar ao Início</a>
 
-            <p>📆 {{ c.data }}</p>
-
-            <p>{{ c.descricao }}</p>
-
-        </div>
-
-        {% endfor %}
-
-    {% else %}
-
-        <div class="card">
-            <p>Nenhum evento disponível no calendário.</p>
-        </div>
-
-    {% endif %}
-
-    <!-- BOTÃO -->
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
-</div>
+    </div>
 
 </div>
 

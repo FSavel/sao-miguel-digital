@@ -1,215 +1,126 @@
 <!DOCTYPE html>
-
 <html lang="pt">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Editar Perfil</title>
-
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 45px;
+            margin-bottom: 0;
+        }
+        .toggle-pass-btn {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-pass-btn:hover {
+            color: #111;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
-
 <div class="container">
 
-<!-- TÍTULO -->
-<h1 class="titulo-principal">
-    ✏️ Editar Perfil
-</h1>
+    <h1 class="titulo-principal">✏️ Editar Perfil</h1>
 
-<!-- ERRO -->
-{% if erro %}
-    <div class="card" style="border-left: 5px solid #e53935;">
-        <p>
-            <b>⚠️ {{ erro }}</b>
-        </p>
+    {% set u_nome = user.nome if user is mapping else user[0] %}
+    {% set u_contacto = user.contacto if user is mapping else user[2] %}
+    {% set u_email = user.email if user is mapping else user[3] %}
+
+    {% if erro %}
+        <div class="card" style="border-left: 5px solid #dc3545; background-color: #f8d7da; padding: 12px 15px;">
+            <p style="color: #721c24; margin: 0;"><b>⚠️ {{ erro }}</b></p>
+        </div>
+    {% endif %}
+
+    {% if sucesso %}
+        <div class="card" style="border-left: 5px solid #28a745; background-color: #d4edda; padding: 12px 15px;">
+            <p style="color: #155724; margin: 0;"><b>✅ {{ sucesso }}</b></p>
+        </div>
+    {% endif %}
+
+    <div class="card" style="padding: 20px;">
+        <form method="POST">
+
+            <label>👤 Nome Completo</label>
+            <input type="text" name="nome" value="{{ u_nome if u_nome is not none else '' }}" required autocomplete="name">
+
+            <label>📱 Contacto</label>
+            <input type="text" name="contacto" value="{{ u_contacto if u_contacto is not none else '' }}" autocomplete="tel">
+
+            <label>📧 Email de Contacto</label>
+            <input type="email" name="email" value="{{ u_email if u_email is not none else '' }}" autocomplete="email">
+
+            <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 25px 0 15px 0;"></div>
+
+            <h3 style="margin-bottom: 8px; font-size: 16px; color: #111;">🔐 Alterar Palavra-passe</h3>
+            <p style="margin-bottom: 15px; font-size: 13px; color: #666; line-height: 1.4;">
+                Por motivos de segurança, introduza a palavra-passe atual antes de definir uma nova.
+            </p>
+
+            <label>Palavra-passe Atual</label>
+            <div class="password-container">
+                <input type="password" name="password_actual" id="password_actual" autocomplete="current-password">
+                <button type="button" class="toggle-pass-btn" onclick="togglePassword('password_actual')">👁️</button>
+            </div>
+
+            <label>Nova Palavra-passe</label>
+            <div class="password-container">
+                <input type="password" name="nova_password" id="nova_password" autocomplete="new-password">
+                <button type="button" class="toggle-pass-btn" onclick="togglePassword('nova_password')">👁️</button>
+            </div>
+
+            <label>Confirmar Nova Palavra-passe</label>
+            <div class="password-container">
+                <input type="password" name="confirmar_password" id="confirmar_password" autocomplete="new-password">
+                <button type="button" class="toggle-pass-btn" onclick="togglePassword('confirmar_password')">👁️</button>
+            </div>
+
+            <button type="submit" class="botao" style="margin-top: 15px;">💾 Guardar Alterações</button>
+        </form>
     </div>
-{% endif %}
 
-<!-- SUCESSO -->
-{% if sucesso %}
-    <div class="card" style="border-left: 5px solid #2e7d32;">
-        <p>
-            <b>✅ {{ sucesso }}</b>
-        </p>
-    </div>
-{% endif %}
-
-<!-- FORMULÁRIO -->
-<div class="card">
-
-    <form method="POST">
-
-        <!-- NOME -->
-        <label>
-            👤 Nome Completo
-        </label>
-
-        <input
-            type="text"
-            name="nome"
-            value="{{ user.nome }}"
-            required
-            autocomplete="name"
-        >
-
-        <!-- CONTACTO -->
-        <label>
-            📱 Contacto
-        </label>
-
-        <input
-            type="text"
-            name="contacto"
-            value="{{ user.contacto }}"
-            autocomplete="tel"
-        >
-
-        <!-- EMAIL -->
-        <label>
-            📧 Email
-        </label>
-
-        <input
-            type="email"
-            name="email"
-            value="{{ user.email }}"
-            autocomplete="email"
-        >
-
-        <hr style="margin: 25px 0;">
-
-        <!-- PASSWORD -->
-        <h3 style="margin-bottom: 10px;">
-            🔐 Alterar Palavra-passe
-        </h3>
-
-        <p style="margin-bottom: 15px; line-height: 1.5;">
-
-            Por segurança, introduza a password actual
-            antes de definir uma nova password.
-
-        </p>
-
-        <!-- PASSWORD ACTUAL -->
-        <label>
-            Password Actual
-        </label>
-
-        <div class="password-box">
-
-            <input
-                type="password"
-                name="password_actual"
-                id="password_actual"
-                autocomplete="current-password"
-            >
-
-            <button
-                type="button"
-                class="toggle-pass"
-                onclick="togglePassword('password_actual')"
-            >
-                👁️
-            </button>
-
-        </div>
-
-        <!-- NOVA PASSWORD -->
-        <label>
-            Nova Password
-        </label>
-
-        <div class="password-box">
-
-            <input
-                type="password"
-                name="nova_password"
-                id="nova_password"
-                autocomplete="new-password"
-            >
-
-            <button
-                type="button"
-                class="toggle-pass"
-                onclick="togglePassword('nova_password')"
-            >
-                👁️
-            </button>
-
-        </div>
-
-        <!-- CONFIRMAR PASSWORD -->
-        <label>
-            Confirmar Nova Password
-        </label>
-
-        <div class="password-box">
-
-            <input
-                type="password"
-                name="confirmar_password"
-                id="confirmar_password"
-                autocomplete="new-password"
-            >
-
-            <button
-                type="button"
-                class="toggle-pass"
-                onclick="togglePassword('confirmar_password')"
-            >
-                👁️
-            </button>
-
-        </div>
-
-        <!-- BOTÃO -->
-        <button type="submit" class="botao">
-
-            💾 Guardar Alterações
-
-        </button>
-
-    </form>
+    <a href="/dizimista_dashboard" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
 
 </div>
-
-<!-- VOLTAR -->
-<a href="/dizimista_dashboard" class="botao">
-
-    ⬅️ Voltar ao Painel
-
-</a>
-
 </div>
-
-</div>
-
-<!-- SCRIPT PASSWORD -->
 
 <script>
-
 function togglePassword(id) {
-
     const input = document.getElementById(id);
-
     if (input.type === "password") {
         input.type = "text";
     } else {
         input.type = "password";
     }
 }
-
 </script>
 
 </body>

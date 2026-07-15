@@ -1,184 +1,180 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Catequético</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .opcao {
+            display: block;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f2f2f2;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
 
-<title>Quiz Catequético</title>
+        .opcao:hover {
+            background: #ddd;
+        }
 
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        .opcao.selected {
+            border: 2px solid #8b0000;
+            transform: scale(1.02);
+            background: #fff3f3;
+        }
 
-<style>
+        .opcao.correct {
+            background: #2ecc71 !important;
+            color: white !important;
+            border-color: #27ae60;
+        }
 
-.opcao {
-    display: block;
-    margin: 8px 0;
-    padding: 10px;
-    border-radius: 8px;
-    background: #f2f2f2;
-    cursor: pointer;
-    transition: 0.2s;
-}
+        .opcao.wrong {
+            background: #e74c3c !important;
+            color: white !important;
+            border-color: #c0392b;
+        }
 
-.opcao:hover {
-    background: #ddd;
-}
+        .explicacao {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-style: italic;
+            color: #333;
+            display: none; /* Mantido oculto inicialmente */
+            line-height: 1.5;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-left: 4px solid #e74c3c; /* Borda vermelha para indicar correção de erro */
+        }
 
-.opcao.selected {
-    border: 2px solid #8b0000;
-    transform: scale(1.02);
-    background: #fff3f3;
-}
+        .resultado {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 25px;
+            color: #333;
+        }
 
-.opcao.correct {
-    background: #2ecc71 !important;
-    color: white !important;
-}
+        input.nome {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
 
-.opcao.wrong {
-    background: #e74c3c !important;
-    color: white !important;
-}
-
-.explicacao {
-    margin-top: 10px;
-    font-style: italic;
-    color: #333;
-    display: none;
-    line-height: 1.5;
-}
-
-.resultado {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 20px;
-    color: white;
-}
-
-input.nome {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-.botao-resultado {
-    margin-top: 20px;
-}
-
-</style>
-
+        .botao-resultado {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
-<div class="container">
+    <div class="container">
 
-<h1 class="titulo-principal">
-    🧠 Quiz Catequético
-</h1>
+        <h1 class="titulo-principal">
+            🧠 Quiz Catequético
+        </h1>
 
-<p class="frase-biblica">
-    Teste os seus conhecimentos sobre a fé católica
-</p>
+        <p class="frase-biblica">
+            Teste os seus conhecimentos sobre a fé católica
+        </p>
 
-<input id="nome" class="nome" placeholder="Digite o seu nome">
+        <input id="nome" class="nome" placeholder="Digite o seu nome completo" required>
 
-<form id="quizForm">
+        <form id="quizForm">
 
-{% for q in perguntas %}
+            {% for q in perguntas %}
+            <div class="card" 
+                 data-index="{{ loop.index0 }}" 
+                 data-resposta="{{ q.resposta_correta | trim }}">
 
-<div class="card"
-     data-index="{{ loop.index0 }}"
-     data-resposta="{{ q.resposta_correta | trim }}">
+                <h3 style="margin-bottom: 15px;">❓ {{ q.pergunta }}</h3>
 
-    <h3>❓ {{ q.pergunta }}</h3>
+                <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+                    {{ q.opcao1 }}
+                </div>
 
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao1 }}
+                <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+                    {{ q.opcao2 }}
+                </div>
+
+                <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
+                    {{ q.opcao3 }}
+                </div>
+
+                <div class="explicacao">
+                    💡 <b>Explicação:</b> {{ q.explicacao }}
+                </div>
+
+            </div>
+            {% endfor %}
+
+            <button type="button" class="botao" onclick="corrigir()" style="width: 100%; margin-top: 15px;">
+                ✔ Corrigir e Ver Resultado
+            </button>
+
+        </form>
+
+        <div id="resultado" class="resultado"></div>
+
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px; background-color: #555;">
+            🏠 Voltar ao Início
+        </a>
+
     </div>
-
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao2 }}
-    </div>
-
-    <div class="opcao" onclick="selecionar(this, {{ loop.index0 }})">
-        {{ q.opcao3 }}
-    </div>
-
-    <div class="explicacao">
-        💡 {{ q.explicacao }}
-    </div>
-
-</div>
-
-{% endfor %}
-
-<button type="button" class="botao" onclick="corrigir()">
-    ✔ Ver Resultado
-</button>
-
-</form>
-
-<div id="resultado" class="resultado"></div>
-
-</div>
 </div>
 
 <script>
-
 let respostas = {};
 let bloqueado = false;
 
 function selecionar(el, i) {
-
     if (bloqueado) return;
 
     let card = el.parentElement;
     let opcoes = card.querySelectorAll(".opcao");
 
     opcoes.forEach(o => o.classList.remove("selected"));
-
     el.classList.add("selected");
 
-    respostas[i] = el.innerText.trim();
+    // Salva a resposta limpando espaços em branco
+    respostas[i] = el.textContent.trim();
 }
 
 function corrigir() {
-
     if (bloqueado) return;
+
+    let nome = document.getElementById("nome").value.trim();
+    if (!nome) {
+        alert("Por favor, insira o seu nome para podermos corrigir o quiz!");
+        return;
+    }
 
     bloqueado = true;
 
     let cards = document.querySelectorAll(".card");
     let pontos = 0;
 
-    let nome = document.getElementById("nome").value.trim();
-
-    if (!nome) {
-        alert("Por favor, insira o seu nome!");
-        bloqueado = false;
-        return;
-    }
-
     cards.forEach((card, i) => {
-
         let correta = card.getAttribute("data-resposta").trim().toLowerCase();
         let explicacao = card.querySelector(".explicacao");
         let opcoes = card.querySelectorAll(".opcao");
 
-        let respostaUser = respostas[i]
-            ? respostas[i].trim().toLowerCase()
-            : "";
+        let respostaUser = respostas[i] ? respostas[i].trim().toLowerCase() : "";
 
         opcoes.forEach(op => {
+            let texto = op.textContent.trim().toLowerCase();
 
-            let texto = op.innerText.trim().toLowerCase();
-
-            op.classList.remove("correct", "wrong");
+            op.classList.remove("selected");
 
             if (texto === correta) {
                 op.classList.add("correct");
@@ -189,10 +185,13 @@ function corrigir() {
             }
         });
 
+        // LÓGICA MANTIDA: Mostra a explicação APENAS se o utilizador errar a resposta
         if (respostaUser === correta) {
             pontos++;
         } else {
-            explicacao.style.display = "block";
+            if (explicacao) {
+                explicacao.style.display = "block";
+            }
         }
     });
 
@@ -200,20 +199,22 @@ function corrigir() {
     let percent = Math.round((pontos / total) * 100);
 
     document.getElementById("resultado").innerHTML = `
-        🎉 Parabéns ${nome}!<br><br>
-
-        Pontuação: ${pontos}/${total}<br>
-        Percentagem: ${percent}%<br><br>
-
-        <button class="botao botao-resultado"
-            onclick='enviarResultado("${nome}",${pontos},${total},${percent})'>
-            📊 Ver Resultado Final
-        </button>
+        <div class="card" style="margin-top: 20px; border-top: 4px solid #2e7d32; background: #fff;">
+            <h2 style="color: #2e7d32; margin-bottom: 10px;">🎉 Parabéns, ${nome}!</h2>
+            <p style="font-size: 18px; margin: 10px 0;">Acertaste <b>${pontos}</b> de <b>${total}</b> perguntas.</p>
+            <p style="font-size: 20px; font-weight: bold; color: #8b0000;">Aproveitamento: ${percent}%</p>
+            
+            <button class="botao botao-resultado"
+                onclick='enviarResultado("${nome}", ${pontos}, ${total}, ${percent})'>
+                📊 Enviar e Ver Classificação Geral
+            </button>
+        </div>
     `;
+
+    document.getElementById("resultado").scrollIntoView({ behavior: 'smooth' });
 }
 
 function enviarResultado(nome, pontos, total, percent) {
-
     let form = document.createElement("form");
     form.method = "POST";
     form.action = "/quiz_resultado";
@@ -221,7 +222,6 @@ function enviarResultado(nome, pontos, total, percent) {
     let input = document.createElement("input");
     input.type = "hidden";
     input.name = "data";
-
     input.value = JSON.stringify({
         nome: nome,
         pontos: pontos,
@@ -233,7 +233,6 @@ function enviarResultado(nome, pontos, total, percent) {
     document.body.appendChild(form);
     form.submit();
 }
-
 </script>
 
 </body>

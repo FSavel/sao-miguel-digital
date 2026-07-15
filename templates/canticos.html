@@ -1,74 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cânticos</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
+        <h1 class="titulo-principal">🎵 Cânticos Litúrgicos</h1>
+        <p class="frase-biblica">
+            “Cantai ao Senhor um cântico novo.” — Salmo 96:1
+        </p>
 
-    <h1 class="titulo-principal">
-        🎵 Cânticos Litúrgicos
-    </h1>
+        {% if canticos %}
+            {% for c in canticos %}
+                {% set moment = c.momento if c is mapping else c[0] %}
+                {% set name = c.cantico if c is mapping else c[1] %}
+                {% set lyrics = c.letra if c is mapping else c[2] %}
+                
+                <div class="card" style="margin-bottom: 22px;">
+                    <span style="display: inline-block; background: rgba(139, 0, 0, 0.1); color: #8b0000; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+                        🎼 {{ moment }}
+                    </span>
+                    
+                    <h2 style="border: none; padding-bottom: 0; margin-bottom: 5px; font-size: 20px;">
+                        {{ name }}
+                    </h2>
+                    
+                    <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 12px 0 14px 0;"></div>
 
-    <p class="frase-biblica">
-        “Cantai ao Senhor um cântico novo.” — Salmo 96:1
-    </p>
-
-    <!-- LISTA DE CÂNTICOS -->
-
-    {% if canticos %}
-
-        {% for c in canticos %}
-
+                    <h3 style="font-size: 14px; color: #555; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">📜 Letra</h3>
+                    
+                    <p style="white-space: pre-line; line-height: 1.6; color: #222; font-size: 16px;">
+                        {{ lyrics }}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
             <div class="card">
-
-                <h2>🎼 {{ c.momento }}</h2>
-
-                <p><b>{{ c.cantico }}</b></p>
-
-                <hr>
-
-                <h3>📜 Letra</h3>
-
-                <p style="white-space: pre-line;">
-                    {{ c.letra }}
-                </p>
-
+                <p class="sem-registos">Nenhum cântico selecionado para as celebrações de hoje.</p>
             </div>
+        {% endif %}
 
-        {% endfor %}
+        <a href="/" class="botao">🏠 Voltar ao Início</a>
 
-    {% else %}
-
-        <div class="card">
-            <p>Nenhum cântico disponível.</p>
-        </div>
-
-    {% endif %}
-
-    <!-- VOLTAR -->
-
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
-</div>
+    </div>
 
 </div>
 

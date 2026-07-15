@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Material de Estudo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .material-card {
+            animation: fadeIn 0.4s ease;
+        }
+        .material-descricao {
+            line-height: 1.8;
+            margin-top: 10px;
+            color: #333;
+        }
+        .material-fase {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #555;
+        }
+        .area-material {
+            margin-top: 20px;
+        }
+        .botao-download {
+            display: inline-block;
+            padding: 12px 18px;
+            background: #2e7d32;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            text-align: center;
+        }
+        .botao-download:hover {
+            transform: scale(1.03);
+            background: #256628;
+        }
+        .sem-pdf {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+        }
+        
+        /* Estilo do Seletor de Filtro */
+        .filtro-container {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .seletor-filtro {
+            padding: 10px 15px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.15);
+            background-color: white;
+            width: 100%;
+            max-width: 300px;
+            outline: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #333;
+        }
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
-<style>
-
-.material-card {
-    animation: fadeIn 0.4s ease;
-}
-
-.material-descricao {
-    line-height: 1.8;
-    margin-top: 10px;
-    color: #333;
-}
-
-.material-fase {
-    margin-top: 10px;
-    font-size: 15px;
-    color: #555;
-}
-
-.area-material {
-    margin-top: 20px;
-}
-
-.botao-download {
-    display: inline-block;
-    padding: 12px 18px;
-    background: #2e7d32;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.botao-download:hover {
-    transform: scale(1.03);
-    background: #256628;
-}
-
-.sem-pdf {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #999;
-    font-style: italic;
-}
-
-@keyframes fadeIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-}
-
-</style>
-
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 
     <div class="container">
 
-        <!-- TÍTULO -->
         <h1 class="titulo-principal">
             📖 Material de Estudo
         </h1>
@@ -90,83 +90,85 @@
             Planos, conteúdos e materiais catequéticos
         </p>
 
-        <!-- =========================
-             MATERIAIS
-        ========================= -->
-        {% for m in materiais %}
-
-        <div class="card material-card">
-
-            <!-- TÍTULO -->
-            <h2>
-                📘 {{ m.titulo }}
-            </h2>
-
-            <!-- FASE -->
-            <p class="material-fase">
-                <b>📚 Fase:</b>
-                {{ m.fase }}
-            </p>
-
-            <!-- DESCRIÇÃO -->
-            <div class="material-descricao">
-                {{ m.descricao }}
-            </div>
-
-            <!-- PDF -->
-            <div class="area-material">
-
-                {% if m.pdf %}
-
-                <a
-                    href="{{ m.pdf }}"
-                    target="_blank"
-                    class="botao-download"
-                >
-                    📥 Baixar PDF
-                </a>
-
-                {% else %}
-
-                <p class="sem-pdf">
-                    📄 PDF ainda não disponível.
-                </p>
-
-                {% endif %}
-
-            </div>
-
+        {% if materiais %}
+        <div class="filtro-container">
+            <select id="filtroFase" class="seletor-filtro" onchange="filtrarMateriais()">
+                <option value="todos">🔍 Mostrar Todas as Fases</option>
+                {# Gera automaticamente as opções de fases existentes na lista #}
+                {% set fases_unicas = [] %}
+                {% for m in materiais %}
+                    {% if m.fase not in fases_unicas %}
+                        {% set _ = fases_unicas.append(m.fase) %}
+                        <option value="{{ m.fase | slugify if m.fase is string else m.fase }}">{{ m.fase }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
         </div>
-
-        {% endfor %}
-
-        <!-- =========================
-             SEM MATERIAIS
-        ========================= -->
-        {% if not materiais %}
-
-        <div class="card">
-
-            <h2>
-                📚 Sem materiais disponíveis
-            </h2>
-
-            <p>
-                Ainda não existem materiais cadastrados.
-            </p>
-
-        </div>
-
         {% endif %}
 
-        <!-- VOLTAR -->
-        <a href="/" class="botao">
+        <div id="lista-materiais">
+            {% if materiais %}
+                {% for m in materiais %}
+                <div class="card material-card" data-fase="{{ m.fase | slugify if m.fase is string else m.fase }}">
+
+                    <h2>📘 {{ m.titulo }}</h2>
+
+                    <p class="material-fase">
+                        <b>📚 Fase:</b> {{ m.fase }}
+                    </p>
+
+                    <div class="material-descricao">
+                        {{ m.descricao }}
+                    </div>
+
+                    <div class="area-material">
+                        {% if m.pdf %}
+                        <a href="{{ m.pdf }}" target="_blank" class="botao-download">
+                            📥 Baixar PDF / Material
+                        </a>
+                        {% else %}
+                        <p class="sem-pdf">
+                            📄 Conteúdo apenas para leitura local (PDF indisponível).
+                        </p>
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card">
+                    <h2 style="text-align: center;">📚 Sem materiais disponíveis</h2>
+                    <p style="text-align: center; color: #666;">
+                        Ainda não existem materiais de apoio cadastrados no sistema.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
             🏠 Voltar ao Início
         </a>
 
     </div>
 
 </div>
+
+<script>
+function filtrarMateriais() {
+    const seletor = document.getElementById("filtroFase");
+    const faseSelecionada = seletor.value;
+    const cards = document.querySelectorAll(".material-card");
+
+    cards.forEach(card => {
+        const faseCard = card.getAttribute("data-fase");
+        if (faseSelecionada === "todos" || faseCard === faseSelecionada) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+</script>
 
 </body>
 </html>

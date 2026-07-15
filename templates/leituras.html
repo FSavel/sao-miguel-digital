@@ -3,8 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leituras</title>
+    <title>Leituras do Dia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .leitura-card {
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8b0000; /* Detalhe em vermelho litúrgico */
+            animation: fadeIn 0.4s ease;
+        }
+
+        .leitura-tipo {
+            color: #8b0000;
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .leitura-referencia {
+            font-size: 16px;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .leitura-texto {
+            white-space: pre-line;
+            line-height: 1.8; /* Espaçamento de linha ideal para leitura confortável */
+            color: #2c3e50;
+            font-size: 17px; /* Letra ligeiramente maior para facilitar a leitura no telemóvel */
+        }
+
+        .sem-registos {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 20px 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -12,40 +60,51 @@
 
     <div class="container">
 
-        <!-- =========================
-             TÍTULO E INSPIRAÇÃO
-        ========================= -->
-        <h1 class="titulo-principal">📖 Leituras</h1>
+        <h1 class="titulo-principal">📖 Leituras do Dia</h1>
+        
         <p class="frase-biblica">
             “Fala, Senhor, que o teu servo escuta.” — 1 Samuel 3:10
         </p>
 
-        <!-- =========================
-             CONTEÚDO DAS LEITURAS
-        ========================= -->
         {% if leituras %}
             {% for leitura in leituras %}
-                <div class="card">
-                    <h2>
-                        {% if leitura is mapping %}{{ leitura.tipo }}{% else %}{{ leitura[0] }}{% endif %}
-                    </h2>
+                <div class="card leitura-card">
                     
-                    {# Classe utilitária implícita para preservar quebras de versículos #}
-                    <p style="white-space: pre-line; line-height: 1.6; color: #333;">
-                        {% if leitura is mapping %}{{ leitura.texto }}{% else %}{{ leitura[1] }}{% endif %}
+                    <h2 class="leitura-tipo">
+                        {% if leitura is mapping %}
+                            {{ leitura.tipo }}
+                        {% else %}
+                            {{ leitura[0] }}
+                        {% endif %}
+                    </h2>
+
+                    {% if leitura is mapping and leitura.referencia %}
+                        <span class="leitura-referencia">📍 {{ leitura.referencia }}</span>
+                    {% elif leitura is not mapping and leitura | length > 2 %}
+                        <span class="leitura-referencia">📍 {{ leitura[2] }}</span>
+                    {% endif %}
+                    
+                    <p class="leitura-texto">
+                        {% if leitura is mapping %}
+                            {{ leitura.texto }}
+                        {% else %}
+                            {{ leitura[1] }}
+                        {% endif %}
                     </p>
+
                 </div>
             {% endfor %}
         {% else %}
-            <div class="card">
-                <p class="sem-registos">Nenhuma leitura disponível para a celebração de hoje.</p>
+            <div class="card" style="padding: 30px 20px;">
+                <p class="sem-registos">
+                    🕊️ Nenhuma leitura disponível para a celebração de hoje.
+                </p>
             </div>
         {% endif %}
 
-        <!-- =========================
-             NAVEGAÇÃO
-        ========================= -->
-        <a href="/" class="botao">⬅️ Voltar ao início</a>
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
+            ⬅️ Voltar ao Início
+        </a>
 
     </div>
 

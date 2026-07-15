@@ -1,61 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redes Sociais</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilização específica para botões de redes sociais */
+        .botao-facebook {
+            display: inline-block;
+            background-color: #1877F2 !important; /* Azul oficial do Facebook */
+            color: white !important;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            border: none;
+        }
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+        .botao-facebook:hover {
+            background-color: #155cb0 !important;
+            transform: scale(1.02);
+        }
 
+        .social-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+        }
+
+        .social-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1 class="titulo-principal">
-        🌐 Redes Sociais
-    </h1>
+        <h1 class="titulo-principal">
+            🌐 Redes Sociais
+        </h1>
 
-    <p class="frase-biblica">
-        Acompanhe a vida pastoral da paróquia nas redes sociais.
-    </p>
-
-    <!-- FACEBOOK -->
-    <div class="card">
-
-        <h2>📘 Facebook da Paróquia</h2>
-
-        <p>
-            Veja fotos, vídeos, eventos,
-            transmissões e actividades pastorais.
+        <p class="frase-biblica">
+            Acompanhe a vida pastoral da paróquia nas redes sociais.
         </p>
 
-        <a
-            href="https://www.facebook.com/people/Par%C3%B3quia-S%C3%A3o-Miguel-Arcanjo-Manhi%C3%A7a/61578202465904/"
-            target="_blank"
-            class="botao"
-        >
-            Abrir Facebook
+        <div class="card social-card">
+
+            <div class="social-icon">📘</div>
+            
+            <h2 style="margin-bottom: 10px;">Facebook da Paróquia</h2>
+
+            <p style="color: #555; margin-bottom: 20px; line-height: 1.6;">
+                Veja fotografias, vídeos, transmissões em direto, eventos e todas as atividades pastorais da nossa comunidade.
+            </p>
+
+            <a href="https://www.facebook.com/people/Par%C3%B3quia-S%C3%A3o-Miguel-Arcanjo-Manhi%C3%A7a/61578202465904/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="botao-facebook"
+               style="width: 100%; box-sizing: border-box;">
+                ✨ Visitar Nossa Página
+            </a>
+
+        </div>
+
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 15px;">
+            🏠 Voltar ao Início
         </a>
 
     </div>
-
-    <!-- VOLTAR -->
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
-</div>
 
 </div>
 

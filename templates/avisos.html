@@ -1,68 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avisos Semanais</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-
-    <h1 class="titulo-principal">
-        📢 Avisos Semanais
-    </h1>
-
-    <p class="frase-biblica">
-        “Tudo tem o seu tempo.” — Eclesiastes 3:1
-    </p>
-
-    <!-- LISTA -->
-
-    {% for a in avisos %}
-
-    <div class="card">
-
-        <h2>
-            {{ a.titulo }}
-        </h2>
-
-        <p>
-            {{ a.descricao }}
+        <!-- =========================
+             TÍTULO E INSPIRAÇÃO
+        ========================= -->
+        <h1 class="titulo-principal">📢 Avisos Semanais</h1>
+        <p class="frase-biblica">
+            “Tudo tem o seu tempo.” — Eclesiastes 3:1
         </p>
+
+        <!-- =========================
+             LISTA DE AVISOS ATIVOS
+        ========================= -->
+        {% if avisos %}
+            {% for a in avisos %}
+                <div class="card">
+                    <h2>
+                        {% if a is mapping %}{{ a.titulo }}{% else %}{{ a[0] }}{% endif %}
+                    </h2>
+                    <p style="line-height: 1.5; color: #333;">
+                        {% if a is mapping %}{{ a.descricao }}{% else %}{{ a[1] }}{% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <p class="sem-registos">Não existem avisos paroquiais registados para esta semana.</p>
+            </div>
+        {% endif %}
+
+        <!-- =========================
+             NAVEGAÇÃO
+        ========================= -->
+        <a href="/" class="botao">🏠 Voltar ao Início</a>
 
     </div>
 
-    {% endfor %}
-
-    <!-- VOLTAR -->
-
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
 </div>
-
-</div>
-
-<script>
-    setInterval(function() {
-        location.reload();
-    }, 120000);
-</script>
 
 </body>
 </html>

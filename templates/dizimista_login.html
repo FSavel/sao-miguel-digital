@@ -4,57 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Dizimista</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-<div class="overlay">
+<div class="overlay" style="display: flex; align-items: center; justify-content: center;">
 
-    <div class="login-container">
+    <div class="container" style="max-width: 450px; width: 100%;">
 
-        <h2>🔐 Área do Dizimista</h2>
+        <div class="card" style="padding: 25px; box-shadow: var(--sombra-media); text-align: center;">
 
-        {% if erro %}
-            <p class="erro">{{ erro }}</p>
-        {% endif %}
+            <!-- =========================
+                 TÍTULO DO PAINEL
+            ========================= -->
+            <h2 style="border: none; padding-bottom: 0; margin-bottom: 20px; font-size: 24px;">
+                🔐 Área do Dizimista
+            </h2>
 
-        <form method="POST" class="login-form">
+            <!-- =========================
+                 MENSAGENS DE ERRO
+            ========================= -->
+            {% if erro %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #f5c6cb; font-weight: bold;">
+                    ⚠️ {{ erro }}
+                </div>
+            {% endif %}
 
-            <input 
-                type="text" 
-                name="numero" 
-                placeholder="Número de Dizimista" 
-                required
-                inputmode="numeric"
-                autocomplete="username"
-            >
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="background-color: #f8d7da; color: #721c24; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #f5c6cb; font-weight: bold;">
+                            ⚠️ {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-            <div class="password-box">
+            <!-- =========================
+                 FORMULÁRIO DE ACESSO
+            ========================= -->
+            <form method="POST">
 
+                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px;">Número de Dizimista</label>
                 <input 
-                    type="password" 
-                    name="password" 
-                    id="password"
-                    placeholder="Palavra-passe" 
+                    type="text" 
+                    name="numero" 
+                    placeholder="Ex: 1234" 
                     required
-                    autocomplete="current-password"
+                    inputmode="numeric"
+                    autocomplete="username"
                 >
 
-                <button type="button" class="toggle-pass" onclick="togglePassword()">
-                    👁️
+                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px; margin-top: 5px;">Palavra-passe</label>
+                <div class="password-box" style="position: relative; display: flex; align-items: center;">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="password"
+                        placeholder="Introduza a sua palavra-passe" 
+                        required
+                        autocomplete="current-password"
+                        style="padding-right: 45px; margin-bottom: 0; margin-top: 0;"
+                    >
+                    <button 
+                        type="button" 
+                        class="toggle-pass" 
+                        onclick="togglePassword()"
+                        style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 18px; padding: 5px;"
+                    >
+                        👁️
+                    </button>
+                </div>
+
+                <button class="botao botao-sair" type="submit" style="margin-top: 20px;">
+                    Entrar
                 </button>
 
-            </div>
+            </form>
 
-            <button class="botao" type="submit">Entrar</button>
+            <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
 
-        </form>
- <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-        
+            <!-- =========================
+                 NAVEGAÇÃO
+            ========================= -->
+            <a href="/" class="botao" style="margin-top: 0;">
+                🏠 Voltar ao Início
+            </a>
+            
+        </div>
+         
     </div>
  
 </div>

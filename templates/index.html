@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>São Miguel Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Garante que os acordeões começam fechados e têm uma transição suave */
+        .accordion-content {
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+        
+        /* Indicador visual de abertura no botão */
+        .accordion-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .accordion-btn::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.2s ease;
+        }
+        
+        .accordion-btn.active::after {
+            transform: rotate(180deg);
+        }
+    </style>
 </head>
 <body>
 
@@ -12,25 +39,16 @@
 
     <div class="container home-menu">
 
-        <!-- =========================
-             TÍTULO
-        ========================= -->
         <h1 class="titulo-principal">
             Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
         </h1>
 
-        <!-- =========================
-             FRASE BÍBLICA
-        ========================= -->
         <p class="frase-biblica">
             “Eu sou o caminho, a verdade e a vida.” — João 14:6
         </p>
 
         <br>
 
-        <!-- =========================
-             LITURGIA
-        ========================= -->
         <div class="card">
             <button class="accordion-btn">📖 Liturgia</button>
             <div class="accordion-content">
@@ -44,9 +62,6 @@
 
         <br>
 
-        <!-- =========================
-             ESPIRITUAL
-        ========================= -->
         <div class="card">
             <button class="accordion-btn">🙏 Espiritual</button>
             <div class="accordion-content">
@@ -58,13 +73,9 @@
 
         <br>
 
-        <!-- =========================
-             CATEQUESE
-        ========================= -->
         <div class="card">
             <button class="accordion-btn">📚 Catequese</button>
             <div class="accordion-content">
-                <!-- Ajustado a cor do botão para o tema espiritual/catequese -->
                 <a href="/listas_nominais" class="botao botao-espiritual">
                     📋 Listas Nominais
                 </a>
@@ -79,9 +90,6 @@
 
         <br>
 
-        <!-- =========================
-             FINANÇAS
-        ========================= -->
         <div class="card">
             <button class="accordion-btn">💰 Finanças</button>
             <div class="accordion-content">
@@ -96,20 +104,14 @@
 
         <br>
 
-        <!-- =========================
-             REDES SOCIAIS
-        ========================= -->
         <div class="card">
-            <a href="/redes_sociais" class="botao">
+            <a href="/redes_sociais" class="botao" style="margin: 0; text-align: left; display: block; width: 100%; box-sizing: border-box;">
                 🌐 Redes Sociais
             </a>
         </div>
 
         <br>
         
-        <!-- =========================
-             ADMINISTRAÇÃO
-        ========================= -->
         <div class="card">
             <button class="accordion-btn">⚙️ Administração</button>
             <div class="accordion-content">
@@ -123,9 +125,6 @@
 
 </div>
 
-<!-- =========================
-     TICKER DE AVISOS
-========================= -->
 <div class="ticker">
     <div class="ticker-content">
         {% if avisos %}
@@ -133,11 +132,11 @@
                 {# Suporta dicionários (aviso.titulo) ou listas de listas (aviso[0]) #}
                 📢 
                 {% if aviso is mapping %}
-                    {{ aviso.titulo }} - {{ aviso.descricao }}
+                    <b>{{ aviso.titulo }}:</b> {{ aviso.descricao }}
                 {% else %}
                     {{ aviso[0] if aviso[0] is defined else aviso }}
                 {% endif %}
-                ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             {% endfor %}
         {% else %}
             ✨ Bem-vindos à Paróquia São Miguel Arcanjo da Manhiça! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -145,30 +144,30 @@
     </div>
 </div>
 
-<!-- =========================
-     SCRIPTS AJUSTADOS
-========================= -->
 <script>
-// Accordion com efeito de fechamento inteligente (fecha os outros ao abrir um)
+// Accordion com efeito de fechamento inteligente e animação de setas
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
         const content = this.nextElementSibling;
         const isOpen = content.style.display === "block";
         
-        // Fecha todos os outros acordeões antes de abrir o atual (opcional, deixa o layout limpo)
+        // Fecha todos os outros acordeões e remove a classe ativa dos botões
         document.querySelectorAll(".accordion-content").forEach(el => {
             el.style.display = "none";
+        });
+        document.querySelectorAll(".accordion-btn").forEach(b => {
+            b.classList.remove("active");
         });
 
         // Alterna o estado do acordeão clicado
         if (!isOpen) {
             content.style.display = "block";
+            this.classList.add("active");
         }
     });
 });
 
-// Atualização inteligente da página: só recarrega se o usuário não estiver interagindo 
-// ou lendo algum acordeão aberto (evita fechar as coisas no meio da leitura).
+// Atualização inteligente da página: só recarrega se o utilizador não estiver com nenhum menu aberto
 setInterval(function() {
     let algumAberto = false;
     document.querySelectorAll(".accordion-content").forEach(el => {
@@ -177,11 +176,11 @@ setInterval(function() {
         }
     });
     
-    // Se o usuário não abriu nenhum menu, atualiza em segundo plano
+    // Se nenhum menu estiver aberto para leitura, atualiza silenciosamente os dados/avisos
     if (!algumAberto) {
         location.reload();
     }
-}, 180000); // Aumentado para 3 minutos para ser menos intrusivo
+}, 180000); // 3 minutos
 </script>
 
 </body>

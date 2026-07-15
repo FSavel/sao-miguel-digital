@@ -1,224 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado do Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .resultado-box {
+            text-align: center;
+            padding: 25px;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        .titulo {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+        }
 
-<title>Resultado do Quiz</title>
+        .card-resultado {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            margin-top: 15px;
+        }
 
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        .nota {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #222;
+        }
 
-<style>
+        .percentagem {
+            font-size: 24px;
+            color: #2e7d32;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
 
-.resultado-box {
-    text-align: center;
-    padding: 25px;
-}
+        .botao-voltar {
+            display: inline-block;
+            margin-top: 15px;
+            margin-right: 8px;
+            padding: 12px 18px;
+            background: #8b0000;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-.titulo {
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: white;
-}
+        .botao-voltar:hover {
+            transform: scale(1.03);
+            background: #a30000;
+        }
 
-.card-resultado {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    margin-top: 15px;
-}
+        .detalhes {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
 
-.nota {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 15px 0;
-    color: #222;
-}
+        .mensagem {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-.percentagem {
-    font-size: 24px;
-    color: #2e7d32;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
+        .excelente {
+            color: #2e7d32;
+        }
 
-.botao-voltar {
-    display: inline-block;
-    margin-top: 15px;
-    margin-right: 8px;
-    padding: 12px 18px;
-    background: #8b0000;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: 0.3s;
-}
+        .media {
+            color: #d68910;
+        }
 
-.botao-voltar:hover {
-    transform: scale(1.03);
-    background: #a30000;
-}
+        .baixa {
+            color: #c0392b;
+        }
 
-.detalhes {
-    font-size: 14px;
-    color: #555;
-    margin-top: 10px;
-    line-height: 1.5;
-}
+        /* =========================
+           BRILHO ANIMADO ATIVADO
+        ========================= */
+        .brilho {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: gold;
+            border-radius: 50%;
+            top: -10px;
+            animation: cair 4s linear infinite;
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none; /* Garante que não bloqueia cliques na página */
+        }
 
-.mensagem {
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: bold;
-}
+        @keyframes cair {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-.excelente {
-    color: #2e7d32;
-}
+        @media (max-width: 600px) {
+            .titulo {
+                font-size: 22px;
+            }
 
-.media {
-    color: #d68910;
-}
+            .nota {
+                font-size: 22px;
+            }
 
-.baixa {
-    color: #c0392b;
-}
+            .percentagem {
+                font-size: 20px;
+            }
 
-/* =========================
-   BRILHO ANIMADO
-========================= */
-
-.brilho {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: gold;
-    border-radius: 50%;
-    top: -10px;
-    animation: cair 4s linear infinite;
-    opacity: 0.8;
-    z-index: 9999;
-}
-
-@keyframes cair {
-
-    0% {
-        transform: translateY(-10px) rotate(0deg);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-    }
-
-}
-
-@media (max-width: 600px) {
-
-    .titulo {
-        font-size: 22px;
-    }
-
-    .nota {
-        font-size: 22px;
-    }
-
-    .percentagem {
-        font-size: 20px;
-    }
-
-    .botao-voltar {
-        display: block;
-        width: 100%;
-        margin-right: 0;
-    }
-
-}
-
-</style>
-
+            .botao-voltar {
+                display: block;
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px; /* Adicionado para evitar que os botões fiquem colados */
+                box-sizing: border-box;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container resultado-box">
+    <div class="container resultado-box">
 
-    <div class="titulo">
-        🧠 Resultado do Quiz Catequético
-    </div>
+        <div class="titulo">
+            🧠 Resultado do Quiz Catequético
+        </div>
 
-    <div class="card-resultado">
+        <div class="card-resultado">
 
-        <p>
-            <strong>Nome:</strong> {{ nome }}
-        </p>
-
-        <p class="nota">
-            Pontuação: {{ pontos }} / {{ total }}
-        </p>
-
-        <p class="percentagem">
-            {{ percentagem }}%
-        </p>
-
-        {% if percentagem >= 80 %}
-
-            <p class="mensagem excelente">
-                🌟 Excelente desempenho! Continue firme na fé.
+            <p style="font-size: 18px; margin-bottom: 10px;">
+                <strong>Nome:</strong> {{ nome }}
             </p>
 
-        {% elif percentagem >= 50 %}
-
-            <p class="mensagem media">
-                🙏 Bom trabalho! Continue estudando.
+            <p class="nota">
+                Pontuação: {{ pontos }} / {{ total }}
             </p>
 
-        {% else %}
-
-            <p class="mensagem baixa">
-                📖 Continue aprendendo e aprofundando a fé.
+            <p class="percentagem">
+                {{ percentagem }}%
             </p>
 
-        {% endif %}
+            {% if percentagem >= 80 %}
+                <p class="mensagem excelente">
+                    🌟 Excelente desempenho! Continue firme na fé.
+                </p>
+            {% elif percentagem >= 50 %}
+                <p class="mensagem media">
+                    🙏 Bom trabalho! Continue estudando.
+                </p>
+            {% else %}
+                <p class="mensagem baixa">
+                    📖 Continue aprendendo e aprofundando a fé.
+                </p>
+            {% endif %}
 
-        <p class="detalhes">
-            Obrigado por participar no Quiz Catequético da Paróquia São Miguel Arcanjo.
-        </p>
+            <p class="detalhes">
+                Obrigado por participar no Quiz Catequético da Paróquia São Miguel Arcanjo.
+            </p>
 
-        <a href="/quiz" class="botao-voltar">
-            🔁 Refazer Quiz
-        </a>
+            <div style="margin-top: 20px;">
+                <a href="/quiz" class="botao-voltar">
+                    🔁 Refazer Quiz
+                </a>
 
-        <a href="/" class="botao-voltar" style="background:#2e7d32;">
-            🏠 Voltar ao Menu
-        </a>
+                <a href="/" class="botao-voltar" style="background:#2e7d32;">
+                    🏠 Voltar ao Menu
+                </a>
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
-</div>
-
-<!-- =========================
-     CONFETTI
-========================= -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-
 window.onload = function () {
-
-    const percentagem = Number("{{ percentagem }}");
+    // Captura segura da percentagem do Jinja2
+    const percentagem = Number("{{ percentagem | default(0) | int }}");
 
     if (percentagem >= 80) {
-
         // 🎉 CONFETTI 1
         confetti({
             particleCount: 200,
@@ -228,30 +208,45 @@ window.onload = function () {
 
         // ✨ CONFETTI 2
         setTimeout(() => {
-
             confetti({
                 particleCount: 150,
                 spread: 100,
                 origin: { y: 0.5 }
             });
-
         }, 800);
 
-        // 🔊 ÁUDIO
+        // 🌟 CHUVA DE BRILHOS ATIVADA
+        gerarBrilhos();
+
+        // 🔊 ÁUDIO (Aplausos)
         const audio = new Audio("{{ url_for('static', filename='aplausos.mp3') }}");
-
-        audio.volume = 1.0;
-
+        audio.volume = 0.8;
         audio.play().catch(error => {
-
-            console.log("Autoplay bloqueado:", error);
-
+            console.log("Autoplay de som bloqueado pelo navegador:", error);
         });
-
     }
-
 };
 
+// Cria dinamicamente elementos de brilho dourado a cair do topo
+function gerarBrilhos() {
+    const totalBrilhos = 30;
+    for (let i = 0; i < totalBrilhos; i++) {
+        const brilho = document.createElement("div");
+        brilho.classList.add("brilho");
+        
+        // Espalhamento horizontal e velocidade aleatórios
+        brilho.style.left = Math.random() * 100 + "vw";
+        brilho.style.animationDelay = Math.random() * 4 + "s";
+        brilho.style.animationDuration = (Math.random() * 3 + 2) + "s"; // entre 2 e 5 segundos
+        
+        // Tamanhos ligeiramente diferentes para dar profundidade
+        const size = (Math.random() * 6 + 4) + "px";
+        brilho.style.width = size;
+        brilho.style.height = size;
+
+        document.body.appendChild(brilho);
+    }
+}
 </script>
     
 </body>

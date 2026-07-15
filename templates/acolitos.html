@@ -1,93 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Acólitos</title>
-
+    <title>Gerir Acólitos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilos específicos para o painel de administração */
+        .form-admin input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
 
+        .form-admin input[type="text"]:focus {
+            border-color: #8b0000;
+            box-shadow: 0 0 5px rgba(139, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .bloco-escala {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .bloco-escala p {
+            margin: 6px 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .bloco-escala b {
+            color: #555;
+        }
+
+        /* Botão de exclusão destacado */
+        .btn-apagar {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 14px;
+            background-color: #c0392b;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-apagar:hover {
+            background-color: #a62c21;
+        }
+
+        .sem-registos {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 15px 0;
+            margin: 0;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 
-<div class="container">
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1 class="titulo-principal">
-        👦 Acólitos
-    </h1>
+        <h1 class="titulo-principal">👦 Acólitos</h1>
+        
+        <p class="frase-biblica">
+            “Servi ao Senhor com alegria.” — Salmo 100
+        </p>
 
-    <p class="frase-biblica">
-        “Servi ao Senhor com alegria.” — Salmo 100
-    </p>
+        <div class="card">
+            <h2>➕ Adicionar Escala de Acólitos</h2>
+            
+            <form action="/add_acolito" method="POST" class="form-admin">
+                <input type="text" name="cruciferario" placeholder="Cruciferário (Obrigatório)" required>
+                <input type="text" name="turiferario" placeholder="Turiferário">
+                <input type="text" name="naveteiro" placeholder="Naveteiro">
+                <input type="text" name="cerimoniario" placeholder="Cerimoniário">
+                <input type="text" name="velas" placeholder="Velas">
+                <input type="text" name="livro" placeholder="Livro">
+                <input type="text" name="altar" placeholder="Altar">
 
-    <!-- ===================== FORMULÁRIO ===================== -->
-    <div class="card">
+                <button class="botao" type="submit" style="width: 100%; margin-top: 5px;">
+                    💾 Guardar Escala
+                </button>
+            </form>
+        </div>
 
-        <h2>➕ Adicionar Escala de Acólitos</h2>
+        <div class="card">
+            <h2>📋 Escalas Registadas</h2>
 
-        <form action="/add_acolito" method="POST">
+            {% if acolitos %}
+                {% for a in acolitos %}
+                    <div class="bloco-escala">
+                        {% set cruciferario = a.cruciferario if a is mapping else a[0] %}
+                        {% set turiferario = a.turiferario if a is mapping else a[1] %}
+                        {% set naveteiro = a.naveteiro if a is mapping else a[2] %}
+                        {% set cerimoniario = a.cerimoniario if a is mapping else a[3] %}
+                        {% set velas = a.velas if a is mapping else a[4] %}
+                        {% set livro = a.livro if a is mapping else a[5] %}
+                        {% set altar = a.altar if a is mapping else a[6] %}
 
-            <input type="text" name="cruciferario" placeholder="Cruciferário" required>
-            <input type="text" name="turiferario" placeholder="Turiferário">
-            <input type="text" name="naveteiro" placeholder="Naveteiro">
-            <input type="text" name="cerimoniario" placeholder="Cerimoniário">
-            <input type="text" name="velas" placeholder="Velas">
-            <input type="text" name="livro" placeholder="Livro">
-            <input type="text" name="altar" placeholder="Altar">
+                        <p><b>Cruciferário:</b> {{ cruciferario | default('—', true) }}</p>
+                        <p><b>Turiferário:</b> {{ turiferario | default('—', true) }}</p>
+                        <p><b>Naveteiro:</b> {{ naveteiro | default('—', true) }}</p>
+                        <p><b>Cerimoniário:</b> {{ cerimoniario | default('—', true) }}</p>
+                        <p><b>Velas:</b> {{ velas | default('—', true) }}</p>
+                        <p><b>Livro:</b> {{ livro | default('—', true) }}</p>
+                        <p><b>Altar:</b> {{ altar | default('—', true) }}</p>
 
-            <button class="botao" type="submit">
-                Guardar Escala
-            </button>
+                        <a class="btn-apagar" href="/delete_acolito/{{ loop.index0 }}" 
+                           onclick="return confirm('Tem a certeza de que deseja apagar esta escala?');">
+                            ❌ Apagar Escala
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-registos">Nenhuma escala de acólitos registada no momento.</p>
+            {% endif %}
+        </div>
 
-        </form>
-
-    </div>
-
-    <!-- ===================== LISTA ===================== -->
-    <div class="card">
-
-        <h2>📋 Escalas Registadas</h2>
-
-        {% if acolitos %}
-
-            {% for a in acolitos %}
-
-                <p><b>Cruciferário:</b> {{ a.cruciferario }}</p>
-                <p><b>Turiferário:</b> {{ a.turiferario }}</p>
-                <p><b>Naveteiro:</b> {{ a.naveteiro }}</p>
-                <p><b>Cerimoniário:</b> {{ a.cerimoniario }}</p>
-                <p><b>Velas:</b> {{ a.velas }}</p>
-                <p><b>Livro:</b> {{ a.livro }}</p>
-                <p><b>Altar:</b> {{ a.altar }}</p>
-
-                <a class="delete" href="/delete_acolito/{{ loop.index0 }}">
-                    ❌ Apagar
-                </a>
-
-                <hr>
-
-            {% endfor %}
-
-        {% else %}
-
-            <p>Nenhuma escala de acólitos registada.</p>
-
-        {% endif %}
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
+            🏠 Voltar ao Início
+        </a>
 
     </div>
-
-    <!-- VOLTAR -->
-    <a href="/" class="botao">
-        🏠 Voltar ao Início
-    </a>
-
-</div>
 
 </div>
 

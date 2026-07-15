@@ -2,127 +2,190 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-
-    <!-- MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Meu Espaço</title>
-
+    <title>Meu Espaço - Dizimista</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilos locais para otimização visual do painel */
+        .dashboard-topo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: var(--sombra-leve);
+        }
+        .dashboard-topo h2 {
+            margin: 0 0 8px 0;
+            color: #111;
+            font-size: 22px;
+            border: none;
+            padding: 0;
+        }
+        .dashboard-topo p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .area-editar-perfil {
+            margin: 10px 0;
+        }
+        .botao-editar-perfil {
+            display: inline-block;
+            background: #f1f3f5;
+            color: #495057;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .botao-editar-perfil:hover {
+            background: #e9ecef;
+        }
+        .area-pdf {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+        .botao-pdf-mini {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--sombra-leve);
+            transition: opacity 0.2s;
+        }
+        .botao-pdf-mini:hover {
+            opacity: 0.9;
+        }
+        
+        /* Ajuste fino para tabelas responsivas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 14px;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: bold;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 500px) {
+            th, td {
+                padding: 10px 6px;
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 <div class="container">
 
-    <!-- TOPO -->
-<div class="dashboard-topo">
-
-    <h2>👤 {{ user.nome }}</h2>
-
-    <!-- BOTÃO EDITAR PERFIL (NOVO ESTILO) -->
-    <div class="area-editar-perfil">
-        <a href="/editar_perfil" class="botao-editar-perfil">
-            ✏️ Editar Perfil
-        </a>
+    {% set u_nome = user.nome if user is mapping else user[0] %}
+    {% set u_num = user.numero if user is mapping else user[1] %}
+    {% set u_cont = user.contacto if user is mapping else user[2] %}
+    
+    <div class="dashboard-topo">
+        <h2>👤 {{ u_nome }}</h2>
+        <div class="area-editar-perfil">
+            <a href="/editar_perfil" class="botao-editar-perfil">
+                ✏️ Editar Perfil
+            </a>
+        </div>
+        <p>
+            Nº {{ u_num }} • {{ u_cont }}
+        </p>
     </div>
 
-    <p>
-        Nº {{ user.numero }} • {{ user.contacto }}
-    </p>
-
-</div>
-
-    <!-- RESUMO -->
-    <div class="card destaque">
-
+    <div class="card" style="text-align: center; border-left: 5px solid #28a745; padding: 20px;">
         {% set total = namespace(value=0) %}
         {% for c in contribuicoes %}
-            {% set total.value = total.value + (c.valor | float) %}
+            {% set val = c.valor if c is mapping else c[1] %}
+            {% set clean_val = val | replace(',', '.') | float if val else 0.0 %}
+            {% set total.value = total.value + clean_val %}
         {% endfor %}
 
-        <p class="total-label">
-            💰 Total acumulado
+        <p style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">
+            💰 Total Acumulado
         </p>
-
-        <div class="valor positivo grande">
-            {{ total.value }} MZN
+        <div style="font-size: 28px; font-weight: 800; color: #28a745; margin-bottom: 10px;">
+            {{ "%.2f" | format(total.value) }} MZN
         </div>
-
-        <p class="mensagem-dizimista">
-            Obrigado por apoiar a missão da Paróquia São Miguel Arcanjo da Manhiça 🙏
+        <p style="font-size: 13px; color: #555; font-style: italic; margin: 0; line-height: 1.4;">
+            Obrigado por apoiar ativamente a missão evangelizadora e pastoral da Paróquia São Miguel Arcanjo da Manhiça 🙏
         </p>
-
     </div>
 
-    <!-- PDF -->
     <div class="area-pdf">
-
         <a href="/export_extrato_pdf" class="botao-pdf-mini">
-            📄 Exportar PDF
+            📄 Exportar Extrato PDF
         </a>
-
     </div>
 
-    <!-- HISTÓRICO -->
-    <div class="card">
-
-        <h3>📊 Histórico de Contribuições</h3>
+    <div class="card" style="padding: 15px 20px;">
+        <h3 style="border: none; padding-bottom: 0; margin-bottom: 12px; font-size: 18px;">
+            📊 Histórico de Contribuições
+        </h3>
 
         {% if contribuicoes %}
-
-        <div class="table-responsive">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {% for c in contribuicoes %}
-
-                    <tr>
-                        <td>{{ c.data }}</td>
-                        <td>
-                            <span class="valor-verde">
-                                <b>{{ c.valor }} MZN</b>
-                            </span>
-                        </td>
-                        <td>{{ c.descricao }}</td>
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Valor</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in contribuicoes %}
+                            {% set c_data = c.data if c is mapping else c[0] %}
+                            {% set c_valor = c.valor if c is mapping else c[1] %}
+                            {% set c_desc = c.descricao if c is mapping else c[2] %}
+                            <tr>
+                                <td style="color: #555;">{{ c_data }}</td>
+                                <td>
+                                    <span style="color: #28a745; font-weight: bold;">
+                                        {{ c_valor }} MZN
+                                    </span>
+                                </td>
+                                <td style="color: #333;">{{ c_desc }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-
-        <p class="sem-registos">
-            Sem contribuições registadas ainda.
-        </p>
-
+            <p class="sem-registos" style="text-align: center; color: #777; font-size: 14px; padding: 15px 0;">
+                Sem contribuições registadas no sistema até ao momento.
+            </p>
         {% endif %}
-
     </div>
 
-    <!-- BOTÃO SAIR -->
-    <div style="margin-top: 15px;">
-
-        <a href="/dizimista_logout" class="botao botao-sair">
+    <div style="margin-top: 20px;">
+        <a href="/dizimista_logout" class="botao" style="margin: 0; background-color: #555; border-color: #555; color: white;">
             🚪 Terminar sessão
         </a>
-
     </div>
 
 </div>

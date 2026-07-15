@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>São Miguel Digital</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 </head>
-
 <body>
 
 <div class="overlay">
@@ -21,7 +16,7 @@
              TÍTULO
         ========================= -->
         <h1 class="titulo-principal">
-            Plataforma Digital da Paróquia São Miguel Arcanjo da Manhica
+            Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça
         </h1>
 
         <!-- =========================
@@ -37,19 +32,14 @@
              LITURGIA
         ========================= -->
         <div class="card">
-
             <button class="accordion-btn">📖 Liturgia</button>
-
             <div class="accordion-content">
-
                 <a href="/avisos" class="botao botao-liturgia">📢 Avisos Semanais</a>
                 <a href="/leituras" class="botao botao-liturgia">📖 Leituras</a>
                 <a href="/canticos" class="botao botao-liturgia">🎵 Cânticos</a>
                 <a href="/escalas" class="botao botao-liturgia">👥 Escalas de Serviço</a>
                 <a href="/calendario" class="botao botao-liturgia">📅 Calendário Pastoral</a>
-
             </div>
-
         </div>
 
         <br>
@@ -58,17 +48,12 @@
              ESPIRITUAL
         ========================= -->
         <div class="card">
-
             <button class="accordion-btn">🙏 Espiritual</button>
-
             <div class="accordion-content">
-
                 <a href="/pedido_oracao" class="botao botao-espiritual">
                     🙏 Pedido de Oração
                 </a>
-
             </div>
-
         </div>
 
         <br>
@@ -77,25 +62,19 @@
              CATEQUESE
         ========================= -->
         <div class="card">
-
             <button class="accordion-btn">📚 Catequese</button>
-
             <div class="accordion-content">
-
-                <a href="/listas_nominais" class="botao botao-liturgia">
+                <!-- Ajustado a cor do botão para o tema espiritual/catequese -->
+                <a href="/listas_nominais" class="botao botao-espiritual">
                     📋 Listas Nominais
                 </a>
-
-                <a href="/material_estudo" class="botao botao-liturgia">
+                <a href="/material_estudo" class="botao botao-espiritual">
                     📖 Material de Estudo
                 </a>
-
-                <a href="/quiz" class="botao botao-liturgia">
+                <a href="/quiz" class="botao botao-espiritual">
                     🧠 Quiz Catequético
                 </a>
-
             </div>
-
         </div>
 
         <br>
@@ -104,21 +83,15 @@
              FINANÇAS
         ========================= -->
         <div class="card">
-
             <button class="accordion-btn">💰 Finanças</button>
-
             <div class="accordion-content">
-
                 <a href="/dizimista_login" class="botao botao-financas">
                     👤 Área do Dizimista
                 </a>
-
                 <a href="/financeiro" class="botao botao-financas">
                     📊 Situação Financeira da Paróquia
                 </a>
-
             </div>
-
         </div>
 
         <br>
@@ -126,12 +99,10 @@
         <!-- =========================
              REDES SOCIAIS
         ========================= -->
-       <div class="card">
-
-        <a href="/redes_sociais" class="botao">
-        🌐 Redes Sociais
-        </a>
-
+        <div class="card">
+            <a href="/redes_sociais" class="botao">
+                🌐 Redes Sociais
+            </a>
         </div>
 
         <br>
@@ -140,17 +111,12 @@
              ADMINISTRAÇÃO
         ========================= -->
         <div class="card">
-
             <button class="accordion-btn">⚙️ Administração</button>
-
             <div class="accordion-content">
-
                 <a href="/login" class="botao botao-admin">
                     ⚙️ Painel Administrativo
                 </a>
-
             </div>
-
         </div>
 
     </div>
@@ -161,45 +127,61 @@
      TICKER DE AVISOS
 ========================= -->
 <div class="ticker">
-
     <div class="ticker-content">
-
-        {% for aviso in avisos %}
-
-            📢 {{ aviso.titulo }} - {{ aviso.descricao }} ✨
-            &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
-
-        {% endfor %}
-
-        {% if not avisos %}
-            Sem avisos no momento.
+        {% if avisos %}
+            {% for aviso in avisos %}
+                {# Suporta dicionários (aviso.titulo) ou listas de listas (aviso[0]) #}
+                📢 
+                {% if aviso is mapping %}
+                    {{ aviso.titulo }} - {{ aviso.descricao }}
+                {% else %}
+                    {{ aviso[0] if aviso[0] is defined else aviso }}
+                {% endif %}
+                ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% endfor %}
+        {% else %}
+            ✨ Bem-vindos à Paróquia São Miguel Arcanjo da Manhiça! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         {% endif %}
-
     </div>
-
 </div>
 
 <!-- =========================
-     ACCORDION SCRIPT
+     SCRIPTS AJUSTADOS
 ========================= -->
 <script>
+// Accordion com efeito de fechamento inteligente (fecha os outros ao abrir um)
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
         const content = this.nextElementSibling;
+        const isOpen = content.style.display === "block";
+        
+        // Fecha todos os outros acordeões antes de abrir o atual (opcional, deixa o layout limpo)
+        document.querySelectorAll(".accordion-content").forEach(el => {
+            el.style.display = "none";
+        });
 
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
+        // Alterna o estado do acordeão clicado
+        if (!isOpen) {
             content.style.display = "block";
         }
     });
 });
-</script>
 
-<script>
-    setInterval(function() {
+// Atualização inteligente da página: só recarrega se o usuário não estiver interagindo 
+// ou lendo algum acordeão aberto (evita fechar as coisas no meio da leitura).
+setInterval(function() {
+    let algumAberto = false;
+    document.querySelectorAll(".accordion-content").forEach(el => {
+        if (el.style.display === "block") {
+            algumAberto = true;
+        }
+    });
+    
+    // Se o usuário não abriu nenhum menu, atualiza em segundo plano
+    if (!algumAberto) {
         location.reload();
-    }, 120000);
+    }
+}, 180000); // Aumentado para 3 minutos para ser menos intrusivo
 </script>
 
 </body>

@@ -1,81 +1,64 @@
 <!DOCTYPE html>
-
 <html lang="pt">
 <head>
-
-```
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Editar Pedido</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-```
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pedido de Oração</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.15);
+            font-size: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
 <div class="container">
 
-```
-<h1 class="titulo-principal">🙏 Editar Pedido</h1>
+    <h1 class="titulo-principal">🙏 Editar Pedido</h1>
 
-<div class="card">
+    {% set p_nome = pedido.nome if pedido is mapping else pedido[0] %}
+    {% set p_cat = pedido.categoria if pedido is mapping else pedido[1] %}
+    {% set p_ped = pedido.pedido if pedido is mapping else pedido[2] %}
 
-    <form method="POST">
+    <div class="card" style="padding: 20px;">
+        <form method="POST">
 
-        <input 
-            type="text" 
-            name="nome" 
-            value="{{ pedido.nome }}" 
-            required
-        >
+            <label>👤 Nome de quem solicita / Intenção</label>
+            <input type="text" name="nome" value="{{ p_nome if p_nome is not none else '' }}" required placeholder="Ex: Família Silva, Alguém doente">
 
-        <select name="categoria" required>
+            <label style="margin-top: 5px;">📌 Categoria do Pedido</label>
+            <select name="categoria" required>
+                <option value="Saúde" {% if p_cat == "Saúde" %}selected{% endif %}>Saúde</option>
+                <option value="Família" {% if p_cat == "Família" %}selected{% endif %}>Família</option>
+                <option value="Trabalho" {% if p_cat == "Trabalho" %}selected{% endif %}>Trabalho</option>
+                <option value="Estudos" {% if p_cat == "Estudos" %}selected{% endif %}>Estudos</option>
+                <option value="Falecido" {% if p_cat == "Falecido" %}selected{% endif %}>Falecido</option>
+                <option value="Agradecimento" {% if p_cat == "Agradecimento" %}selected{% endif %}>Agradecimento</option>
+            </select>
 
-            <option value="Saúde"
-                {% if pedido.categoria == "Saúde" %}selected{% endif %}
-            >Saúde</option>
+            <label style="margin-top: 5px;">✍️ Descrição da Intenção</label>
+            <textarea name="pedido" rows="6" required placeholder="Detalhes do pedido de oração...">{{ p_ped if p_ped is not none else '' }}</textarea>
 
-            <option value="Família"
-                {% if pedido.categoria == "Família" %}selected{% endif %}
-            >Família</option>
+            <button class="botao" type="submit" style="margin-top: 15px;">💾 Guardar Alterações</button>
+        </form>
+    </div>
 
-            <option value="Trabalho"
-                {% if pedido.categoria == "Trabalho" %}selected{% endif %}
-            >Trabalho</option>
-
-            <option value="Estudos"
-                {% if pedido.categoria == "Estudos" %}selected{% endif %}
-            >Estudos</option>
-
-            <option value="Falecido"
-                {% if pedido.categoria == "Falecido" %}selected{% endif %}
-            >Falecido</option>
-
-            <option value="Agradecimento"
-                {% if pedido.categoria == "Agradecimento" %}selected{% endif %}
-            >Agradecimento</option>
-
-        </select>
-
-        <textarea 
-            name="pedido" 
-            required
-        >{{ pedido.pedido }}</textarea>
-
-        <button class="botao" type="submit">
-            💾 Guardar Alterações
-        </button>
-
-    </form>
-
-</div>
-
-<a href="/admin" class="botao">⬅️ Voltar</a>
-```
+    <a href="/admin" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>

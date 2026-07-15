@@ -1,155 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
-
-    <!-- RESPONSIVO MOBILE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Financeiro - Paróquia São Miguel</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+    <style>
+        /* Estrutura para os mini-cards ficarem responsivos */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .cards-grid .card.mini {
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+        }
+        .cards-grid .card.mini h2 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #666;
+            border: none;
+            padding: 0;
+        }
+        .cards-grid .card.mini .valor {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        /* Cores semânticas para a tabela de movimentos */
+        .movimento-entrada {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .movimento-saida {
+            color: #dc3545;
+            font-weight: bold;
+        }
 
+        th, td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                padding: 8px 4px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
 <body>
 
 <div class="overlay">
 <div class="container">
 
-    <!-- =========================
-         TÍTULO
-    ========================= -->
-    <h1 class="titulo-principal">💰 Situação Financeira da Paróquia</h1>
+    <h1 class="titulo-principal">💰 Situação Financeira</h1>
+    <p class="frase-biblica" style="margin-top: -10px; margin-bottom: 20px;">
+        Transparência e Prestação de Contas
+    </p>
 
-    <!-- =========================
-         RESUMO FINANCEIRO
-    ========================= -->
-    <div class="cards">
+    <div class="cards-grid">
 
         <div class="card mini">
             <h2>💵 Dízimos</h2>
             <div class="valor positivo">
-                {{ total_dizimos }} MZN
+                {{ total_dizimos if total_dizimos else "0.00" }} MZN
             </div>
         </div>
 
         <div class="card mini">
             <h2>⛪ Ofertórios</h2>
             <div class="valor positivo">
-                {{ total_ofertorios }} MZN
+                {{ total_ofertorios if total_ofertorios else "0.00" }} MZN
             </div>
         </div>
 
         <div class="card mini">
             <h2>🎁 Outros</h2>
             <div class="valor positivo">
-                {{ total_outros }} MZN
+                {{ total_outros if total_outros else "0.00" }} MZN
             </div>
         </div>
 
     </div>
 
-    <!-- =========================
-         TOTAL DE ENTRADAS
-    ========================= -->
-    <div class="card destaque">
-        <h2>📊 Total de Entradas</h2>
-        <div class="valor positivo grande">
-            {{ total_entradas }} MZN
+    <div class="card destaque" style="border-left: 5px solid #28a745; padding: 15px 20px; margin-bottom: 12px;">
+        <h2 style="border: none; padding-bottom: 0; margin-bottom: 4px; font-size: 15px; color: #666;">📊 Total de Entradas</h2>
+        <div class="valor positivo grande" style="font-size: 24px; font-weight: bold; color: #28a745;">
+            {{ total_entradas if total_entradas else "0.00" }} MZN
         </div>
     </div>
 
-    <!-- =========================
-         DESPESAS (INFORMATIVO)
-    ========================= -->
-    <div class="card destaque">
-        <h2>💸 Despesas</h2>
-        <div class="valor negativo grande">
-            {{ total_despesas }} MZN
+    <div class="card destaque" style="border-left: 5px solid #dc3545; padding: 15px 20px; margin-bottom: 12px;">
+        <h2 style="border: none; padding-bottom: 0; margin-bottom: 4px; font-size: 15px; color: #666;">💸 Despesas Efetuadas</h2>
+        <div class="valor negativo grande" style="font-size: 24px; font-weight: bold; color: #dc3545;">
+            {{ total_despesas if total_despesas else "0.00" }} MZN
         </div>
     </div>
 
-    <!-- =========================
-         SALDO BANCÁRIO
-    ========================= -->
-    <div class="card destaque-banco">
-        <h2>🏦 Saldo Bancário</h2>
-        <div class="valor grande">
-            {{ saldo_bancario }} MZN
-        </div>
-    </div>
-
-    <!-- =========================
-         TABELA DE MOVIMENTOS
-    ========================= -->
-    <div class="card">
-
-        <h3>📊 Movimentos Financeiros</h3>
-
-        <div class="table-responsive">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                {% if financeiro %}
-
-                    {% for item in financeiro %}
-                        <tr>
-                            <td>{{ item.tipo }}</td>
-                            <td>{{ item.descricao }}</td>
-                            <td>{{ item.valor }} MZN</td>
-                            <td>{{ item.data }}</td>
-                        </tr>
-                    {% endfor %}
-
-                {% else %}
-
-                    <tr>
-                        <td colspan="4" style="text-align:center;">
-                            Nenhum registo financeiro encontrado
-                        </td>
-                    </tr>
-
-                {% endif %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <!-- =========================
-             BOTÃO SAIR
-        ========================= -->
-        <div style="margin-top: 15px;">
-
-            <a href="/dizimista_logout" class="botao botao-sair">
-                🚪 Sair
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
-</div>
-
-<script>
-    setInterval(function() {
-        location.reload();
-    }, 120000);
-</script>
-
-</body>
-</html>
+    <div class="card" style="border-left: 5px solid #007bff; padding: 15px 20px; background: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
+        <h2 style="border: none; padding-bottom: 0; margin-bottom: 4px; font-size: 1

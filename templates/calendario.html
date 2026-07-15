@@ -5,6 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendário Pastoral</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .evento-card {
+            margin-bottom: 22px;
+            padding: 24px;
+            border-left: 4px solid #8b0000; /* Destaque litúrgico à esquerda */
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .evento-titulo {
+            border: none;
+            padding-bottom: 0;
+            margin: 0 0 10px 0;
+            font-size: 20px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .data-tag {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(139, 0, 0, 0.08);
+            color: #8b0000;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .divisor {
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            margin-bottom: 15px;
+        }
+
+        .evento-descricao {
+            color: #2c3e50;
+            line-height: 1.6;
+            font-size: 16px;
+            margin: 0;
+            white-space: pre-line; /* Preserva quebras de linha de horários e detalhes */
+        }
+
+        .sem-registos {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -23,29 +85,35 @@
                 {% set data = c.data if c is mapping else c[1] %}
                 {% set descricao = c.descricao if c is mapping else c[2] %}
 
-                <div class="card" style="margin-bottom: 20px;">
-                    <h2 style="border: none; padding-bottom: 0; margin-bottom: 8px; font-size: 20px;">
+                <div class="card evento-card">
+                    
+                    <h2 class="evento-titulo">
                         📌 {{ evento }}
                     </h2>
                     
-                    <div style="display: inline-flex; align-items: center; background: rgba(139, 0, 0, 0.08); color: #8b0000; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; margin-bottom: 12px;">
+                    <div class="data-tag">
                         📆 {{ data }}
                     </div>
 
-                    <div style="border-bottom: 1px solid rgba(0,0,0,0.06); margin-bottom: 12px;"></div>
+                    <div class="divisor"></div>
 
-                    <p style="color: #333; line-height: 1.5; font-size: 15px;">
+                    <p class="evento-descricao">
                         {{ descricao }}
                     </p>
+                    
                 </div>
             {% endfor %}
         {% else %}
-            <div class="card">
-                <p class="sem-registos">Nenhum evento agendado no calendário pastoral de momento.</p>
+            <div class="card" style="padding: 30px 20px;">
+                <p class="sem-registos">
+                    🕊️ Nenhum evento agendado no calendário pastoral de momento.
+                </p>
             </div>
         {% endif %}
 
-        <a href="/" class="botao">🏠 Voltar ao Início</a>
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
+            🏠 Voltar ao Início
+        </a>
 
     </div>
 

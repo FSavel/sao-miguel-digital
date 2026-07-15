@@ -11,7 +11,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(0,0,0,0.06);
         }
         .escala-item:last-child {
@@ -23,15 +23,54 @@
         }
         .escala-funcao {
             font-weight: bold;
-            color: #555;
+            color: #7f8c8d; /* Tom cinza elegante para a função */
             font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .escala-nome {
-            color: #222;
+            color: #2c3e50;
             font-weight: 600;
             font-size: 15px;
             text-align: right;
         }
+        
+        /* Estilo específico para outros serviços (estruturas mais livres) */
+        .servico-bloco {
+            padding: 12px 0; 
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .servico-bloco:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .servico-titulo {
+            font-size: 16px; 
+            font-weight: bold; 
+            color: #8b0000; /* Vermelho litúrgico */
+            margin: 0 0 4px 0;
+        }
+        .servico-detalhe {
+            font-size: 14px; 
+            color: #666; 
+            margin: 0 0 8px 0;
+            font-style: italic;
+        }
+        .servico-membros {
+            font-size: 15px; 
+            color: #222; 
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .sem-registos {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 15px 0;
+            margin: 0;
+        }
+
         @media (max-width: 600px) {
             .escala-item {
                 flex-direction: column;
@@ -40,6 +79,7 @@
             }
             .escala-nome {
                 text-align: left;
+                font-size: 16px; /* Ligeiramente maior no mobile para facilitar leitura rápida */
             }
         }
     </style>
@@ -50,11 +90,17 @@
 
     <div class="container">
 
+        <!-- =========================
+             TÍTULO E INSPIRAÇÃO
+        ========================= -->
         <h1 class="titulo-principal">👥 Escalas de Serviço</h1>
         <p class="frase-biblica">
             “Servi ao Senhor com alegria.” — Salmo 100
         </p>
 
+        <!-- =========================
+             ESCALA DOS ACÓLITOS
+        ========================= -->
         <div class="card">
             <h2>👦 Escala dos Acólitos</h2>
             {% if acolitos %}
@@ -69,31 +115,31 @@
 
                     <div class="escala-item">
                         <span class="escala-funcao">Cruciferário:</span>
-                        <span class="escala-nome">{{ cruciferario }}</span>
+                        <span class="escala-nome">{{ cruciferario | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Turiferário:</span>
-                        <span class="escala-nome">{{ turiferario }}</span>
+                        <span class="escala-nome">{{ turiferario | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Naveteiro:</span>
-                        <span class="escala-nome">{{ naveteiro }}</span>
+                        <span class="escala-nome">{{ naveteiro | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Cerimoniário:</span>
-                        <span class="escala-nome">{{ cerimoniario }}</span>
+                        <span class="escala-nome">{{ cerimoniario | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Velas:</span>
-                        <span class="escala-nome">{{ velas }}</span>
+                        <span class="escala-nome">{{ velas | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Livro:</span>
-                        <span class="escala-nome">{{ livro }}</span>
+                        <span class="escala-nome">{{ livro | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Altar:</span>
-                        <span class="escala-nome">{{ altar }}</span>
+                        <span class="escala-nome">{{ altar | default('—', true) }}</span>
                     </div>
                 {% endfor %}
             {% else %}
@@ -101,6 +147,9 @@
             {% endif %}
         </div>
 
+        <!-- =========================
+             ESCALA DE LEITORES
+        ========================= -->
         <div class="card">
             <h2>📖 Escala de Leitores</h2>
             {% if leitores %}
@@ -114,27 +163,27 @@
 
                     <div class="escala-item">
                         <span class="escala-funcao">1ª Leitura (Português):</span>
-                        <span class="escala-nome">{{ primeira_pt }}</span>
+                        <span class="escala-nome">{{ primeira_pt | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">1ª Leitura (Changana/Ronga):</span>
-                        <span class="escala-nome">{{ primeira_ch }}</span>
+                        <span class="escala-nome">{{ primeira_ch | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Salmo Responsorial:</span>
-                        <span class="escala-nome">{{ salmo }}</span>
+                        <span class="escala-nome">{{ salmo | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">2ª Leitura (Português):</span>
-                        <span class="escala-nome">{{ segunda_pt }}</span>
+                        <span class="escala-nome">{{ segunda_pt | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">2ª Leitura (Changana/Ronga):</span>
-                        <span class="escala-nome">{{ segunda_ch }}</span>
+                        <span class="escala-nome">{{ segunda_ch | default('—', true) }}</span>
                     </div>
                     <div class="escala-item">
                         <span class="escala-funcao">Oração dos Fiéis:</span>
-                        <span class="escala-nome">{{ oracao_fieis }}</span>
+                        <span class="escala-nome">{{ oracao_fieis | default('—', true) }}</span>
                     </div>
                 {% endfor %}
             {% else %}
@@ -142,6 +191,9 @@
             {% endif %}
         </div>
 
+        <!-- =========================
+             OUTROS SERVIÇOS E EQUIPES
+        ========================= -->
         <div class="card">
             <h2>⛪ Outros Serviços e Equipes</h2>
             {% if outros_servicos %}
@@ -150,5 +202,29 @@
                     {% set local = s.local if s is mapping else s[1] %}
                     {% set nomes = s.nomes if s is mapping else s[2] %}
 
-                    <div style="padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">
-                        <p style="font-size: 16px;
+                    <div class="servico-bloco">
+                        <p class="servico-titulo">{{ tipo }}</p>
+                        {% if local %}
+                            <p class="servico-detalhe">📍 {{ local }}</p>
+                        {% endif %}
+                        <p class="servico-membros">👥 {{ nomes | default('Sem nomes atribuídos', true) }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-registos">Nenhum outro serviço escalado para a próxima celebração.</p>
+            {% endif %}
+        </div>
+
+        <!-- =========================
+             NAVEGAÇÃO
+        ========================= -->
+        <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">
+            ⬅️ Voltar ao Início
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

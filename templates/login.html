@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Login Admin</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-<div class="overlay">
+<div class="overlay" style="display: flex; align-items: center; justify-content: center;">
 
-    <div class="login-wrapper">
+    <div class="container" style="max-width: 450px; width: 100%;">
 
-        <div class="login-card">
+        <div class="card" style="padding: 25px; box-shadow: var(--sombra-media);">
 
-            <h1 class="titulo-principal">
+            <!-- =========================
+                 TÍTULO DO PAINEL
+            ========================= -->
+            <h1 class="titulo-principal" style="color: black; margin-bottom: 20px; font-size: 24px; text-shadow: none;">
                 🔐 Login Admin
             </h1>
 
-            <form method="POST" class="login-form">
+            <!-- =========================
+                 MENSAGENS DE ALERTA (FLASH)
+            ========================= -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="background-color: #f8d7da; color: #721c24; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #f5c6cb; font-weight: bold;">
+                            ⚠️ {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
+            <!-- =========================
+                 FORMULÁRIO DE ACESSO
+            ========================= -->
+            <form method="POST">
+
+                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px;">Utilizador</label>
                 <input type="text"
                        name="username"
-                       placeholder="Utilizador"
+                       placeholder="Introduza o utilizador"
                        required>
 
+                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px; margin-top: 5px;">Senha</label>
                 <input type="password"
                        name="password"
-                       placeholder="Senha"
+                       placeholder="Introduza a senha"
                        required>
 
-                <button type="submit" class="botao">
-                    Entrar
+                <button type="submit" class="botao botao-pdf" style="margin-top: 15px;">
+                    Entrar no Painel
                 </button>
 
             </form>
 
-            <a href="/" class="botao voltar-btn">
-                ⬅️ Voltar
+            <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+            <!-- =========================
+                 NAVEGAÇÃO
+            ========================= -->
+            <a href="/" class="botao" style="margin-top: 0;">
+                ⬅️ Voltar ao Início
             </a>
 
         </div>

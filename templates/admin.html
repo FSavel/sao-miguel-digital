@@ -1,70 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - São Miguel Arcanjo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    /* Ajustes específicos para botões administrativos */
+    .admin-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 8px;
+        margin-top: 15px;
+    }
+    .admin-nav .botao {
+        margin: 0;
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+    }
+    
+    /* Novo Estilo Leve para Edição */
+    .btn-edit-light {
+        background: transparent !important;
+        border: 1px solid #ccc !important;
+        color: #555 !important;
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        border-radius: 4px !important;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .btn-edit-light:hover {
+        background: #f0f0f0 !important;
+        border-color: #999 !important;
+    }
+
+    .btn-delete {
+        background-color: #f8d7da !important;
+        color: #dc3545 !important;
+        padding: 4px 10px !important;
+        border-radius: 4px !important;
+        text-decoration: none;
+        font-size: 12px !important;
+        display: inline-block;
+        border: 1px solid #f5c6cb !important;
+    }
+    .btn-delete:hover {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+    
+    .form-group-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .btn-topo {
+        display: inline-block;
+        font-size: 12px;
+        color: #8b0000;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+</style>
+</head>
+<body>
+
+<div class="overlay">
 <div class="container">
-    <h1>⚙️ Painel Administrativo</h1>
 
-    <div class="card">
-        <h2>📂 Navegação</h2>
-        <div class="admin-nav">
-            <a href="#avisos-area" class="btn-admin">📢 Avisos</a>
-            <a href="#leituras-area" class="btn-admin">📖 Leituras</a>
-            <a href="#canticos-area" class="btn-admin">🎵 Cânticos</a>
-            <a href="#acolitos-area" class="btn-admin">👦 Acólitos</a>
-            <a href="#leitores-area" class="btn-admin">📚 Leitores</a>
-            <a href="#outros-area" class="btn-admin">⛪ Outros</a>
-        </div>
-    </div>
+    <h1 class="titulo-principal">⚙️ Painel Administrativo</h1>
+    <p class="frase-biblica">Gestão da Paróquia São Miguel Arcanjo</p>
 
-    <div class="card" id="avisos-area">
-        <h2>📢 Avisos</h2>
-        <form action="/add_aviso" method="POST">
-            <input type="text" name="titulo" placeholder="Título" required>
-            <button class="btn-admin" style="width:100%;">➕ Adicionar</button>
-        </form>
-        {% for a in avisos %}
-            <div class="item-list" style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 14px; font-weight: bold;">{{ a.titulo if a.titulo else a[0] }}</span>
-                <div>
-                    <a class="btn-edit" href="/edit_aviso/{{ loop.index0 }}">✏️</a>
-                    <a class="btn-delete" href="/delete_aviso/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌</a>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div style="background-color: {% if category == 'error' %}#f8d7da{% else %}#d4edda{% endif %}; 
+                            color: {% if category == 'error' %}#721c24{% else %}#155724{% endif %}; 
+                            padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; 
+                            text-align: center; border: 1px solid {% if category == 'error' %}#f5c6cb{% else %}#c3e6cb{% endif %}; font-weight: bold;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-    <div class="card" id="leituras-area">
-        <h2>📖 Leituras</h2>
-        {% for l in leituras %}
-            <div class="item-list">
-                <p><b>{{ l.tipo if l.tipo else l[0] }}</b></p>
-                <a class="btn-edit" href="/edit_leitura/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="btn-delete" href="/delete_leitura/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
-            </div>
-        {% endfor %}
-    </div>
+    <!-- NAVEGAÇÃO RÁPIDA -->
+    <div class="card" id="topo">
+        <h2 style="border: none; padding-bottom: 0; margin-bottom: 10px;">📂 Navegação Rápida</h2>
+        <div class="admin-nav">
+            <a href="#avisos-area" class="botao">📢 Avisos</a>
+            <a href="#leituras-area" class="botao">📖 Leituras</a>
+            <a href="#canticos-area" class="botao">🎵 Cânticos</a>
+            <a href="#acolitos-area" class="botao">👦 Acólitos</a>
+            <a href="#leitores-area" class="botao">📚 Leitores</a>
+            <a href="#outros-servicos-area" class="botao">⛪ Outros</a>
+            <a href="/financeiro" class="botao" style="background: #28a745; border-color: #28a745;">💰 Finanças</a>
+        </div>
+    </div>
 
-    <div class="card" id="canticos-area">
-        <h2>🎵 Cânticos</h2>
-        {% for c in canticos %}
-            <div class="item-list">
-                <p><b>{{ c.momento if c.momento else c[0] }}</b> - {{ c.cantico if c.cantico else c[1] }}</p>
-                <a class="btn-edit" href="/edit_cantico/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="btn-delete" href="/delete_cantico/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
-            </div>
-        {% endfor %}
-    </div>
+    <!-- SECCÃO: AVISOS -->
+    <div class="card" id="avisos-area">
+        <h2>📢 Avisos Semanais</h2>
+        <form action="/add_aviso" method="POST">
+            <input type="text" name="titulo" placeholder="Título do Aviso" required>
+            <textarea name="descricao" placeholder="Escreva a descrição do aviso com detalhes..." required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Aviso</button>
+        </form>
 
-    <div class="card" id="outros-area">
-        <h2>⛪ Outros Serviços</h2>
-        {% for s in outros_servicos %}
-            <div class="item-list">
-                <p><b>{{ s.tipo if s.tipo else s[0] }}</b> (📍 {{ s.local if s.local else s[1] }})</p>
-                <a class="btn-edit" href="/edit_outro_servico/{{ loop.index0 }}">✏️ Editar</a>
-                <a class="btn-delete" href="/delete_outro_servico/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
-            </div>
-        {% endfor %}
-    </div>
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 50px;">
-        <a href="/" class="btn-admin btn-secundario">🏠 Início</a>
-        <a href="/logout" class="btn-admin" style="background:#dc3545;">🚪 Sair</a>
-    </div>
+        {% if avisos %}
+            {% for a in avisos %}
+                {% set t = a.titulo if a is mapping else a[0] %}
+                {% set d = a.descricao if a is mapping else a[1] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="margin-bottom: 5px;"><b>{{ t }}</b></p>
+                    <p style="color: #444; font-size: 14px; margin-bottom: 10px;">{{ d }}</p>
+                    <div style="display:flex; gap:10px;">
+                        <!-- Exemplo de como ficará no código abaixo --> <a class="btn-edit-light" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
+                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_aviso/{{ loop.index0 }}" onclick="return confirm('Tem a certeza que deseja apagar este aviso?');">❌ Apagar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhum aviso registado.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- SECÇÃO: LEITURAS -->
+    <div class="card" id="leituras-area">
+        <h2>📖 Leituras do Dia</h2>
+        <form action="/add_leitura" method="POST">
+            <input type="text" name="tipo" placeholder="Ex: 1ª Leitura, Salmo, Evangelho" required>
+            <textarea name="texto" placeholder="Texto bíblico completo..." required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Leitura</button>
+        </form>
+
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+        {% if leituras %}
+            {% for l in leituras %}
+                {% set tipo = l.tipo if l is mapping else l[0] %}
+                {% set texto = l.texto if l is mapping else l[1] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="margin-bottom: 5px;"><b>{{ tipo }}</b></p>
+                    <p style="color: #444; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px;">{{ texto }}</p>
+                    <div style="display:flex; gap:10px;">
+                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_leitura/{{ loop.index0 }}">✏️ Editar</a>
+                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_leitura/{{ loop.index0 }}" onclick="return confirm('Tem a certeza que deseja apagar esta leitura?');">❌ Apagar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhuma leitura registada.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- SECÇÃO: CÂNTICOS -->
+    <div class="card" id="canticos-area">
+        <h2>🎵 Cânticos Litúrgicos</h2>
+        <form action="/add_cantico" method="POST">
+            <input type="text" name="momento" placeholder="Ex: Entrada, Ofertório, Comunhão" required>
+            <input type="text" name="cantico" placeholder="Nome do Cântico" required>
+            <textarea name="letra" placeholder="Letra completa..." required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Cântico</button>
+        </form>
+
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+        {% if canticos %}
+            {% for c in canticos %}
+                {% set mom = c.momento if c is mapping else c[0] %}
+                {% set can = c.cantico if c is mapping else c[1] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="margin-bottom: 10px;"><b>{{ mom }}</b> - {{ can }}</p>
+                    <div style="display:flex; gap:10px;">
+                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_cantico/{{ loop.index0 }}">✏️ Editar</a>
+                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_cantico/{{ loop.index0 }}" onclick="return confirm('Tem a certeza que deseja apagar este cântico?');">❌ Apagar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhum cântico registado.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- SECÇÃO: ESCALA ACÓLITOS -->
+    <div class="card" id="acolitos-area">
+        <h2>👦 Escala dos Acólitos</h2>
+        <form action="/add_acolito" method="POST">
+            <div class="form-group-row">
+                <input type="text" name="cruciferario" placeholder="Cruciferário" required>
+                <input type="text" name="turiferario" placeholder="Turiferário" required>
+            </div>
+            <div class="form-group-row">
+                <input type="text" name="naveteiro" placeholder="Naveteiro" required>
+                <input type="text" name="cerimoniario" placeholder="Cerimoniário" required>
+            </div>
+            <div class="form-group-row">
+                <input type="text" name="velas" placeholder="Velas" required>
+                <input type="text" name="livro" placeholder="Livro" required>
+            </div>
+            <input type="text" name="altar" placeholder="Altar" required>
+            <button class="botao" type="submit" style="margin-top: 10px;">➕ Adicionar Escala Acólitos</button>
+        </form>
+
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+        {% if acolitos %}
+            {% for a in acolitos %}
+                {% set cruc = a.cruciferario if a is mapping else a[0] %}
+                {% set turi = a.turiferario if a is mapping else a[1] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="font-size: 14px; margin-bottom: 10px;"><b>Cruciferário:</b> {{ cruc }} | <b>Turiferário:</b> {{ turi }}</p>
+                    <div style="display:flex; gap:10px;">
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_acolito', i=loop.index0, missa=1) }}">✏️ Editar 1ª</a>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_acolito', i=loop.index0, missa=2) }}">✏️ Editar 2ª</a>
+    <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_acolito/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de acólitos?');">❌ Apagar</a>
 </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhuma escala de acólitos registada.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- SECÇÃO: ESCALA LEITORES -->
+    <div class="card" id="leitores-area">
+        <h2>📚 Escala de Leitores</h2>
+        <form action="/add_leitor" method="POST">
+            <div class="form-group-row">
+                <input type="text" name="primeira_pt" placeholder="1ª Leitura PT" required>
+                <input type="text" name="primeira_ch" placeholder="1ª Leitura CH" required>
+            </div>
+            <div class="form-group-row">
+                <input type="text" name="salmo" placeholder="Salmo" required>
+                <input type="text" name="segunda_pt" placeholder="2ª Leitura PT" required>
+            </div>
+            <div class="form-group-row">
+                <input type="text" name="segunda_ch" placeholder="2ª Leitura CH" required>
+                <input type="text" name="oracao_fieis" placeholder="Oração dos Fiéis" required>
+            </div>
+            <button class="botao" type="submit" style="margin-top: 10px;">➕ Adicionar Escala Leitores</button>
+        </form>
+
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+        {% if leitores %}
+            {% for l in leitores %}
+                {% set pt1 = l.primeira_pt if l is mapping else l[0] %}
+                {% set sal = l.salmo if l is mapping else l[2] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="font-size: 14px; margin-bottom: 10px;"><b>1ª PT:</b> {{ pt1 }} | <b>Salmo:</b> {{ sal }}</p>
+                    <div style="display:flex; gap:10px;">
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_leitor', i=loop.index0, missa=1) }}">✏️ Editar 1ª</a>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_leitor', i=loop.index0, missa=2) }}">✏️ Editar 2ª</a>
+    <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_leitor/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de leitores?');">❌ Apagar</a>
+</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhuma escala de leitores registada.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- SECÇÃO: OUTROS SERVIÇOS -->
+    <div class="card" id="outros-servicos-area">
+        <h2>⛪ Outros Serviços</h2>
+        <form action="/add_outro_servico" method="POST">
+            <div class="form-group-row">
+                <input type="text" name="tipo" placeholder="Ex: Limpeza, Acolhimento" required>
+                <input type="text" name="local" placeholder="Local" required>
+            </div>
+            <textarea name="nomes" placeholder="Nomes dos voluntários ou equipes..." required></textarea>
+            <button class="botao" type="submit">➕ Adicionar Outro Serviço</button>
+        </form>
+
+        <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+
+        {% if outros_servicos %}
+            {% for s in outros_servicos %}
+                {% set tipo = s.tipo if s is mapping else s[0] %}
+                {% set loc = s.local if s is mapping else s[1] %}
+                <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <p style="margin-bottom: 5px;"><b>{{ tipo }}</b> (📍 {{ loc }})</p>
+                    <div style="display:flex; gap:10px;">
+                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_outro_servico/{{ loop.index0 }}">✏️ Editar</a>
+                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_outro_servico/{{ loop.index0 }}" onclick="return confirm('Deseja apagar este serviço?');">❌ Apagar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 14px; color: #666; text-align: center;">Nenhum outro serviço registado.</p>
+        {% endif %}
+        <a href="#topo" class="btn-topo">▲ Voltar ao topo</a>
+    </div>
+
+    <!-- BOTÕES DE SAÍDA -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px;">
+        <a href="/" class="botao" style="margin: 0; text-align: center; line-height: 24px;">🏠 Ir para o Início</a>
+        <a href="/logout" class="botao" style="margin: 0; background: #555; border-color: #555; color: white; text-align: center; line-height: 24px;">🚪 Terminar Sessão</a>
+    </div>
+
+</div>
+</div>
+
+</body>
+</html>

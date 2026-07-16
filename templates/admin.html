@@ -6,66 +6,56 @@
     <title>Painel Admin - São Miguel Arcanjo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-    /* Ajustes específicos para botões administrativos */
-    .admin-nav {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-        gap: 8px;
-        margin-top: 15px;
-    }
-    .admin-nav .botao {
-        margin: 0;
-        padding: 10px;
-        font-size: 13px;
-        text-align: center;
-    }
-    
-    /* Novo Estilo Leve para Edição */
-    .btn-edit-light {
-        background: transparent !important;
-        border: 1px solid #ccc !important;
-        color: #555 !important;
-        padding: 4px 10px !important;
-        font-size: 12px !important;
-        border-radius: 4px !important;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-    .btn-edit-light:hover {
-        background: #f0f0f0 !important;
-        border-color: #999 !important;
-    }
-
-    .btn-delete {
-        background-color: #f8d7da !important;
-        color: #dc3545 !important;
-        padding: 4px 10px !important;
-        border-radius: 4px !important;
-        text-decoration: none;
-        font-size: 12px !important;
-        display: inline-block;
-        border: 1px solid #f5c6cb !important;
-    }
-    .btn-delete:hover {
-        background-color: #dc3545 !important;
-        color: white !important;
-    }
-    
-    .form-group-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    .btn-topo {
-        display: inline-block;
-        font-size: 12px;
-        color: #8b0000;
-        text-decoration: none;
-        font-weight: bold;
-        margin-top: 15px;
-    }
-</style>
+        /* Ajustes específicos para botões administrativos */
+        .admin-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .admin-nav .botao {
+            margin: 0;
+            padding: 10px;
+            font-size: 13px;
+            text-align: center;
+        }
+        .btn-delete {
+            background-color: #dc3545 !important;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            opacity: 0.9;
+        }
+        .form-group-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .form-group-row input {
+            margin-bottom: 0;
+        }
+        .btn-topo {
+            display: inline-block;
+            font-size: 12px;
+            color: #8b0000;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .btn-topo:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
@@ -121,7 +111,7 @@
                     <p style="margin-bottom: 5px;"><b>{{ t }}</b></p>
                     <p style="color: #444; font-size: 14px; margin-bottom: 10px;">{{ d }}</p>
                     <div style="display:flex; gap:10px;">
-                        <!-- Exemplo de como ficará no código abaixo --> <a class="btn-edit-light" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
+                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
                         <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_aviso/{{ loop.index0 }}" onclick="return confirm('Tem a certeza que deseja apagar este aviso?');">❌ Apagar</a>
                     </div>
                 </div>

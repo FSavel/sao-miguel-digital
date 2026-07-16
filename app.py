@@ -127,9 +127,16 @@ def calendario():
 
 @app.route("/escalas")
 def escalas():
+    # Carrega os dados
+    acolitos_dados = read("acolitos")
+    
+    # Normaliza: garante que 'missa' seja sempre string para o filtro funcionar
+    for a in acolitos_dados:
+        a['missa'] = str(a.get('missa', '')).strip()
+    
     return render_template(
         "escalas.html",
-        acolitos=read("acolitos"),
+        acolitos=acolitos_dados,
         leitores=read("leitores"),
         outros_servicos=read("outros_servicos")
     )

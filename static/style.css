@@ -5,26 +5,6 @@ RESET E VARIÁVEIS
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-:root {
-    --cor-paroquial: #8b0000;      /* Vermelho Bordô */
-    --cor-paroquial-hover: #a30000;
-    --cor-sucesso: #2e7d32;         /* Verde */
-    --cor-sucesso-hover: #1b5e20;
-    --cor-banco: #1e3a8a;           /* Azul */
-    --sombra-leve: 0 2px 10px rgba(0,0,0,0.15);
-    --sombra-media: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-/* =========================
-RESET E VARIÁVEIS
-========================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -70,34 +50,6 @@ TEXTOS E CABEÇALHOS
     text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }
 
-/* =========================
-CARDS E CABEÇALHO DE MISSA
-========================= */
-.card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--sombra-leve);
-}
-
-.card h2, .card h3, .card label {
-    color: #2c3e50;
-}
-
-.missa-header {
-    background: linear-gradient(90deg, #8b0000 0%, #a52a2a 100%);
-    color: white;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin: 25px 0 15px 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
 .frase-biblica {
     color: white;
     text-align: center;
@@ -141,24 +93,34 @@ TICKER (AVISOS EM MOVIMENTO)
 }
 
 /* =========================
-CARDS (PAINÉIS DE CONTEÚDO)
+CARDS E CABEÇALHO DE MISSA
 ========================= */
 .card {
-    background: rgba(255,255,255,0.95);
+    background: #ffffff;
     border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
     box-shadow: var(--sombra-leve);
-}
-
-.card h2, .card h3, .card h4, .card p, .card label {
-    color: black;
 }
 
 .card h2 {
     margin-bottom: 12px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-bottom: 8px;
+    color: #2c3e50;
+}
+
+.missa-header {
+    background: linear-gradient(90deg, #8b0000 0%, #a52a2a 100%);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 25px 0 15px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* CARDS FINANCEIROS MINI */
@@ -179,63 +141,8 @@ CARDS (PAINÉIS DE CONTEÚDO)
     min-height: 110px;
 }
 
-.card.mini .valor {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-/* CARDS DE DESTAQUE */
-.card.destaque {
-    text-align: center;
-    background: #f3f3f3;
-    padding: 18px;
-    border-left: 6px solid var(--cor-sucesso);
-    margin-top: 10px;
-}
-
-.card.destaque .valor.grande {
-    font-size: 26px;
-    font-weight: bold;
-    color: var(--cor-sucesso);
-}
-
-.card.destaque-banco {
-    text-align: center;
-    background: #e8f0ff;
-    padding: 18px;
-    border-left: 6px solid var(--cor-banco);
-    margin-top: 10px;
-}
-
-.card.destaque-banco .valor.grande {
-    font-size: 26px;
-    font-weight: bold;
-    color: var(--cor-banco);
-}
-
 /* =========================
-INPUTS E FORMULÁRIOS
-========================= */
-input, textarea, select {
-    width: 100%;
-    padding: 12px;
-    margin-top: 6px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: white;
-    font-size: 15px;
-    transition: border-color 0.2s ease;
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--cor-paroquial);
-}
-
-/* =========================
-BOTÕES E LINKS
+BOTÕES E SUBMENUS
 ========================= */
 .botao {
     display: block;
@@ -244,8 +151,8 @@ BOTÕES E LINKS
     text-decoration: none;
     background: rgba(255,255,255,0.94);
     color: black;
-    padding: 12px;
-    margin-top: 10px;
+    padding: 14px;
+    margin-top: 12px;
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,0.1);
     font-weight: bold;
@@ -257,314 +164,27 @@ BOTÕES E LINKS
 .botao:hover {
     background: white;
     transform: scale(1.01);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* CORES DOS BOTÕES (COM TEXTO BRANCO ONDE É ESCURO) */
 .botao-admin { background: rgba(255,220,120,0.95); }
 .botao-financas { background: rgba(160,255,190,0.95); }
 .botao-liturgia { background: rgba(210,220,255,0.95); }
 .botao-espiritual { background: rgba(255,210,240,0.95); }
 
-.botao-pdf {
-    background: var(--cor-paroquial);
-    color: white !important; /* Corrigido contraste */
-}
-.botao-pdf:hover {
-    background: var(--cor-paroquial-hover);
-}
-
-.botao-sair {
-    background: var(--cor-sucesso);
-    color: white !important; /* Corrigido contraste */
-}
-.botao-sair:hover {
-    background: var(--cor-sucesso-hover);
-}
-
-/* BOTÕES MINI E PERFIL */
-.area-pdf, .area-editar-perfil {
-    text-align: center;
-    margin: 18px 0;
-}
-
-.botao-pdf-mini {
-    display: inline-block;
-    background: var(--cor-paroquial);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.botao-pdf-mini:hover {
-    transform: scale(1.03);
-    background: var(--cor-paroquial-hover);
-}
-
-.botao-editar-perfil {
-    background: #ffffff;
-    color: #1f3b57;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: var(--sombra-leve);
-    transition: all 0.25s ease;
-    font-size: 14px;
-}
-
-.botao-editar-perfil:hover {
-    background: #f2f6fb;
-    transform: translateY(-2px);
-    box-shadow: var(--sombra-media);
-}
+.botao-pdf { background: var(--cor-paroquial); color: white !important; }
+.botao-sair { background: var(--cor-sucesso); color: white !important; }
 
 /* =========================
-TABELAS RESPONSIVAS
+TABELAS, DASHBOARD E RESPONSIVIDADE
 ========================= */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto; /* Elemento pai lida com o scroll lateral */
-    -webkit-overflow-scrolling: touch;
-    margin-top: 12px;
-}
+table { width: 100%; border-collapse: collapse; background: white; margin-top: 12px; }
+table th { background: var(--cor-paroquial); color: white; padding: 12px; font-size: 14px; }
+table td { padding: 10px; border-bottom: 1px solid #ddd; font-size: 14px; }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-}
-
-table th {
-    background: var(--cor-paroquial);
-    color: white;
-    padding: 12px;
-    font-size: 14px;
-}
-
-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-size: 14px;
-}
-
-table tr:hover {
-    background: rgba(0,0,0,0.03);
-}
-
-/* =========================
-DASHBOARD (ADMIN E DIZIMISTA)
-========================= */
-.dashboard-topo {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.dashboard-topo h2 {
-    color: white;
-    font-size: 26px;
-}
-
-.dashboard-topo p {
-    color: rgba(255,255,255,0.85);
-    font-size: 14px;
-}
-
-.saudacao-dizimista {
-    color: white !important;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.mensagem-dizimista {
-    font-size: 14px;
-    text-align: center;
-    opacity: 0.85;
-    margin-bottom: 15px;
-}
-
-.total-label {
-    font-size: 14px;
-    text-align: center;
-}
-
-.total-valor {
-    font-size: 20px;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.info-box {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: var(--sombra-leve);
-}
-
-.info-box h3 {
-    font-size: 14px;
-    color: #555;
-}
-
-.info-box p {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--cor-sucesso);
-}
-
-/* CLASSES UTILITÁRIAS */
-.valor-verde, .valor.positivo {
-    color: var(--cor-sucesso);
-    font-weight: bold;
-}
-
-.sem-registos {
-    text-align: center;
-    color: #555;
-    margin-top: 10px;
-}
-
-/* =========================
-ACCORDION (MENUS RETRÁTEIS)
-========================= */
-.accordion {
-    margin-bottom: 15px;
-}
-
-.accordion-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.95);
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    transition: 0.3s;
-    box-shadow: var(--sombra-leve);
-}
-
-.accordion-btn:hover {
-    transform: scale(1.01);
-    background: white;
-}
-
-.accordion-content {
-    display: none;
-    padding: 15px;
-    background: rgba(255,255,255,0.88);
-    border-radius: 0 0 12px 12px;
-    margin-top: -5px;
-    box-shadow: var(--sombra-leve);
-}
-
-/* =========================
-QUIZ CATEQUESE
-========================= */
-.opcao.selected {
-    border: 2px solid var(--cor-paroquial);
-    transform: scale(1.03);
-    background: #fff3f3;
-}
-
-.opcao.correct {
-    background: #2ecc71 !important;
-    color: white !important;
-}
-
-.opcao.wrong {
-    background: #e74c3c !important;
-    color: white !important;
-}
-
-.explicacao {
-    margin-top: 12px;
-    padding: 10px;
-    border-left: 4px solid var(--cor-paroquial);
-    background: rgba(255,255,255,0.9);
-    border-radius: 8px;
-    font-style: italic;
-    color: #333;
-    display: none;
-    line-height: 1.5;
-}
-
-/* =========================
-📱 RESPONSIVIDADE (MOBILE-FIRST)
-========================= */
 @media (max-width: 600px) {
-    .container {
-        padding: 0 8px;
-    }
-
-    .titulo-principal {
-        font-size: 22px;
-    }
-
-    .card {
-        padding: 12px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr; /* Financeiro quebra em uma única coluna */
-    }
-
-    .card.mini, .card.destaque, .card.destaque-banco {
-        width: 100%;
-    }
-
-    .card.destaque .valor.grande, 
-    .card.destaque-banco .valor.grande,
-    .valor.grande {
-        font-size: 22px !important;
-    }
-
-    .botao {
-        font-size: 13px;
-        padding: 10px;
-    }
-
-    .botao-pdf-mini {
-        font-size: 12px;
-        padding: 7px 10px;
-    }
-
-    .dashboard-topo h2 {
-        font-size: 20px;
-    }
-
-    .dashboard-topo p, .mensagem-dizimista {
-        font-size: 13px;
-        line-height: 1.5;
-    }
-
-    .total-label {
-        font-size: 13px;
-    }
-
-    .total-valor {
-        font-size: 18px;
-    }
-
-    /* Otimização de tabelas para telemóveis */
-    table {
-        min-width: 500px; /* Força scroll lateral sem amassar o texto */
-    }
-
-    table th, table td {
-        padding: 8px 6px;
-        font-size: 12px;
-    }
+    .container { padding: 0 8px; }
+    .card { padding: 12px; }
+    .titulo-principal { font-size: 22px; }
+    .botao { font-size: 13px; padding: 10px; }
 }

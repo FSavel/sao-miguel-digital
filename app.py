@@ -219,18 +219,15 @@ def edit_acolito(i):
     if not (0 <= i < len(data)):
         return redirect("/admin")
     
-    # Captura qual a missa que veio na URL (ex: /edit_acolito/0?missa=1)
-    # Se não houver ?missa=..., assume 1
-    missa = request.args.get("missa", "1")
-    
     if request.method == "POST":
-        # Se quiser gravar a missa editada junto com os dados:
+        # Captura a missa diretamente do campo oculto do formulário
         nova_data = request.form.to_dict()
-        nova_data['missa'] = missa # Garante que o número da missa fica guardado
         data[i] = nova_data
         save("acolitos", data)
         return redirect("/admin")
-        
+    
+    # Se for GET, pega o parâmetro da URL para exibir no formulário
+    missa = request.args.get("missa", data[i].get("missa", "1"))
     return render_template("edit_acolito.html", acolito=data[i], index=i, missa=missa)
 
 # =========================

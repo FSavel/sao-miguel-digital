@@ -6,7 +6,10 @@
     <title>São Miguel Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Melhorias visuais para os botões e acordeão */
+        /* Centralização e Melhorias Visuais */
+        .home-menu {
+            text-align: center; /* Centraliza todo o texto e botões dentro da div */
+        }
         .accordion-btn {
             background: #fff;
             border: 1px solid #eee;
@@ -18,6 +21,9 @@
             border-radius: 10px;
             margin-bottom: 5px;
             transition: all 0.3s ease;
+            width: 100%; /* Mantém o tamanho total */
+            max-width: 500px; /* Limita a largura para ficar elegante */
+            display: inline-block; /* Permite a centralização */
         }
 
         .accordion-btn:hover {
@@ -29,16 +35,22 @@
             display: none;
             padding: 10px 0;
             animation: fadeIn 0.3s ease;
+            text-align: left; /* Mantém os links internos alinhados à esquerda */
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         /* Estilo para os links dentro dos acordeões */
         .accordion-content .botao {
             margin: 5px 0;
             display: block;
-            text-align: left;
+            text-align: center; /* Centraliza os links internos */
             background: #f4f4f4;
             color: #333 !important;
             border: none;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
         }
         
         .accordion-content .botao:hover {
@@ -49,6 +61,7 @@
             content: '▼';
             font-size: 10px;
             transition: transform 0.3s ease;
+            float: right; /* Mantém a seta à direita */
         }
         
         .accordion-btn.active::after {
@@ -100,7 +113,7 @@
                 <a href="/financeiro" class="botao">📊 Situação Financeira</a>
             </div>
 
-            <a href="/redes_sociais" class="accordion-btn" style="text-decoration: none; display: flex;">🌐 Redes Sociais</a>
+            <a href="/redes_sociais" class="accordion-btn" style="text-decoration: none;">🌐 Redes Sociais</a>
 
             <button class="accordion-btn">⚙️ Administração</button>
             <div class="accordion-content">
@@ -127,16 +140,11 @@
 <script>
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
-        // Se já estiver ativo, apenas fecha
         const content = this.nextElementSibling;
         if (content && content.classList.contains("accordion-content")) {
             const isOpen = content.style.display === "block";
-            
-            // Fecha todos
             document.querySelectorAll(".accordion-content").forEach(el => el.style.display = "none");
             document.querySelectorAll(".accordion-btn").forEach(b => b.classList.remove("active"));
-
-            // Abre apenas se estava fechado
             if (!isOpen) {
                 content.style.display = "block";
                 this.classList.add("active");
@@ -145,7 +153,6 @@ document.querySelectorAll(".accordion-btn").forEach(btn => {
     });
 });
 
-// Refresh inteligente (3 minutos)
 setInterval(() => {
     if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) {
         location.reload();

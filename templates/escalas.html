@@ -6,7 +6,6 @@
     <title>Escalas de Serviço</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Estilos originais mantidos */
         .escala-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
         .escala-item:last-child { border-bottom: none; padding-bottom: 0; }
         .escala-item:first-child { padding-top: 5px; }
@@ -33,58 +32,75 @@
         <div class="card">
             <h2>👦 Escala dos Acólitos</h2>
             
-            <div class="missa-header">Primeira Missa</div>
-            {% for a in acolitos if a.missa == '1' %}
-                <div class="escala-item"><span class="escala-funcao">Cruciferário:</span><span class="escala-nome">{{ a.cruciferario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Turiferário:</span><span class="escala-nome">{{ a.turiferario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Naveteiro:</span><span class="escala-nome">{{ a.naveteiro | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Cerimoniário:</span><span class="escala-nome">{{ a.cerimoniario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Velas:</span><span class="escala-nome">{{ a.velas | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Livro:</span><span class="escala-nome">{{ a.livro | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Altar:</span><span class="escala-nome">{{ a.altar | default('—', true) }}</span></div>
-            {% else %}
-                <p class="sem-registos">Nenhum acólito escalado para a 1ª Missa.</p>
-            {% endfor %}
+            {% for num_missa in ['1', '2'] %}
+                <div class="missa-header">{{ 'Primeira' if num_missa == '1' else 'Segunda' }} Missa</div>
+                
+                {% set lista_missa = acolitos | selectattr('missa', 'equalto', num_missa) | list %}
+                
+                {% if lista_missa %}
+                    {% for a in lista_missa %}
+                        {% set cruciferario = a.cruciferario if a is mapping else a[0] %}
+                        {% set turiferario = a.turiferario if a is mapping else a[1] %}
+                        {% set naveteiro = a.naveteiro if a is mapping else a[2] %}
+                        {% set cerimoniario = a.cerimoniario if a is mapping else a[3] %}
+                        {% set velas = a.velas if a is mapping else a[4] %}
+                        {% set livro = a.livro if a is mapping else a[5] %}
+                        {% set altar = a.altar if a is mapping else a[6] %}
 
-            <div class="missa-header">Segunda Missa</div>
-            {% for a in acolitos if a.missa == '2' %}
-                <div class="escala-item"><span class="escala-funcao">Cruciferário:</span><span class="escala-nome">{{ a.cruciferario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Turiferário:</span><span class="escala-nome">{{ a.turiferario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Naveteiro:</span><span class="escala-nome">{{ a.naveteiro | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Cerimoniário:</span><span class="escala-nome">{{ a.cerimoniario | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Velas:</span><span class="escala-nome">{{ a.velas | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Livro:</span><span class="escala-nome">{{ a.livro | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Altar:</span><span class="escala-nome">{{ a.altar | default('—', true) }}</span></div>
-            {% else %}
-                <p class="sem-registos">Nenhum acólito escalado para a 2ª Missa.</p>
+                        <div class="escala-item"><span class="escala-funcao">Cruciferário:</span><span class="escala-nome">{{ cruciferario | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Turiferário:</span><span class="escala-nome">{{ turiferario | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Naveteiro:</span><span class="escala-nome">{{ naveteiro | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Cerimoniário:</span><span class="escala-nome">{{ cerimoniario | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Velas:</span><span class="escala-nome">{{ velas | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Livro:</span><span class="escala-nome">{{ livro | default('—', true) }}</span></div>
+                        <div class="escala-item"><span class="escala-funcao">Altar:</span><span class="escala-nome">{{ altar | default('—', true) }}</span></div>
+                    {% endfor %}
+                {% else %}
+                    <p class="sem-registos">Nenhuma escala para a {{ '1ª' if num_missa == '1' else '2ª' }} Missa.</p>
+                {% endif %}
             {% endfor %}
         </div>
 
         <div class="card">
             <h2>📖 Escala de Leitores</h2>
-            {% for l in leitores %}
-                <div class="escala-item"><span class="escala-funcao">1ª Leitura (PT):</span><span class="escala-nome">{{ l.primeira_pt | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">1ª Leitura (CH):</span><span class="escala-nome">{{ l.primeira_ch | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Salmo:</span><span class="escala-nome">{{ l.salmo | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">2ª Leitura (PT):</span><span class="escala-nome">{{ l.segunda_pt | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">2ª Leitura (CH):</span><span class="escala-nome">{{ l.segunda_ch | default('—', true) }}</span></div>
-                <div class="escala-item"><span class="escala-funcao">Oração Fiéis:</span><span class="escala-nome">{{ l.oracao_fieis | default('—', true) }}</span></div>
+            {% if leitores %}
+                {% for l in leitores %}
+                    {% set primeira_pt = l.primeira_pt if l is mapping else l[0] %}
+                    {% set primeira_ch = l.primeira_ch if l is mapping else l[1] %}
+                    {% set salmo = l.salmo if l is mapping else l[2] %}
+                    {% set segunda_pt = l.segunda_pt if l is mapping else l[3] %}
+                    {% set segunda_ch = l.segunda_ch if l is mapping else l[4] %}
+                    {% set oracao_fieis = l.oracao_fieis if l is mapping else l[5] %}
+
+                    <div class="escala-item"><span class="escala-funcao">1ª Leitura (Português):</span><span class="escala-nome">{{ primeira_pt | default('—', true) }}</span></div>
+                    <div class="escala-item"><span class="escala-funcao">1ª Leitura (Changana/Ronga):</span><span class="escala-nome">{{ primeira_ch | default('—', true) }}</span></div>
+                    <div class="escala-item"><span class="escala-funcao">Salmo Responsorial:</span><span class="escala-nome">{{ salmo | default('—', true) }}</span></div>
+                    <div class="escala-item"><span class="escala-funcao">2ª Leitura (Português):</span><span class="escala-nome">{{ segunda_pt | default('—', true) }}</span></div>
+                    <div class="escala-item"><span class="escala-funcao">2ª Leitura (Changana/Ronga):</span><span class="escala-nome">{{ segunda_ch | default('—', true) }}</span></div>
+                    <div class="escala-item"><span class="escala-funcao">Oração dos Fiéis:</span><span class="escala-nome">{{ oracao_fieis | default('—', true) }}</span></div>
+                {% endfor %}
             {% else %}
                 <p class="sem-registos">Nenhuma escala de leitores disponível.</p>
-            {% endfor %}
+            {% endif %}
         </div>
 
         <div class="card">
             <h2>⛪ Outros Serviços e Equipes</h2>
-            {% for s in outros_servicos %}
-                <div class="servico-bloco">
-                    <p class="servico-titulo">{{ s.tipo }}</p>
-                    {% if s.local %}<p class="servico-detalhe">📍 {{ s.local }}</p>{% endif %}
-                    <p class="servico-membros">👥 {{ s.nomes | default('Sem nomes atribuídos', true) }}</p>
-                </div>
+            {% if outros_servicos %}
+                {% for s in outros_servicos %}
+                    {% set tipo = s.tipo if s is mapping else s[0] %}
+                    {% set local = s.local if s is mapping else s[1] %}
+                    {% set nomes = s.nomes if s is mapping else s[2] %}
+
+                    <div class="servico-bloco">
+                        <p class="servico-titulo">{{ tipo }}</p>
+                        {% if local %}<p class="servico-detalhe">📍 {{ local }}</p>{% endif %}
+                        <p class="servico-membros">👥 {{ nomes | default('Sem nomes atribuídos', true) }}</p>
+                    </div>
+                {% endfor %}
             {% else %}
                 <p class="sem-registos">Nenhum outro serviço escalado.</p>
-            {% endfor %}
+            {% endif %}
         </div>
 
         <a href="/" class="botao" style="text-align: center; display: block; margin-top: 25px;">⬅️ Voltar ao Início</a>

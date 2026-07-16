@@ -6,39 +6,44 @@
     <title>Editar Aviso</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        label {
-            display: block;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 5px;
-            color: #333;
+        label { 
+            display: block; font-weight: 600; font-size: 14px; 
+            margin-top: 15px; margin-bottom: 8px; color: #333; 
+        }
+        input, textarea { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; 
+            border-radius: 8px; font-size: 15px; font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus { border-color: #8b0000; outline: none; }
+        .btn-salvar { 
+            background: #8b0000 !important; color: white !important; 
+            border: none; padding: 14px; font-weight: bold; width: 100%;
+            margin-top: 25px;
         }
     </style>
 </head>
 <body>
 
 <div class="overlay">
-<div class="container">
+<div class="container" style="max-width: 600px;">
 
     <h1 class="titulo-principal">✏️ Editar Aviso</h1>
 
-    {% set tit = aviso.titulo if aviso is mapping else aviso[0] %}
-    {% set desc = aviso.descricao if aviso is mapping else aviso[1] %}
-
-    <div class="card" style="padding: 20px;">
+    <div class="card" style="padding: 25px;">
         <form method="POST">
-
+            <!-- Usando o acesso direto ao objeto 'aviso' para limpar o código -->
             <label>📢 Título do Aviso</label>
-            <input type="text" name="titulo" value="{{ tit if tit is not none else '' }}" required>
+            <input type="text" name="titulo" value="{{ aviso.titulo if aviso.titulo else '' }}" required>
 
-            <label style="margin-top: 15px;">📝 Descrição do Aviso</label>
-            <textarea name="descricao" rows="6" required>{{ desc if desc is not none else '' }}</textarea>
+            <label>📝 Descrição do Aviso</label>
+            <textarea name="descricao" rows="8" required>{{ aviso.descricao if aviso.descricao else '' }}</textarea>
 
-            <button class="botao" type="submit" style="margin-top: 15px;">💾 Guardar Alterações</button>
+            <button class="botao btn-salvar" type="submit">💾 Guardar Alterações</button>
         </form>
     </div>
 
-    <a href="/admin" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
+    <a href="/admin" class="botao" style="background: #555; color: white; margin-top: 15px;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>

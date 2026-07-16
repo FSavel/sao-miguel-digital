@@ -1,5 +1,5 @@
 /* =========================
-RESET E VARIÁVEIS
+RESET
 ========================= */
 * {
     margin: 0;
@@ -8,18 +8,8 @@ RESET E VARIÁVEIS
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-:root {
-    --cor-paroquial: #8b0000;
-    --cor-paroquial-hover: #a30000;
-    --cor-sucesso: #2e7d32;
-    --cor-sucesso-hover: #1b5e20;
-    --cor-banco: #1e3a8a;
-    --sombra-leve: 0 4px 6px rgba(0,0,0,0.1);
-    --sombra-media: 0 6px 12px rgba(0,0,0,0.2);
-}
-
 /* =========================
-FUNDO E ESTRUTURA
+FUNDO
 ========================= */
 body {
     background: url("../static/igreja.jpg") no-repeat center center fixed;
@@ -28,9 +18,9 @@ body {
 
 .overlay {
     min-height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.55);
     padding: 15px;
-    padding-top: 60px;
+    padding-top: 55px;
 }
 
 .container {
@@ -39,14 +29,14 @@ body {
 }
 
 /* =========================
-TEXTOS E CABEÇALHOS
+TÍTULOS
 ========================= */
 .titulo-principal {
     color: white;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }
 
@@ -60,7 +50,7 @@ TEXTOS E CABEÇALHOS
 }
 
 /* =========================
-TICKER (AVISOS EM MOVIMENTO)
+TICKER
 ========================= */
 .ticker {
     position: fixed;
@@ -68,7 +58,7 @@ TICKER (AVISOS EM MOVIMENTO)
     left: 0;
     width: 100%;
     height: 46px;
-    background: var(--cor-paroquial);
+    background: #8b0000;
     color: white;
     overflow: hidden;
     z-index: 9999;
@@ -93,56 +83,37 @@ TICKER (AVISOS EM MOVIMENTO)
 }
 
 /* =========================
-CARDS E CABEÇALHO DE MISSA
+CARDS E CABEÇALHOS
 ========================= */
 .card {
-    background: #ffffff;
+    background: rgba(255,255,255,0.95);
     border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--sombra-leve);
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .card h2 {
     margin-bottom: 12px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-bottom: 8px;
-    color: #2c3e50;
+    color: black;
 }
 
 .missa-header {
     background: linear-gradient(90deg, #8b0000 0%, #a52a2a 100%);
     color: white;
-    padding: 12px 15px;
+    padding: 12px;
     border-radius: 8px;
-    margin: 25px 0 15px 0;
+    margin: 15px 0;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* CARDS FINANCEIROS MINI */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.card.mini {
-    text-align: center;
-    padding: 14px;
-    border-left: 4px solid var(--cor-paroquial);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 110px;
-}
-
 /* =========================
-BOTÕES E SUBMENUS
+BOTÕES E CORES ORIGINAIS
 ========================= */
 .botao {
     display: block;
@@ -157,7 +128,7 @@ BOTÕES E SUBMENUS
     border: 1px solid rgba(0,0,0,0.1);
     font-weight: bold;
     font-size: 15px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
     cursor: pointer;
 }
 
@@ -167,24 +138,31 @@ BOTÕES E SUBMENUS
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* CORES DOS SUBMENUS (ORIGINAIS) */
 .botao-admin { background: rgba(255,220,120,0.95); }
 .botao-financas { background: rgba(160,255,190,0.95); }
 .botao-liturgia { background: rgba(210,220,255,0.95); }
 .botao-espiritual { background: rgba(255,210,240,0.95); }
 
-.botao-pdf { background: var(--cor-paroquial); color: white !important; }
-.botao-sair { background: var(--cor-sucesso); color: white !important; }
+.botao-pdf { background: #8b0000; color: white; }
+.botao-sair { background: #2e7d32; color: white; }
 
 /* =========================
-TABELAS, DASHBOARD E RESPONSIVIDADE
+COMPONENTES DE APOIO (TABELAS, INPUTS, ETC)
 ========================= */
-table { width: 100%; border-collapse: collapse; background: white; margin-top: 12px; }
-table th { background: var(--cor-paroquial); color: white; padding: 12px; font-size: 14px; }
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 15px;
+}
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; background: white; }
+table th { background: #8b0000; color: white; padding: 12px; font-size: 14px; }
 table td { padding: 10px; border-bottom: 1px solid #ddd; font-size: 14px; }
 
-@media (max-width: 600px) {
-    .container { padding: 0 8px; }
-    .card { padding: 12px; }
-    .titulo-principal { font-size: 22px; }
-    .botao { font-size: 13px; padding: 10px; }
-}
+/* Adicione aqui qualquer outra classe específica de Dashboard ou Quiz que você já tinha no ficheiro anterior */

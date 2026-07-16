@@ -262,7 +262,9 @@ def edit_leitor(i):
         save("leitores", data)
         return redirect("/admin")
         
-    return render_template("edit_leitor.html", leitor=data[i], index=i)
+    # Se for GET, pega o parâmetro da URL ou o que já está na planilha
+    missa = request.args.get("missa", data[i].get("missa", "1"))
+    return render_template("edit_leitor.html", leitor=data[i], index=i, missa=missa)
 
 # =========================
 # GESTÃO DE AVISOS (ADMIN)

@@ -211,9 +211,10 @@
                 <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                     <p style="font-size: 14px; margin-bottom: 10px;"><b>Cruciferário:</b> {{ cruc }} | <b>Turiferário:</b> {{ turi }}</p>
                     <div style="display:flex; gap:10px;">
-                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_acolito/{{ loop.index0 }}">✏️ Editar</a>
-                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_acolito/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de acólitos?');">❌ Apagar</a>
-                    </div>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_acolito', i=loop.index0, missa=1) }}">✏️ Editar 1ª</a>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_acolito', i=loop.index0, missa=2) }}">✏️ Editar 2ª</a>
+    <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_acolito/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de acólitos?');">❌ Apagar</a>
+</div>
                 </div>
             {% endfor %}
         {% else %}
@@ -250,9 +251,10 @@
                 <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
                     <p style="font-size: 14px; margin-bottom: 10px;"><b>1ª PT:</b> {{ pt1 }} | <b>Salmo:</b> {{ sal }}</p>
                     <div style="display:flex; gap:10px;">
-                        <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="/edit_leitor/{{ loop.index0 }}">✏️ Editar</a>
-                        <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_leitor/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de leitores?');">❌ Apagar</a>
-                    </div>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_leitor', i=loop.index0, missa=1) }}">✏️ Editar 1ª</a>
+    <a class="botao" style="margin:0; padding:6px 12px; font-size:13px;" href="{{ url_for('edit_leitor', i=loop.index0, missa=2) }}">✏️ Editar 2ª</a>
+    <a class="btn-delete" style="font-size:13px; padding:6px 12px;" href="/delete_leitor/{{ loop.index0 }}" onclick="return confirm('Deseja apagar esta escala de leitores?');">❌ Apagar</a>
+</div>
                 </div>
             {% endfor %}
         {% else %}

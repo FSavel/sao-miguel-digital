@@ -6,108 +6,70 @@
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .password-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .password-container input {
-            width: 100%;
-            padding-right: 45px;
-            margin-bottom: 0;
-        }
-        .toggle-pass-btn {
-            position: absolute;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-            color: #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .toggle-pass-btn:hover {
-            color: #111;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #333;
-        }
+        .password-container { position: relative; display: flex; align-items: center; }
+        .password-container input { width: 100%; padding-right: 45px; }
+        .toggle-pass-btn { position: absolute; right: 10px; background: none; border: none; cursor: pointer; padding: 10px; font-size: 16px; }
+        
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; text-align: center; }
+        .error-alert { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .success-alert { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+        /* Estilização dos campos de input para padrão moderno */
+        input { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
     </style>
 </head>
 <body>
 
 <div class="overlay">
-<div class="container">
+<div class="container" style="max-width: 500px;">
 
-    <h1 class="titulo-principal">✏️ Editar Perfil</h1>
-
-    {% set u_nome = user.nome if user is mapping else user[0] %}
-    {% set u_contacto = user.contacto if user is mapping else user[2] %}
-    {% set u_email = user.email if user is mapping else user[3] %}
+    <h1 class="titulo-principal" style="margin-bottom: 20px;">✏️ Editar Perfil</h1>
 
     {% if erro %}
-        <div class="card" style="border-left: 5px solid #dc3545; background-color: #f8d7da; padding: 12px 15px;">
-            <p style="color: #721c24; margin: 0;"><b>⚠️ {{ erro }}</b></p>
-        </div>
+        <div class="alert-box error-alert">⚠️ {{ erro }}</div>
     {% endif %}
-
     {% if sucesso %}
-        <div class="card" style="border-left: 5px solid #28a745; background-color: #d4edda; padding: 12px 15px;">
-            <p style="color: #155724; margin: 0;"><b>✅ {{ sucesso }}</b></p>
-        </div>
+        <div class="alert-box success-alert">✅ {{ sucesso }}</div>
     {% endif %}
 
-    <div class="card" style="padding: 20px;">
+    <div class="card" style="padding: 25px;">
         <form method="POST">
-
             <label>👤 Nome Completo</label>
-            <input type="text" name="nome" value="{{ u_nome if u_nome is not none else '' }}" required autocomplete="name">
+            <input type="text" name="nome" value="{{ user.nome if user.nome else '' }}" required>
 
             <label>📱 Contacto</label>
-            <input type="text" name="contacto" value="{{ u_contacto if u_contacto is not none else '' }}" autocomplete="tel">
+            <input type="text" name="contacto" value="{{ user.contacto if user.contacto else '' }}">
 
-            <label>📧 Email de Contacto</label>
-            <input type="email" name="email" value="{{ u_email if u_email is not none else '' }}" autocomplete="email">
+            <label>📧 Email</label>
+            <input type="email" name="email" value="{{ user.email if user.email else '' }}">
 
-            <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 25px 0 15px 0;"></div>
+            <div style="border-top: 1px solid #eee; margin: 25px 0;"></div>
 
-            <h3 style="margin-bottom: 8px; font-size: 16px; color: #111;">🔐 Alterar Palavra-passe</h3>
-            <p style="margin-bottom: 15px; font-size: 13px; color: #666; line-height: 1.4;">
-                Por motivos de segurança, introduza a palavra-passe atual antes de definir uma nova.
-            </p>
+            <h3 style="margin-bottom: 15px; font-size: 16px;">🔐 Alterar Palavra-passe</h3>
 
             <label>Palavra-passe Atual</label>
             <div class="password-container">
-                <input type="password" name="password_actual" id="password_actual" autocomplete="current-password">
+                <input type="password" name="password_actual" id="password_actual">
                 <button type="button" class="toggle-pass-btn" onclick="togglePassword('password_actual')">👁️</button>
             </div>
 
             <label>Nova Palavra-passe</label>
             <div class="password-container">
-                <input type="password" name="nova_password" id="nova_password" autocomplete="new-password">
+                <input type="password" name="nova_password" id="nova_password">
                 <button type="button" class="toggle-pass-btn" onclick="togglePassword('nova_password')">👁️</button>
             </div>
 
             <label>Confirmar Nova Palavra-passe</label>
             <div class="password-container">
-                <input type="password" name="confirmar_password" id="confirmar_password" autocomplete="new-password">
+                <input type="password" name="confirmar_password" id="confirmar_password">
                 <button type="button" class="toggle-pass-btn" onclick="togglePassword('confirmar_password')">👁️</button>
             </div>
 
-            <button type="submit" class="botao" style="margin-top: 15px;">💾 Guardar Alterações</button>
+            <button type="submit" class="botao" style="background: #8b0000; color: white; margin-top: 20px;">💾 Guardar Alterações</button>
         </form>
     </div>
 
-    <a href="/dizimista_dashboard" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
+    <a href="/dizimista_dashboard" class="botao" style="background: #f8f9fa; color: #333; border: 1px solid #ddd; margin-top: 10px;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>
@@ -115,11 +77,7 @@
 <script>
 function togglePassword(id) {
     const input = document.getElementById(id);
-    if (input.type === "password") {
-        input.type = "text";
-    } else {
-        input.type = "password";
-    }
+    input.type = input.type === "password" ? "text" : "password";
 }
 </script>
 

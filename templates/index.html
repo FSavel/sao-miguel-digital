@@ -5,16 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>São Miguel Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Mantendo todas as suas melhorias visuais originais */
+        .home-menu { text-align: center; }
+        .accordion-btn { background: #fff; border: 1px solid #eee; padding: 15px 20px; font-size: 16px; font-weight: bold; color: #333; cursor: pointer; border-radius: 10px; margin-bottom: 5px; transition: all 0.3s ease; width: 100%; max-width: 500px; display: inline-block; }
+        .accordion-btn:hover { background: #f9f9f9; border-color: #ddd; }
+        .accordion-content { display: none; padding: 10px 0; animation: fadeIn 0.3s ease; text-align: left; max-width: 500px; margin: 0 auto; }
+        .accordion-content .botao { margin: 5px 0; display: block; text-align: center; background: #f4f4f4; color: #333 !important; border: none; padding: 10px; border-radius: 8px; text-decoration: none; }
+        .accordion-content .botao:hover { background: #e8e8e8; }
+        .accordion-btn::after { content: '▼'; font-size: 10px; transition: transform 0.3s ease; float: right; }
+        .accordion-btn.active::after { transform: rotate(180deg); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
 <body>
 
 <div class="overlay">
     <div class="container home-menu">
-        <h1 class="titulo-principal">Plataforma Digital da Paróquia São Miguel Arcanjo da Manhica</h1>
+        <h1 class="titulo-principal">Plataforma Digital da Paróquia São Miguel Arcanjo da Manhiça</h1>
         <p class="frase-biblica">“Eu sou o caminho, a verdade e a vida.” — João 14:6</p>
-        <br>
 
-        <div class="card">
+        <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
+            
             <button class="accordion-btn">📖 Liturgia</button>
             <div class="accordion-content grupo-liturgia">
                 <a href="/avisos" class="botao">📢 Avisos Semanais</a>
@@ -23,45 +35,30 @@
                 <a href="/escalas" class="botao">👥 Escalas de Serviço</a>
                 <a href="/calendario" class="botao">📅 Calendário Pastoral</a>
             </div>
-        </div>
-        <br>
 
-        <div class="card">
             <button class="accordion-btn">🙏 Espiritual</button>
             <div class="accordion-content grupo-espiritual">
                 <a href="/pedido_oracao" class="botao">🙏 Pedido de Oração</a>
             </div>
-        </div>
-        <br>
 
-        <div class="card">
             <button class="accordion-btn">📚 Catequese</button>
             <div class="accordion-content grupo-catequese">
                 <a href="/listas_nominais" class="botao">📋 Listas Nominais</a>
                 <a href="/material_estudo" class="botao">📖 Material de Estudo</a>
                 <a href="/quiz" class="botao">🧠 Quiz Catequético</a>
             </div>
-        </div>
-        <br>
 
-        <div class="card">
             <button class="accordion-btn">💰 Finanças</button>
             <div class="accordion-content grupo-financas">
                 <a href="/dizimista_login" class="botao">👤 Área do Dizimista</a>
-                <a href="/financeiro" class="botao">📊 Situação Financeira da Paróquia</a>
+                <a href="/financeiro" class="botao">📊 Situação Financeira</a>
             </div>
-        </div>
-        <br>
 
-        <div class="card">
-            <a href="/redes_sociais" class="botao">🌐 Redes Sociais</a>
-        </div>
-        <br>
-        
-        <div class="card">
+            <a href="/redes_sociais" class="accordion-btn" style="text-decoration: none;">🌐 Redes Sociais</a>
+
             <button class="accordion-btn">⚙️ Administração</button>
             <div class="accordion-content grupo-admin">
-                <a href="/login" class="botao">⚙️ Painel Administrativo</a>
+                <a href="/login" class="botao" style="background: #8b0000; color: white !important;">⚙️ Painel Administrativo</a>
             </div>
         </div>
     </div>
@@ -69,10 +66,7 @@
 
 <div class="ticker">
     <div class="ticker-content">
-        {% for aviso in avisos %}
-            📢 {{ aviso.titulo }} - {{ aviso.descricao }} ✨ &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
-        {% endfor %}
-        {% if not avisos %} Sem avisos no momento. {% endif %}
+        {% if avisos %} {% for aviso in avisos %} 📢 {{ aviso.titulo if aviso is mapping else aviso[0] }}: {{ aviso.descricao if aviso is mapping else aviso[1] }} &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; {% endfor %} {% else %} ✨ Bem-vindos à Paróquia São Miguel Arcanjo da Manhiça! {% endif %}
     </div>
 </div>
 
@@ -80,11 +74,15 @@
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
         const content = this.nextElementSibling;
-        content.style.display = (content.style.display === "block") ? "none" : "block";
+        if (content && content.classList.contains("accordion-content")) {
+            const isOpen = content.style.display === "block";
+            document.querySelectorAll(".accordion-content").forEach(el => el.style.display = "none");
+            document.querySelectorAll(".accordion-btn").forEach(b => b.classList.remove("active"));
+            if (!isOpen) { content.style.display = "block"; this.classList.add("active"); }
+        }
     });
 });
-setInterval(function() { location.reload(); }, 120000);
+setInterval(() => { if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) location.reload(); }, 180000);
 </script>
-
 </body>
 </html>

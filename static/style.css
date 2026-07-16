@@ -19,6 +19,26 @@ RESET E VARIÁVEIS
 }
 
 /* =========================
+RESET E VARIÁVEIS
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --cor-paroquial: #8b0000;
+    --cor-paroquial-hover: #a30000;
+    --cor-sucesso: #2e7d32;
+    --cor-sucesso-hover: #1b5e20;
+    --cor-banco: #1e3a8a;
+    --sombra-leve: 0 4px 6px rgba(0,0,0,0.1);
+    --sombra-media: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* =========================
 FUNDO E ESTRUTURA
 ========================= */
 body {
@@ -28,9 +48,9 @@ body {
 
 .overlay {
     min-height: 100vh;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.6);
     padding: 15px;
-    padding-top: 55px; /* Espaço para o Ticker fixo */
+    padding-top: 60px;
 }
 
 .container {
@@ -46,8 +66,36 @@ TEXTOS E CABEÇALHOS
     text-align: center;
     font-size: 28px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+/* =========================
+CARDS E CABEÇALHO DE MISSA
+========================= */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra-leve);
+}
+
+.card h2, .card h3, .card label {
+    color: #2c3e50;
+}
+
+.missa-header {
+    background: linear-gradient(90deg, #8b0000 0%, #a52a2a 100%);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 25px 0 15px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .frase-biblica {

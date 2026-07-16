@@ -42,5 +42,5 @@ BOTÕES E CORES POR GRUPO
 .grupo-liturgia .botao { background: rgba(210,220,255,0.95) !important; }
 .grupo-espiritual .botao { background: rgba(255,210,240,0.95) !important; }
 .grupo-catequese .botao { background: rgba(255,255,180,0.95) !important; }
-.grupo-admin .botao { background: rgba(255,220,120,0.95) !important; }
+.grupo-admin .botao { background: #8b0000 !important; color: white !important; border: 1px solid #5d0000 !important; }
 .grupo-financas .botao { background: rgba(160,255,190,0.95) !important; }

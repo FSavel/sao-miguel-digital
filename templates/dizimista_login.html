@@ -5,104 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Dizimista</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Ajuste específico para os campos de entrada ficarem elegantes */
+        input { 
+            width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; 
+            border-radius: 8px; font-size: 16px; 
+        }
+        .error-msg { 
+            background: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; 
+            margin-bottom: 15px; font-weight: bold; font-size: 14px; border: 1px solid #ffcdd2;
+        }
+    </style>
 </head>
 <body>
 
 <div class="overlay" style="display: flex; align-items: center; justify-content: center;">
+    <div class="container" style="max-width: 400px;">
+        <div class="card">
+            
+            <h2 style="text-align: center; margin-bottom: 20px;">🔐 Área do Dizimista</h2>
 
-    <div class="container" style="max-width: 450px; width: 100%;">
-
-        <div class="card" style="padding: 25px; box-shadow: var(--sombra-media); text-align: center;">
-
-            <!-- =========================
-                 TÍTULO DO PAINEL
-            ========================= -->
-            <h2 style="border: none; padding-bottom: 0; margin-bottom: 20px; font-size: 24px;">
-                🔐 Área do Dizimista
-            </h2>
-
-            <!-- =========================
-                 MENSAGENS DE ERRO
-            ========================= -->
-            {% if erro %}
-                <div style="background-color: #f8d7da; color: #721c24; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #f5c6cb; font-weight: bold;">
-                    ⚠️ {{ erro }}
-                </div>
+            {% if erro or get_flashed_messages() %}
+                <div class="error-msg">⚠️ {{ erro or get_flashed_messages()[0] }}</div>
             {% endif %}
 
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div style="background-color: #f8d7da; color: #721c24; padding: 10px 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #f5c6cb; font-weight: bold;">
-                            ⚠️ {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <!-- =========================
-                 FORMULÁRIO DE ACESSO
-            ========================= -->
             <form method="POST">
+                <label style="font-weight: bold;">Número de Dizimista</label>
+                <input type="text" name="numero" placeholder="Ex: 1234" required inputmode="numeric" autocomplete="username">
 
-                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px;">Número de Dizimista</label>
-                <input 
-                    type="text" 
-                    name="numero" 
-                    placeholder="Ex: 1234" 
-                    required
-                    inputmode="numeric"
-                    autocomplete="username"
-                >
-
-                <label style="font-weight: bold; font-size: 14px; display: block; text-align: left; margin-bottom: 2px; margin-top: 5px;">Palavra-passe</label>
-                <div class="password-box" style="position: relative; display: flex; align-items: center;">
-                    <input 
-                        type="password" 
-                        name="password" 
-                        id="password"
-                        placeholder="Introduza a sua palavra-passe" 
-                        required
-                        autocomplete="current-password"
-                        style="padding-right: 45px; margin-bottom: 0; margin-top: 0;"
-                    >
-                    <button 
-                        type="button" 
-                        class="toggle-pass" 
-                        onclick="togglePassword()"
-                        style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 18px; padding: 5px;"
-                    >
-                        👁️
-                    </button>
+                <label style="font-weight: bold;">Palavra-passe</label>
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="password" name="password" id="password" placeholder="Sua palavra-passe" required autocomplete="current-password">
+                    <button type="button" onclick="togglePassword()" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 18px; margin-bottom: 7px;">👁️</button>
                 </div>
 
-                <button class="botao botao-sair" type="submit" style="margin-top: 20px;">
-                    Entrar
-                </button>
-
+                <button class="botao botao-sair" type="submit" style="margin-top: 10px;">Entrar</button>
             </form>
 
-            <div style="border-bottom: 1px solid rgba(0,0,0,0.08); margin: 20px 0 15px 0;"></div>
+            <div style="border-bottom: 1px solid rgba(0,0,0,0.1); margin: 20px 0;"></div>
 
-            <!-- =========================
-                 NAVEGAÇÃO
-            ========================= -->
-            <a href="/" class="botao" style="margin-top: 0;">
-                🏠 Voltar ao Início
-            </a>
-            
+            <a href="/" class="botao" style="background: #f0f0f0;">🏠 Voltar ao Início</a>
         </div>
-         
     </div>
- 
 </div>
-  
+
 <script>
 function togglePassword() {
     const input = document.getElementById("password");
     input.type = input.type === "password" ? "text" : "password";
 }
 </script>
-
 </body>
 </html>

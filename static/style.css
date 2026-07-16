@@ -49,3 +49,28 @@ BOTÕES E CORES POR GRUPO
 a.accordion-btn::after {
     content: none !important;
 }
+
+/* =========================
+BOTÃO PDF CENTRALIZADO
+========================= */
+.area-pdf {
+    text-align: center;
+    margin: 18px 0;
+}
+
+.botao-pdf-mini {
+    display: inline-block;
+    background: #8b0000 !important; /* Vermelho sangue */
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+    border: 1px solid #5d0000;
+}
+
+.botao-pdf-mini:hover {
+    background: #a30000 !important;
+    transform: scale(1.05);
+}

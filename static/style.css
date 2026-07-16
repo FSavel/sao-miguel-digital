@@ -68,3 +68,30 @@ table td { padding: 10px; border-bottom: 1px solid #ddd; }
     .container { padding: 0 8px; }
     table { display: block; overflow-x: auto; font-size: 12px; }
 }
+
+/* =========================
+COMPONENTES FALTANTES (COMPLEMENTO)
+========================= */
+
+/* ACCORDION (Menus retráteis) */
+.accordion { margin-bottom: 15px; }
+.accordion-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; background: rgba(255,255,255,0.95); font-size: 18px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.3s; }
+.accordion-btn:hover { transform: scale(1.01); background: white; }
+.accordion-content { display: none; padding: 10px; background: rgba(255,255,255,0.85); border-radius: 0 0 12px 12px; margin-top: -5px; }
+
+/* QUIZ E RESPOSTAS */
+.opcao.selected { border: 2px solid #8b0000; transform: scale(1.03); background: #fff3f3; }
+.opcao.correct { background: #2ecc71 !important; color: white !important; }
+.opcao.wrong { background: #e74c3c !important; color: white !important; }
+.explicacao { margin-top: 12px; padding: 10px; border-left: 4px solid #8b0000; background: rgba(255,255,255,0.9); border-radius: 8px; font-style: italic; color: #333; display: none; line-height: 1.5; }
+
+/* BOTÕES MINI E PERFIL */
+.area-pdf { text-align: center; margin: 18px 0; }
+.botao-pdf-mini { display: inline-block; background: #8b0000; color: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; text-decoration: none; }
+.botao-pdf-mini:hover { transform: scale(1.03); background: #a30000; }
+.botao-editar-perfil { background: #ffffff; color: #1f3b57; padding: 8px 14px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: 0.25s; font-size: 14px; }
+.botao-editar-perfil:hover { background: #f2f6fb; transform: translateY(-2px); }
+
+/* MISC DASHBOARD */
+.valor.positivo { color: #2e7d32; font-weight: bold; }
+.sem-registos { text-align: center; color: #555; margin-top: 10px; }

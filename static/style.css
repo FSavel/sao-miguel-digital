@@ -44,3 +44,8 @@ BOTÕES E CORES POR GRUPO
 .grupo-catequese .botao { background: rgba(255,255,180,0.95) !important; }
 .grupo-admin .botao { background: #8b0000 !important; color: white !important; border: 1px solid #5d0000 !important; }
 .grupo-financas .botao { background: rgba(160,255,190,0.95) !important; }
+
+/* Remove a seta apenas do botão de Redes Sociais */
+a.accordion-btn::after {
+    content: none !important;
+}

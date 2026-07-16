@@ -218,13 +218,20 @@ def edit_acolito(i):
     data = read("acolitos")
     if not (0 <= i < len(data)):
         return redirect("/admin")
-        
+    
+    # Captura qual a missa que veio na URL (ex: /edit_acolito/0?missa=1)
+    # Se não houver ?missa=..., assume 1
+    missa = request.args.get("missa", "1")
+    
     if request.method == "POST":
-        data[i] = request.form.to_dict()
+        # Se quiser gravar a missa editada junto com os dados:
+        nova_data = request.form.to_dict()
+        nova_data['missa'] = missa # Garante que o número da missa fica guardado
+        data[i] = nova_data
         save("acolitos", data)
         return redirect("/admin")
         
-    return render_template("edit_acolito.html", acolito=data[i], index=i)
+    return render_template("edit_acolito.html", acolito=data[i], index=i, missa=missa)
 
 # =========================
 # GESTÃO DE LEITORES (ADMIN)

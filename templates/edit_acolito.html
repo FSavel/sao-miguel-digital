@@ -8,22 +8,22 @@
     <style>
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
         }
-        .form-grid div {
-            display: flex;
-            flex-direction: column;
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
         }
-        label {
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 4px;
-            color: #444;
+        label { font-weight: 600; font-size: 14px; margin-bottom: 6px; display: block; color: #333; }
+        input { 
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; 
+            font-size: 15px; margin-bottom: 10px; transition: border 0.3s;
         }
-        input {
-            margin-bottom: 0 !important;
+        input:focus { border-color: #8b0000; outline: none; }
+        .btn-salvar { 
+            background: #8b0000 !important; color: white !important; 
+            border: none; padding: 14px; font-weight: bold; width: 100%;
         }
     </style>
 </head>
@@ -32,63 +32,52 @@
 <div class="overlay">
 <div class="container">
 
-    <h1 class="titulo-principal">⛪ Editar Escala de Acólitos</h1>
-    <p class="frase-biblica">“Servi ao Senhor com alegria.” — Salmo 100</p>
+    <h1 class="titulo-principal">⛪ Editar Escala</h1>
+    <p class="frase-biblica" style="margin-bottom: 25px;">“Servi ao Senhor com alegria.”</p>
 
-    {% set cruc = acolito.cruciferario if acolito is mapping else acolito[0] %}
-    {% set turi = acolito.turiferario if acolito is mapping else acolito[1] %}
-    {% set nave = acolito.naveteiro if acolito is mapping else acolito[2] %}
-    {% set ceri = acolito.cerimoniario if acolito is mapping else acolito[3] %}
-    {% set vela = acolito.velas if acolito is mapping else acolito[4] %}
-    {% set livr = acolito.livro if acolito is mapping else acolito[5] %}
-    {% set alta = acolito.altar if acolito is mapping else acolito[6] %}
-
-    <div class="card" style="padding: 20px;">
+    <div class="card" style="padding: 25px;">
         <form method="POST">
-
             <div class="form-grid">
                 <div>
                     <label>Cruciferário</label>
-                    <input type="text" name="cruciferario" value="{{ cruc if cruc is not none else '' }}" required>
+                    <input type="text" name="cruciferario" value="{{ acolito.cruciferario if acolito.cruciferario else '' }}" required>
                 </div>
                 <div>
                     <label>Turiferário</label>
-                    <input type="text" name="turiferario" value="{{ turi if turi is not none else '' }}">
+                    <input type="text" name="turiferario" value="{{ acolito.turiferario if acolito.turiferario else '' }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div>
                     <label>Naveteiro</label>
-                    <input type="text" name="naveteiro" value="{{ nave if nave is not none else '' }}">
+                    <input type="text" name="naveteiro" value="{{ acolito.naveteiro if acolito.naveteiro else '' }}">
                 </div>
                 <div>
                     <label>Cerimoniário</label>
-                    <input type="text" name="cerimoniario" value="{{ ceri if ceri is not none else '' }}">
+                    <input type="text" name="cerimoniario" value="{{ acolito.cerimoniario if acolito.cerimoniario else '' }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div>
                     <label>Velas</label>
-                    <input type="text" name="velas" value="{{ vela if vela is not none else '' }}">
+                    <input type="text" name="velas" value="{{ acolito.velas if acolito.velas else '' }}">
                 </div>
                 <div>
                     <label>Livro (Missal)</label>
-                    <input type="text" name="livro" value="{{ livr if livr is not none else '' }}">
+                    <input type="text" name="livro" value="{{ acolito.livro if acolito.livro else '' }}">
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; margin-bottom: 15px;">
-                <label>Altar (Campainha/Credência)</label>
-                <input type="text" name="altar" value="{{ alta if alta is not none else '' }}">
-            </div>
+            <label>Altar (Campainha/Credência)</label>
+            <input type="text" name="altar" value="{{ acolito.altar if acolito.altar else '' }}">
 
-            <button class="botao" type="submit">💾 Guardar Alterações</button>
+            <button class="botao btn-salvar" type="submit" style="margin-top: 20px;">💾 Guardar Alterações</button>
         </form>
     </div>
 
-    <a href="/admin" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
+    <a href="/admin" class="botao" style="background: #555; color: white; margin-top: 15px;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>

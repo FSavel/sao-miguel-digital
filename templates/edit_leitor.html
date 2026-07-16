@@ -8,22 +8,22 @@
     <style>
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
         }
-        .form-grid div {
-            display: flex;
-            flex-direction: column;
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
         }
-        label {
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 4px;
-            color: #444;
+        label { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; color: #333; }
+        input { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
+            font-size: 15px; margin-bottom: 10px; transition: border 0.3s;
         }
-        input {
-            margin-bottom: 0 !important;
+        input:focus { border-color: #8b0000; outline: none; }
+        .btn-salvar { 
+            background: #8b0000 !important; color: white !important; 
+            border: none; padding: 14px; font-weight: bold; width: 100%; margin-top: 15px;
         }
     </style>
 </head>
@@ -33,55 +33,49 @@
 <div class="container">
 
     <h1 class="titulo-principal">📖 Editar Escala de Leitores</h1>
-    <p class="frase-biblica">“A tua palavra é lâmpada para os meus pés e luz para o meu caminho.” — Salmo 119:105</p>
+    <p class="frase-biblica" style="text-align: center; margin-bottom: 25px;">
+        “A tua palavra é lâmpada para os meus pés.”
+    </p>
 
-    {% set p_pt = leitor.primeira_pt if leitor is mapping else leitor[0] %}
-    {% set p_ch = leitor.primeira_ch if leitor is mapping else leitor[1] %}
-    {% set salm = leitor.salmo if leitor is mapping else leitor[2] %}
-    {% set s_pt = leitor.segunda_pt if leitor is mapping else leitor[3] %}
-    {% set s_ch = leitor.segunda_ch if leitor is mapping else leitor[4] %}
-    {% set orac = leitor.oracao_fieis if leitor is mapping else leitor[5] %}
-
-    <div class="card" style="padding: 20px;">
+    <div class="card" style="padding: 25px;">
         <form method="POST">
-
+            <!-- 1ª Leitura -->
             <div class="form-grid">
                 <div>
                     <label>1ª Leitura (Português)</label>
-                    <input type="text" name="primeira_pt" value="{{ p_pt if p_pt is not none else '' }}" required placeholder="Nome do leitor">
+                    <input type="text" name="primeira_pt" value="{{ leitor.primeira_pt if leitor.primeira_pt else '' }}" required placeholder="Nome do leitor">
                 </div>
                 <div>
                     <label>1ª Leitura (Changana/Ronga)</label>
-                    <input type="text" name="primeira_ch" value="{{ p_ch if p_ch is not none else '' }}" placeholder="Nome do leitor">
+                    <input type="text" name="primeira_ch" value="{{ leitor.primeira_ch if leitor.primeira_ch else '' }}" placeholder="Nome do leitor">
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; margin-bottom: 15px;">
-                <label>Salmo Responsorial</label>
-                <input type="text" name="salmo" value="{{ salm if salm is not none else '' }}" required placeholder="Nome do salmista">
-            </div>
+            <!-- Salmo -->
+            <label>Salmo Responsorial</label>
+            <input type="text" name="salmo" value="{{ leitor.salmo if leitor.salmo else '' }}" required placeholder="Nome do salmista">
 
+            <!-- 2ª Leitura -->
             <div class="form-grid">
                 <div>
                     <label>2ª Leitura (Português)</label>
-                    <input type="text" name="segunda_pt" value="{{ s_pt if s_pt is not none else '' }}" placeholder="Nome do leitor">
+                    <input type="text" name="segunda_pt" value="{{ leitor.segunda_pt if leitor.segunda_pt else '' }}" placeholder="Nome do leitor">
                 </div>
                 <div>
                     <label>2ª Leitura (Changana/Ronga)</label>
-                    <input type="text" name="segunda_ch" value="{{ s_ch if s_ch is not none else '' }}" placeholder="Nome do leitor">
+                    <input type="text" name="segunda_ch" value="{{ leitor.segunda_ch if leitor.segunda_ch else '' }}" placeholder="Nome do leitor">
                 </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
-                <label>Oração dos Fiéis (Preces)</label>
-                <input type="text" name="oracao_fieis" value="{{ orac if orac is not none else '' }}" required placeholder="Nome do leitor">
-            </div>
+            <!-- Preces -->
+            <label>Oração dos Fiéis (Preces)</label>
+            <input type="text" name="oracao_fieis" value="{{ leitor.oracao_fieis if leitor.oracao_fieis else '' }}" required placeholder="Nome do leitor">
 
-            <button class="botao" type="submit">💾 Guardar Alterações</button>
+            <button class="botao btn-salvar" type="submit">💾 Guardar Alterações</button>
         </form>
     </div>
 
-    <a href="/admin" class="botao" style="background-color: #555; border-color: #555;">⬅️ Voltar ao Painel</a>
+    <a href="/admin" class="botao" style="background: #555; color: white; margin-top: 15px;">⬅️ Voltar ao Painel</a>
 
 </div>
 </div>

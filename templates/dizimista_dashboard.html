@@ -15,6 +15,7 @@
         .botao-pdf-mini { 
             display: inline-block; background: #8b0000 !important; color: white !important; 
             padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; 
+            border: 1px solid #5d0000;
         }
         
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -47,8 +48,15 @@
                 {% set total.value = total.value + clean_val %}
             {% endfor %}
 
-            <p style="color: #666; font-size: 14px; text-transform: uppercase; margin-bottom: 5px;">💰 Total Acumulado</p>
-            <div style="font-size: 28px; font-weight: 800; color: #28a745; margin-bottom: 10px;">{{ "%.2f" | format(total.value) }} MZN</div>
+            <p style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">
+                💰 Total Acumulado
+            </p>
+            <div style="font-size: 28px; font-weight: 800; color: #28a745; margin-bottom: 10px;">
+                {{ "%.2f" | format(total.value) }} MZN
+            </div>
+            <p style="font-size: 13px; color: #555; font-weight: bold; margin: 0; line-height: 1.4;">
+                Obrigado por apoiar a missão pastoral da Paróquia São Miguel Arcanjo da Manhiça 🙏
+            </p>
         </div>
 
         <div class="area-pdf">
@@ -79,5 +87,8 @@
             <a href="/dizimista_logout" class="botao" style="background-color: #555; color: white;">🚪 Terminar sessão</a>
         </div>
 
-    </div> </div> </body>
+    </div>
+</div>
+
+</body>
 </html>

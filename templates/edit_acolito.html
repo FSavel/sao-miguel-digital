@@ -37,7 +37,9 @@
 
     <div class="card" style="padding: 25px;">
         <form method="POST">
-            <div class="form-grid">
+    <input type="hidden" name="missa" value="{{ missa }}">
+    
+    <div class="form-grid">
                 <div>
                     <label>Cruciferário</label>
                     <input type="text" name="cruciferario" value="{{ acolito.cruciferario if acolito.cruciferario else '' }}" required>

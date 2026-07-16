@@ -1,44 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - São Miguel Arcanjo</title>
-    <style>
-        body { background: #f0f2f5; font-family: sans-serif; padding: 20px 10px; margin: 0; }
-        .container { max-width: 500px; margin: auto; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h1 { color: #8b0000; text-align: center; font-size: 24px; margin-bottom: 5px; }
-        h2 { font-size: 18px; color: #333; margin-bottom: 15px; }
-        
-        input, textarea, select { width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; font-family: inherit; }
-        input:focus, textarea:focus { border-color: #8b0000; outline: none; background: #fffcfc; }
-        
-        .btn-admin { display: block; background: #8b0000; color: white; text-decoration: none; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 10px; border: none; cursor: pointer; }
-        .btn-secundario { background: #555; }
-        .btn-verde { background: #28a745; }
-        .btn-delete { background: #dc3545; color: white; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; }
-        .btn-edit { background: #e1e1e1; color: #333; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; margin-right: 5px; }
-        
-        .admin-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .form-group-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .item-list { background: #f9f9f9; padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid #8b0000; }
-    </style>
-</head>
-<body>
-
 <div class="container">
     <h1>⚙️ Painel Administrativo</h1>
-    
+
     <div class="card">
-        <h2>📂 Navegação Rápida</h2>
+        <h2>📂 Navegação</h2>
         <div class="admin-nav">
             <a href="#avisos-area" class="btn-admin">📢 Avisos</a>
             <a href="#leituras-area" class="btn-admin">📖 Leituras</a>
             <a href="#canticos-area" class="btn-admin">🎵 Cânticos</a>
             <a href="#acolitos-area" class="btn-admin">👦 Acólitos</a>
             <a href="#leitores-area" class="btn-admin">📚 Leitores</a>
-            <a href="/financeiro" class="btn-admin btn-verde">💰 Finanças</a>
+            <a href="#outros-area" class="btn-admin">⛪ Outros</a>
         </div>
     </div>
 
@@ -46,38 +17,54 @@
         <h2>📢 Avisos</h2>
         <form action="/add_aviso" method="POST">
             <input type="text" name="titulo" placeholder="Título" required>
-            <textarea name="descricao" rows="2" placeholder="Descrição" required></textarea>
             <button class="btn-admin" style="width:100%;">➕ Adicionar</button>
         </form>
         {% for a in avisos %}
-            <div class="item-list">
-                <p><b>{{ a.titulo if a.titulo else a[0] }}</b></p>
-                <div style="margin-top: 10px;">
-                    <a class="btn-edit" href="/edit_aviso/{{ loop.index0 }}">✏️ Editar</a>
+            <div class="item-list" style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; font-weight: bold;">{{ a.titulo if a.titulo else a[0] }}</span>
+                <div>
+                    <a class="btn-edit" href="/edit_aviso/{{ loop.index0 }}">✏️</a>
                     <a class="btn-delete" href="/delete_aviso/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌</a>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <div class="card" id="acolitos-area">
-        <h2>👦 Acólitos</h2>
-        {% for a in acolitos %}
+    <div class="card" id="leituras-area">
+        <h2>📖 Leituras</h2>
+        {% for l in leituras %}
             <div class="item-list">
-                <p>Cruciferário: {{ a.cruciferario if a.cruciferario else a[0] }}</p>
-                <div style="margin-top: 10px;">
-                    <a class="btn-edit" href="{{ url_for('edit_acolito', i=loop.index0, missa=1) }}">✏️ 1ª Missa</a>
-                    <a class="btn-edit" href="{{ url_for('edit_acolito', i=loop.index0, missa=2) }}">✏️ 2ª Missa</a>
-                </div>
+                <p><b>{{ l.tipo if l.tipo else l[0] }}</b></p>
+                <a class="btn-edit" href="/edit_leitura/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="btn-delete" href="/delete_leitura/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
             </div>
         {% endfor %}
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+    <div class="card" id="canticos-area">
+        <h2>🎵 Cânticos</h2>
+        {% for c in canticos %}
+            <div class="item-list">
+                <p><b>{{ c.momento if c.momento else c[0] }}</b> - {{ c.cantico if c.cantico else c[1] }}</p>
+                <a class="btn-edit" href="/edit_cantico/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="btn-delete" href="/delete_cantico/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="card" id="outros-area">
+        <h2>⛪ Outros Serviços</h2>
+        {% for s in outros_servicos %}
+            <div class="item-list">
+                <p><b>{{ s.tipo if s.tipo else s[0] }}</b> (📍 {{ s.local if s.local else s[1] }})</p>
+                <a class="btn-edit" href="/edit_outro_servico/{{ loop.index0 }}">✏️ Editar</a>
+                <a class="btn-delete" href="/delete_outro_servico/{{ loop.index0 }}" onclick="return confirm('Apagar?');">❌ Apagar</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 50px;">
         <a href="/" class="btn-admin btn-secundario">🏠 Início</a>
         <a href="/logout" class="btn-admin" style="background:#dc3545;">🚪 Sair</a>
     </div>
 </div>
-
-</body>
-</html>

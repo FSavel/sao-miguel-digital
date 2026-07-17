@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>São Miguel Digital</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Chamada para o arquivo de configuração do aplicativo mobile -->
+    <link rel="manifest" href="/static/manifest.json">
+    
     <style>
         /* Mantendo todas as suas melhorias visuais originais */
         .home-menu { text-align: center; }
@@ -70,6 +74,7 @@
     </div>
 </div>
 
+<!-- Scripts de Interação da Página -->
 <script>
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
@@ -82,7 +87,21 @@ document.querySelectorAll(".accordion-btn").forEach(btn => {
         }
     });
 });
+
+// Atualiza a página automaticamente após 3 minutos de inatividade para capturar novos avisos na TV/Mural
 setInterval(() => { if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) location.reload(); }, 180000);
 </script>
+
+<!-- Script para ativação do Modo Offline (Service Worker) -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/static/sw.js')
+        .then(() => console.log('Service Worker registrado com sucesso!'))
+        .catch(err => console.log('Falha ao registrar o Service Worker:', err));
+    });
+  }
+</script>
+
 </body>
 </html>

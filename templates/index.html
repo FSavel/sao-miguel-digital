@@ -96,8 +96,9 @@ setInterval(() => { if (document.querySelectorAll(".accordion-content[style='dis
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/static/sw.js')
-        .then(() => console.log('Service Worker registrado com sucesso!'))
+      // Mudamos o caminho para a raiz (/sw.js) para dar permissão total ao app
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('Service Worker registrado na raiz com sucesso!'))
         .catch(err => console.log('Falha ao registrar o Service Worker:', err));
     });
   }

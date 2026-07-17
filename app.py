@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, jsonify, send_file
+from flask import Flask, render_template, request, redirect, session, jsonify, send_file, send_from_directory
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
@@ -660,12 +660,12 @@ def editar_perfil():
         nova_password = request.form.get("nova_password", "").strip()
         confirmar_password = request.form.get("confirmar_password", "").strip()
 
-        user["nome"] = nome
-        user["contacto"] = contacto
-        user["email"] = email
+        # Guardamos a password antiga para validar antes de aplicar qualquer alteração
+        password_antiga = str(user.get("password", ""))
 
+        # 1. Validação de segurança da password (se algum campo de password for preenchido)
         if password_actual or nova_password or confirmar_password:
-            if str(user.get("password")) != password_actual:
+            if password_antiga != password_actual:
                 erro = "Password actual incorrecta."
                 return render_template("editar_perfil.html", user=user, erro=erro)
 
@@ -677,8 +677,15 @@ def editar_perfil():
                 erro = "A nova password deve ter pelo menos 4 caracteres."
                 return render_template("editar_perfil.html", user=user, erro=erro)
 
+            # Se passou nas validações, define a nova password
             user["password"] = nova_password
 
+        # 2. Atualiza os restantes dados no dicionário do utilizador
+        user["nome"] = nome
+        user["contacto"] = contacto
+        user["email"] = email
+
+        # 3. Grava definitivamente no Google Sheets
         data[index] = user
         save("dizimistas", data)
         sucesso = "Perfil actualizado com sucesso."
@@ -755,7 +762,8 @@ def export_extrato_pdf():
 
 @app.route('/sw.js')
 def serve_service_worker():
-    return app.send_static_file('sw.js')
+    # Procura o sw.js diretamente na raiz do projeto (onde está o app.py)
+    return send_from_directory(os.getcwd(), 'sw.js', mimetype='application/javascript')
     
 # =========================
 # RUN APPLICATION

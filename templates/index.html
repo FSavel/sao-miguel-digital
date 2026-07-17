@@ -19,7 +19,7 @@
         .accordion-content .botao:hover { background: #e8e8e8; }
         .accordion-btn::after { content: '▼'; font-size: 10px; transition: transform 0.3s ease; float: right; }
         .accordion-btn.active::after { transform: rotate(180deg); }
-        /* Remove a seta do link direto das redes sociais para não confundir o usuário */
+        /* Remove a seta do link direto das redes sociais */
         a.accordion-btn::after { content: ''; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -101,21 +101,29 @@ document.querySelectorAll(".accordion-btn").forEach(btn => {
 // Atualiza a página automaticamente após 3 minutos de inatividade para capturar novos avisos na TV/Mural
 setInterval(() => { if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) location.reload(); }, 180000);
 
-// 2. Registro do Service Worker na Raiz (/sw.js)
+// 2. Registro Otimizado do Service Worker (DOM Ready)
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+    document.addEventListener("DOMContentLoaded", () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log('Service Worker registrado na raiz com sucesso!'))
-            .catch(err => console.log('Falha ao registrar o Service Worker:', err));
+            .then(reg => {
+                console.log("Service Worker registado com sucesso na raiz!");
+                console.log(reg);
+            })
+            .catch(err => {
+                console.error("Falha Crítica ao registar o Service Worker:", err);
+            });
     });
 }
 
-// 3. Gerenciamento do Botão de Instalação Customizado
+// 3. Gerenciamento e Logs do Botão de Instalação Customizado
 let deferredPrompt;
 const installContainer = document.getElementById('install-container');
 const btnInstalar = document.getElementById('btn-instalar');
 
+console.log("Aguardando evento beforeinstallprompt...");
+
 window.addEventListener('beforeinstallprompt', (e) => {
+    console.log("Evento beforeinstallprompt recebido com sucesso!");
     // Impede o aviso automático padrão do navegador
     e.preventDefault();
     // Guarda o evento capturado

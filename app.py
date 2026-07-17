@@ -753,6 +753,10 @@ def export_extrato_pdf():
         mimetype="application/pdf"
     )
 
+@app.route('/sw.js')
+def serve_service_worker():
+    return app.send_static_file('sw.js')
+    
 # =========================
 # RUN APPLICATION
 # =========================

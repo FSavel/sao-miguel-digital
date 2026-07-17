@@ -65,7 +65,8 @@
                 <a href="/login" class="botao" style="background: #8b0000; color: white !important;">⚙️ Painel Administrativo</a>
             </div>
         </div>
-        <!-- Botão de Instalar Aplicativo (Inicia escondido) -->
+
+        <!-- Botão de Instalar Aplicativo (Inicia escondido e só aparece se elegível) -->
         <div id="install-container" style="display: none; margin-top: 20px; text-align: center;">
             <button id="btn-instalar" class="accordion-btn" style="background: #8b0000; color: white; border: none; max-width: 500px;">
                 📥 Baixar Aplicativo da Paróquia
@@ -80,8 +81,9 @@
     </div>
 </div>
 
-<!-- Scripts de Interação da Página -->
+<!-- Scripts de Interação e Lógica PWA -->
 <script>
+// 1. Controle dos Menus Accordion
 document.querySelectorAll(".accordion-btn").forEach(btn => {
     btn.addEventListener("click", function () {
         const content = this.nextElementSibling;
@@ -96,18 +98,48 @@ document.querySelectorAll(".accordion-btn").forEach(btn => {
 
 // Atualiza a página automaticamente após 3 minutos de inatividade para capturar novos avisos na TV/Mural
 setInterval(() => { if (document.querySelectorAll(".accordion-content[style='display: block;']").length === 0) location.reload(); }, 180000);
-</script>
 
-<!-- Script para ativação do Modo Offline (Service Worker) -->
-<script>
-  if ('serviceWorker' in navigator) {
+// 2. Registro do Service Worker na Raiz (/sw.js)
+if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Mudamos o caminho para a raiz (/sw.js) para dar permissão total ao app
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('Service Worker registrado na raiz com sucesso!'))
-        .catch(err => console.log('Falha ao registrar o Service Worker:', err));
+        navigator.serviceWorker.register('/sw.js')
+            .then(() => console.log('Service Worker registrado na raiz com sucesso!'))
+            .catch(err => console.log('Falha ao registrar o Service Worker:', err));
     });
-  }
+}
+
+// 3. Gerenciamento do Botão de Instalação Customizado
+let deferredPrompt;
+const installContainer = document.getElementById('install-container');
+const btnInstalar = document.getElementById('btn-instalar');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Impede o aviso automático padrão do navegador
+    e.preventDefault();
+    // Guarda o evento capturado
+    deferredPrompt = e;
+    // Mostra o botão estilizado na interface para o usuário clicar
+    installContainer.style.display = 'block';
+});
+
+btnInstalar.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        // Dispara o prompt nativo de instalação do sistema operacional
+        deferredPrompt.prompt();
+        // Verifica a decisão do usuário
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`Usuário escolheu: ${outcome}`);
+        deferredPrompt = null;
+        // Esconde o botão após a interação
+        installContainer.style.display = 'none';
+    }
+});
+
+// Garante que o botão some imediatamente caso o usuário finalize a instalação
+window.addEventListener('appinstalled', () => {
+    console.log('Aplicação instalada com sucesso!');
+    installContainer.style.display = 'none';
+});
 </script>
 
 </body>
